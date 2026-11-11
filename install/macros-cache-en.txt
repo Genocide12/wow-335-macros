@@ -2,14 +2,14 @@
 #showtooltip
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/cast [nostance:3] Berserker Stance
+/cast [combat] Battle Shout
 /cast Bloodthirst
 /cast Whirlwind
 /cast Execute
 /cast Victory Rush
-/cast [mod:shift] !Heroic Strike
-/cast [mod:ctrl] Bloodrage
+/cast [m[m[mod:shift] !Heroic Strike
+/cast [m[m[mod:ctrl] Bloodrage
 END
 MACRO 16777217 "AoE" Ability_Whirlwind
 #showtooltip Whirlwind
@@ -19,7 +19,7 @@ MACRO 16777217 "AoE" Ability_Whirlwind
 /cast [combat] Battle Shout
 /cast Whirlwind
 /cast !Cleave
-/cast [mod:shift] Demoralizing Shout
+/cast [m[m[mod:shift] Demoralizing Shout
 END
 MACRO 16777218 "Interrupt" INV_Gauntlets_04
 #showtooltip Pummel
@@ -40,6 +40,6 @@ MACRO 16777220 "Rage" Ability_Racial_Bloodrage
 #showtooltip
 /cast Bloodrage
 /cast Berserker Rage
-/cast [mod:shift] Recklessness
-/use [mod:shift] 13
+/cast [m[m[mod:shift] Recklessness
+/use [m[m[mod:shift] 13
 END

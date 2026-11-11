@@ -7,5 +7,5 @@
 /cast Вихрь
 /cast Казнь
 /cast Победный раж
-/cast [mod:shift] !Удар героя
-/cast [mod:ctrl] Кровавая ярость
+/cast [m[m[mod:shift] !Удар героя
+/cast [m[m[mod:ctrl] Кровавая ярость

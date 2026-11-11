@@ -73,6 +73,7 @@
 <script>
 (() => {
   const lang = window.W.lang;
+  const I = window.W.icon; // icons come from the Wowhead CDN
   const TREE_NAMES = { arms: ['Оружие', 'Arms'], fury: ['Неистовство', 'Fury'], prot: ['Защита', 'Protection'] };
   const ICONS = { arms: 'ability_rogue_eviscerate', fury: 'ability_racial_avatar', prot: 'ability_warrior_defensivestance' };
   // leveling build presets: talent id -> ranks (Fury DW leveling, from lvl 10)
@@ -111,7 +112,7 @@
       const t = TREES.find(x => x.key === key);
       const nm = TREE_NAMES[key][lang === 'ru' ? 0 : 1];
       return `<div class="t-tab ${key === state.tree ? 'on' : ''}" data-tree="${key}">
-        <img src="assets/icons/large/${ICONS[key]}.jpg" alt="">${nm}
+        <img src="${I(ICONS[key])}" alt="">${nm}
         <span class="pts">${treePoints(key)}</span></div>`;
     }).join('');
     document.querySelectorAll('.t-tab').forEach(el => el.onclick = () => { state.tree = el.dataset.tree; draw(); });
@@ -127,7 +128,7 @@
         const cur = state.pts[x.id] || 0;
         const cls = cur > 0 ? (cur === x.rk ? 'ok max' : 'ok') : '';
         return `<div class="tal ${cls}" data-id="${x.id}">
-          <div class="frame"><img src="assets/icons/talents/${x.ic}.jpg" alt=""></div>
+          <div class="frame"><img src="${I(x.ic)}" alt=""></div>
           <span class="rank ${cur === x.rk ? 'max' : ''}">${cur}/${x.rk}</span></div>`;
       }).join('');
       rows.push(`<div class="t-row" data-r="${r}">${cells}</div>`);
@@ -168,7 +169,7 @@
         ${PRESETS.map((p, i) => `<button data-p="${i}">${lang === 'ru' ? p.ru : p.en}<small>${Object.values(p.pts).reduce((a, b) => a + b, 0)} ${L[0]}</small></button>`).join('')}
       </div>
       <button class="btn ghost" id="reset">${L[1]}</button>
-      <div class="small muted">${L[5]}</div>`;
+      <div class="small muted">${L[4]}</div>`;
     document.getElementById('reset').onclick = () => { state.pts = {}; draw(); };
     b.querySelectorAll('[data-p]').forEach(btn => btn.onclick = () => {
       state.pts = { ...PRESETS[btn.dataset.p].pts }; draw();
@@ -201,7 +202,7 @@
     }).join('');
     const tier = treePoints(x.tree) < x.r * 5
       ? `<div class="req">${lang === 'ru' ? `Требует ${x.r * 5} оч. в ветке` : `Requires ${x.r * 5} pts in tree`} (${treePoints(x.tree)})</div>` : '';
-    tip.innerHTML = `<img src="assets/icons/talents/${x.ic}.jpg" alt=""><b>${name}</b>
+    tip.innerHTML = `<img src="${I(x.ic)}" alt=""><b>${name}</b>
       <div class="rk">${lang === 'ru' ? 'Ранг' : 'Rank'} ${cur}/${x.rk}</div>
       ${reqs}${tier}<div class="desc">${fmtDesc(x, cur)}</div>`;
     const slot = el.querySelector(`.tal[data-id="${x.id}"]`);

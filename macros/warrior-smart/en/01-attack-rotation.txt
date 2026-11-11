@@ -1,11 +1,11 @@
 #showtooltip
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/cast [nostance:3] Berserker Stance
+/cast [combat] Battle Shout
 /cast Bloodthirst
 /cast Whirlwind
 /cast Execute
 /cast Victory Rush
-/cast [mod:shift] !Heroic Strike
-/cast [mod:ctrl] Bloodrage
+/cast [m[m[mod:shift] !Heroic Strike
+/cast [m[m[mod:ctrl] Bloodrage

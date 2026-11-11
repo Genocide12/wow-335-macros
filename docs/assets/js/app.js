@@ -73,7 +73,14 @@
   });
 
   // export helpers
-  window.W = { lang, hint(text, bottom) {
-    return `<span class="hint${bottom ? ' b' : ''}"><span class="dot">?</span><span class="tip">${text}</span></span>`;
-  }};
+  window.W = {
+    lang,
+    // Wowhead CDN serves every WotLK icon — nothing is stored in the repo
+    icon(name, size) {
+      return `https://wow.zamimg.com/images/wow/icons/${size || 'large'}/${name}.jpg`;
+    },
+    hint(text, bottom) {
+      return `<span class="hint${bottom ? ' b' : ''}"><span class="dot">?</span><span class="tip">${text}</span></span>`;
+    }
+  };
 })();

@@ -7,7 +7,7 @@
 **Five buttons instead of fifteen: each macro picks the right ability for the
 situation, swaps stances by itself and never refreshes active buffs. Plus an
 app-like site: an in-game-style talent viewer, addon-free hero import and a
-leveling guide from level 1.**
+combat & survival guide.**
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-website-ffcd5c?style=flat-square&logo=github)](https://genocide12.github.io/wow-335-macros/)
 [![WotLK](https://img.shields.io/badge/WotLK-3.3.5a-c93a46?style=flat-square)](https://lasthavens.com/)
@@ -18,7 +18,7 @@ leveling guide from level 1.**
 **[Macros](https://genocide12.github.io/wow-335-macros/macros.html?lang=en)** ·
 **[Talents](https://genocide12.github.io/wow-335-macros/talents.html?lang=en)** ·
 **[Hero](https://genocide12.github.io/wow-335-macros/hero.html?lang=en)** ·
-**[Guide 1–80](https://genocide12.github.io/wow-335-macros/guide.html?lang=en)**
+**[Guide](https://genocide12.github.io/wow-335-macros/guide.html?lang=en)**
 
 **По-русски? → [README.md](README.md)**
 
@@ -28,12 +28,12 @@ leveling guide from level 1.**
 
 ## What is this
 
-A set of **5 smart macros** for a Fury warrior (leveling) on WotLK 3.3.5a and the
+A set of **5 smart macros** for a Fury warrior on WotLK 3.3.5a and the
 browser realm [lasthavens.com](https://lasthavens.com/). Each macro decides which
 ability to fire: rotation priorities are baked into the `/cast` order, stances
 swap via conditions, Battle Shout is only refreshed when it has fallen off.
 
-Battle-tested: Temple of Atal'Hakkar cleared at level 54 with **233 DPS**
+Battle-tested: **233 DPS** in Temple of Atal'Hakkar
 (gear ilvl 51, gearscore 537).
 
 ```
@@ -49,12 +49,12 @@ Five screens, each one fits **without scrolling** on desktop and mobile:
 |:---:|:---:|
 | ![Home](docs/assets/shots/home.png) | ![Macros](docs/assets/shots/macros.png) |
 
-| Talents (lvl-54 build) | Hero (import) | Guide 1–80 |
+| Talents (builds) | Hero (import) | Guide |
 |:---:|:---:|:---:|
 | ![Talents](docs/assets/shots/talents.png) | ![Hero](docs/assets/shots/hero.png) | ![Guide](docs/assets/shots/guide.png) |
 
-* **Macros** — cards with real ability icons, one-click copy, hover hints
-  instead of a separate "Install" page.
+* **Macros** — cards with real ability icons, one-click copy and each
+  macro's features right on the card.
 * **Talents** — all 85 warrior talents across three trees, just like in game:
   icons, ranks, dependency arrows, requirement checks. Click to add a point,
   Shift+click to remove. Leveling presets and my own level-54 build included.
@@ -62,7 +62,9 @@ Five screens, each one fits **without scrolling** on desktop and mobile:
   macros (lasthavens allows no custom addons) print a `WEXP|…` line into chat;
   paste it on the site to get a paperdoll with real item icons and tooltips
   fetched live from Wowhead.
-* **Guide** — leveling from level 1: phases, what to train, rotation, ability icons.
+* **Guide** — how to fight and survive: rotation, rage management,
+  positioning, survival and what to learn where to squeeze the maximum
+  out of your character.
 
 ## Install the macros (1 minute)
 
@@ -98,18 +100,18 @@ so line order = priority order. Spam Q and the rotation plays itself.
 ```
 docs/               the site (GitHub Pages)
   index.html        home
-  macros.html       macros: icons, copy buttons, hints
+  macros.html       macros: icons, copy buttons, per-macro features
   talents.html      talent viewer (85 talents, 3 trees, presets)
   hero.html         in-game hero import (WEXP), paperdoll, Wowhead tooltips
-  guide.html        leveling guide 1–80
-  assets/           icons (186 files, zamimg), tree backgrounds, talent data
+  guide.html        guide: combat, survival, what & where to learn
+  assets/js/macros-data.js  macro texts (embedded, no fetch)
+  assets/           tree backgrounds, talent data, logo (icons — Wowhead CDN)
 macros/warrior-smart/{ru,en}/   5 macros + 2 export ones, RU and EN clients
 install/macros-cache-{ru,en}.txt  one-file install
 ```
 
-Talent data and all icons come from open sources ([Wowhead WotLK](https://www.wowhead.com/wotlk),
-[zamimg CDN](https://wow.zamimg.com)) and are stored in the repo: the site works
-offline too, while live item tooltips stream from Wowhead on demand.
+Ability and item icons are hot-linked straight from the [Wowhead CDN (zamimg)](https://wow.zamimg.com) —
+they are not stored in the repo. Live item tooltips stream from Wowhead on demand.
 
 ## License
 

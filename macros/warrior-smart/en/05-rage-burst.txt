@@ -1,5 +1,5 @@
 #showtooltip
 /cast Bloodrage
 /cast Berserker Rage
-/cast [mod:shift] Recklessness
-/use [mod:shift] 13
+/cast [m[m[mod:shift] Recklessness
+/use [m[m[mod:shift] 13

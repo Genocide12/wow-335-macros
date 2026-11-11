@@ -6,8 +6,10 @@
 <title>Макросы — WoW 3.3.5 Fury</title>
 <link rel="stylesheet" href="assets/css/app.css">
 <style>
-  .m-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .m-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); }
   .m-card { display: flex; flex-direction: column; gap: 8px; }
+  .m-card.w3 { grid-column: span 3; }
+  .m-card.w2 { grid-column: span 2; }
   .m-head { display: flex; align-items: center; gap: 10px; }
   .m-head img { width: 40px; height: 40px; border-radius: 9px; border: 1px solid var(--gold); }
   .m-head .t b { display: block; font-size: 15px; color: #fff; }
@@ -15,12 +17,24 @@
   .key { display: inline-flex; width: 26px; height: 26px; border-radius: 7px; background: #0a0c12;
     border: 1px solid var(--gold); color: var(--gold2); align-items: center; justify-content: center;
     font-size: 13px; font-weight: 800; margin-left: auto; flex: 0 0 auto; }
-  .m-card pre { flex: 1; max-height: 190px; }
+  .m-card pre { flex: 1; max-height: 168px; }
+  .m-card.w3 pre { max-height: 176px; }
+  .m-card.w2 pre { max-height: 128px; }
   .m-meta { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag { font-size: 11px; font-weight: 700; color: var(--dim); border: 1px solid var(--line);
     border-radius: 999px; padding: 3px 9px; }
-  .m-grid.wide { grid-template-columns: 1fr 1fr; }
-  @media (max-width: 860px) { .m-grid { grid-template-rows: auto; } .m-card pre { max-height: 220px; } }
+  .m-feats { display: grid; gap: 5px; border-top: 1px dashed var(--line); padding-top: 7px; }
+  .m-card.w3 .m-feats { grid-template-columns: repeat(2, 1fr); gap: 5px 10px; }
+  .mf { display: flex; gap: 8px; align-items: center; }
+  .mf img { width: 22px; height: 22px; border-radius: 6px; flex: 0 0 auto; }
+  .mf .t { font-size: 12px; line-height: 1.35; color: var(--dim); }
+  .mf .t b { color: var(--gold2); font-size: 12.5px; }
+  @media (max-width: 860px) {
+    .m-grid { grid-template-rows: auto; }
+    .m-card { grid-column: auto !important; }
+    .m-card.w3 .m-feats { grid-template-columns: 1fr; }
+    .m-card pre { max-height: 220px; }
+  }
 </style>
 </head>
 <body>
@@ -30,83 +44,131 @@
 </main>
 </div>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/macros-data.js"></script>
 <script>
-const RU = {
-  title: 'Макросы', install: 'Установка', installTip: 'Быстро: скачай <b>macros-cache-ru.txt</b> из репозитория и положи его в <code>WTF/Аккаунт/&lt;имя&gt;/macros-cache.txt</code> (старый файл сохрани). Перезайди в игру — макросы уже в общем списке /macro. Или просто скопируй текст кнопкой ✓ и вставь в новый макрос.',
-  langNote: 'Имена умений — как в русской игре. Для английского клиента переключи язык вверху.',
-};
-const EN = {
-  title: 'Macros', install: 'Install', installTip: 'Fast way: download <b>macros-cache-en.txt</b> from the repo and drop it into <code>WTF/Account/&lt;name&gt;/macros-cache.txt</code> (back up the old one). Re-log — macros are in the shared /macro list. Or just copy the text with the ✓ button and paste into a new macro.',
-  langNote: 'Ability names match the English client. Switch the language at the top for Russian.',
-};
-// macro definitions (name/tooltip resolve via lang)
+const L10N = { ru: { copy: 'копировать' }, en: { copy: 'copy' } };
+// macro definitions: body comes from macros-data.js (embedded, no fetch)
 const MACROS = [
   {
-    file: '01-attack-rotation', key: 'Q', icon: 'inv_axe_66',
+    file: '01-attack-rotation', key: 'Q', icon: 'inv_axe_66', wide: true,
     ru: ['Ротация — одна кнопка', 'Кровожадность → Вихрь → Казнь → Победный раж'],
     en: ['Rotation — one button', 'Bloodthirst → Whirlwind → Execute → Victory Rush'],
     tags: { ru: ['одна цель', 'Shift: Удар героя', 'Ctrl: Кровавая ярость'], en: ['single target', 'Shift: Heroic Strike', 'Ctrl: Bloodrage'] },
+    feats: {
+      ru: [
+        { i: 'ability_warrior_battleshout', t: 'Боевой крик сам', d: 'обновится, только когда спадёт: GCD не тратится впустую' },
+        { i: 'spell_magic_magearmor', t: 'Без дублей', d: 'пока бафф действует, игра не даст наложить его повторно' },
+        { i: 'ability_rogue_ambush', t: 'Shift — Удар героя', d: 'сброс лишней ярости, не занимает общий КД' },
+        { i: 'ability_racial_bloodrage', t: 'Ctrl — Кровавая ярость', d: 'бесплатная ярость в любой момент' },
+      ],
+      en: [
+        { i: 'ability_warrior_battleshout', t: 'Battle Shout on its own', d: 'refreshes only after it drops: no GCD wasted' },
+        { i: 'spell_magic_magearmor', t: 'No double buffs', d: 'while the buff lasts the game will not re-apply it' },
+        { i: 'ability_rogue_ambush', t: 'Shift — Heroic Strike', d: 'rage dump, off the global cooldown' },
+        { i: 'ability_racial_bloodrage', t: 'Ctrl — Bloodrage', d: 'free rage at any moment' },
+      ],
+    },
   },
   {
-    file: '02-aoe-pack', key: 'E', icon: 'ability_whirlwind',
+    file: '02-aoe-pack', key: 'E', icon: 'ability_whirlwind', wide: true,
     ru: ['AoE — пак из 2+ мобов', 'Вихрь + Рассекающий удар каждый свинг'],
     en: ['AoE — packs of 2+', 'Whirlwind + Cleave on every swing'],
     tags: { ru: ['AoE', 'Shift: Деморализующий крик'], en: ['AoE', 'Shift: Demoralizing Shout'] },
+    feats: {
+      ru: [
+        { i: 'ability_warrior_battleshout', t: 'Боевой крик сам', d: 'обновится, только когда спадёт' },
+        { i: 'ability_warrior_cleave', t: 'Рассекающий удар', d: 'каждый обычный свинг бьёт по всем мобам' },
+        { i: 'ability_warrior_warcry', t: 'Shift — Деморализующий крик', d: 'мобы бьют заметно слабее' },
+      ],
+      en: [
+        { i: 'ability_warrior_battleshout', t: 'Battle Shout on its own', d: 'refreshes only after it drops' },
+        { i: 'ability_warrior_cleave', t: 'Cleave', d: 'every white swing hits all the mobs' },
+        { i: 'ability_warrior_warcry', t: 'Shift — Demoralizing Shout', d: 'mobs hit noticeably weaker' },
+      ],
+    },
   },
   {
     file: '03-interrupt', key: 'R', icon: 'inv_gauntlets_04',
     ru: ['Сбить каст', 'Наведи курсор на кастующего — цель не меняется'],
     en: ['Interrupt', 'Hover the caster — your target stays'],
     tags: { ru: ['мышь', 'без смены цели'], en: ['mouseover', 'no target switch'] },
+    feats: {
+      ru: [
+        { i: 'inv_gauntlets_04', t: 'Наведи и нажми', d: 'Зуботычина уйдёт в цель под курсором, цель не меняется' },
+        { i: 'ability_racial_avatar', t: 'Стойка сама', d: 'встанет в стойку берсерка, если ты не в ней' },
+        { i: 'ability_warrior_shieldbash', t: 'Не рвёт атаку', d: 'после сбивания сам вернётся к авто-атаке' },
+      ],
+      en: [
+        { i: 'inv_gauntlets_04', t: 'Hover & press', d: 'Pummel goes into the mob under the cursor, your target stays' },
+        { i: 'ability_racial_avatar', t: 'Stance on its own', d: 'swaps you to Berserker Stance if needed' },
+        { i: 'ability_warrior_shieldbash', t: 'Keeps swinging', d: 'auto-attack resumes right after the interrupt' },
+      ],
+    },
   },
   {
     file: '04-charge-intercept', key: 'F', icon: 'ability_rogue_sprint',
     ru: ['Рывок / Перехват', 'Вне боя — Рывок из боевой стойки, в бою — Перехват'],
     en: ['Charge / Intercept', 'Out of combat — Charge, in combat — Intercept'],
     tags: { ru: ['догнать', 'стан'], en: ['gap closer', 'stun'] },
+    feats: {
+      ru: [
+        { i: 'ability_warrior_charge', t: 'Двойной рывок', d: 'одна кнопка: вне боя — Рывок, в бою — Перехват' },
+        { i: 'ability_racial_avatar', t: 'Стойки сами', d: 'нужная стойка включается сама, без ручных танцев' },
+        { i: 'ability_heroicleap', t: 'Атака сразу', d: 'после сближения авто-атака стартует сама' },
+      ],
+      en: [
+        { i: 'ability_warrior_charge', t: 'Double gap closer', d: 'one button: out of combat — Charge, in combat — Intercept' },
+        { i: 'ability_racial_avatar', t: 'Stances on their own', d: 'the right stance is picked for you, no manual dancing' },
+        { i: 'ability_heroicleap', t: 'Instant offense', d: 'auto-attack starts the moment you land' },
+      ],
+    },
   },
   {
     file: '05-rage-burst', key: 'G', icon: 'ability_racial_bloodrage',
     ru: ['Ярость + бурст', 'Кровавая ярость + Ярость берсерка; Shift — Безрассудство + тринкет'],
     en: ['Rage + burst', 'Bloodrage + Berserker Rage; Shift — Recklessness + trinket'],
     tags: { ru: ['без GCD', 'Shift: бурст'], en: ['off GCD', 'Shift: burst'] },
+    feats: {
+      ru: [
+        { i: 'ability_racial_bloodrage', t: 'Ярость по КД', d: 'обе ярости без общего КД: жми, как только сошла' },
+        { i: 'ability_criticalstrike', t: 'Shift — бурст', d: 'Безрассудство + тринкет в одну кнопку' },
+        { i: 'inv_sword_48', t: 'Под Казнь', d: 'накопленная ярость превращается в урон добивания' },
+      ],
+      en: [
+        { i: 'ability_racial_bloodrage', t: 'Rage on cooldown', d: 'both rage abilities off the GCD: press as soon as they are back' },
+        { i: 'ability_criticalstrike', t: 'Shift — burst', d: 'Recklessness + trinket in one button' },
+        { i: 'inv_sword_48', t: 'Feeds Execute', d: 'banked rage turns into finishing damage' },
+      ],
+    },
   },
 ];
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   const lang = window.W.lang;
-  const L = lang === 'ru' ? RU : EN;
-  document.title = L.title + ' — WoW 3.3.5 Fury';
+  const I = window.W.icon;
+  const L = L10N[lang] || L10N.ru;
+  document.title = (lang === 'ru' ? 'Макросы' : 'Macros') + ' — WoW 3.3.5 Fury';
   const wrap = document.getElementById('cards');
   const rows = [];
   for (const m of MACROS) {
-    const txt = await fetch(`../macros/warrior-smart/${lang}/${m.file}.txt`).catch(() => '');
-    const body = (txt && await txt.text ? await txt.text() : '').trim();
+    const body = (((window.MACRO_TXT || {})[lang] || {})[m.file] || '').trim();
     const [name, sub] = m[lang];
     const tags = (m.tags[lang] || []).map(t => `<span class="tag">${t}</span>`).join('');
+    const feats = (m.feats[lang] || []).map(f =>
+      `<div class="mf"><img src="${I(f.i)}" alt=""><div class="t"><b>${f.t}</b> — ${f.d}</div></div>`).join('');
     rows.push(`
-    <section class="card m-card">
+    <section class="card m-card ${m.wide ? 'w3' : 'w2'}">
       <div class="m-head">
-        <img src="assets/icons/large/${m.icon}.jpg" alt="">
+        <img src="${I(m.icon)}" alt="">
         <div class="t"><b>${name}</b><span>${sub}</span></div>
         <span class="key">${m.key}</span>
       </div>
-      <div class="macro-box"><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${lang === 'ru' ? 'копировать' : 'copy'}</button>
+      <div class="macro-box"><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${L.copy}</button>
       <pre>${body.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</pre></div>
       <div class="m-meta">${tags}</div>
+      <div class="m-feats">${feats}</div>
     </section>`);
   }
-  // 6th cell: install hint + client language note
-  rows.push(`
-  <section class="card m-card" style="justify-content:center;gap:10px;">
-    <h2>${L.install} ${window.W.hint(L.installTip, true)}</h2>
-    <div class="m-meta">${L.langNote}</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a class="btn" href="https://github.com/Genocide12/wow-335-macros/raw/main/install/macros-cache-${lang}.txt">
-        macros-cache-${lang}.txt</a>
-      <a class="btn ghost" href="https://github.com/Genocide12/wow-335-macros" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </section>`);
   wrap.innerHTML = rows.join('');
 });
 </script>

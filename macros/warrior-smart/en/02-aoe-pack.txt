@@ -5,4 +5,4 @@
 /cast [combat] Battle Shout
 /cast Whirlwind
 /cast !Cleave
-/cast [mod:shift] Demoralizing Shout
+/cast [m[m[mod:shift] Demoralizing Shout

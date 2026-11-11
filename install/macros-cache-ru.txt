@@ -8,8 +8,8 @@
 /cast Вихрь
 /cast Казнь
 /cast Победный раж
-/cast [mod:shift] !Удар героя
-/cast [mod:ctrl] Кровавая ярость
+/cast [m[m[mod:shift] !Удар героя
+/cast [m[m[mod:ctrl] Кровавая ярость
 END
 MACRO 16777217 "AoE" Ability_Whirlwind
 #showtooltip Вихрь
@@ -19,7 +19,7 @@ MACRO 16777217 "AoE" Ability_Whirlwind
 /cast [combat] Боевой крик
 /cast Вихрь
 /cast !Рассекающий удар
-/cast [mod:shift] Деморализующий крик
+/cast [m[m[mod:shift] Деморализующий крик
 END
 MACRO 16777218 "Сбить каст" INV_Gauntlets_04
 #showtooltip Зуботычина
@@ -40,6 +40,6 @@ MACRO 16777220 "Ярость" Ability_Racial_Bloodrage
 #showtooltip
 /cast Кровавая ярость
 /cast Ярость берсерка
-/cast [mod:shift] Безрассудство
-/use [mod:shift] 13
+/cast [m[m[mod:shift] Безрассудство
+/use [m[m[mod:shift] 13
 END

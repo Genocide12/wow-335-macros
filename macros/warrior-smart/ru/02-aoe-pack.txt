@@ -5,4 +5,4 @@
 /cast [combat] Боевой крик
 /cast Вихрь
 /cast !Рассекающий удар
-/cast [mod:shift] Деморализующий крик
+/cast [m[m[mod:shift] Деморализующий крик

@@ -6,11 +6,12 @@
 <title>WoW 3.3.5 · Fury Warrior — умные макросы</title>
 <link rel="stylesheet" href="assets/css/app.css">
 <style>
-  .hero-grid { grid-template-columns: 1.25fr 1fr; grid-template-rows: auto 1fr; }
-  .hero-main { grid-row: 1 / span 2; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
-  .hero-main h1 { font-size: clamp(26px, 4.2vw, 44px); line-height: 1.08; color: #fff; }
+  .hero-grid { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  .hero-main { display: flex; flex-direction: column; justify-content: center; gap: 16px;
+    max-width: 780px; width: 100%; margin: 0 auto; }
+  .hero-main h1 { font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; color: #fff; }
   .hero-main h1 b { color: var(--gold2); }
-  .hero-main p { color: var(--dim); font-size: 15px; max-width: 52ch; line-height: 1.55; }
+  .hero-main p { color: var(--dim); font-size: 15px; max-width: 56ch; line-height: 1.55; }
   .cta { display: flex; gap: 10px; flex-wrap: wrap; }
   .krow { display: flex; gap: 8px; flex-wrap: wrap; }
   .krow a { display: flex; align-items: center; gap: 8px; background: var(--panel2); border: 1px solid var(--line);
@@ -19,19 +20,6 @@
   .krow img { width: 26px; height: 26px; border-radius: 6px; }
   .krow .key { display: inline-flex; width: 22px; height: 22px; border-radius: 6px; background: #0a0c12;
     border: 1px solid var(--gold); color: var(--gold2); align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
-  .stat { text-align: center; padding: 10px 6px; }
-  .stat .v { font-size: clamp(22px, 3vw, 34px); font-weight: 800; color: var(--gold2); }
-  .stat .l { font-size: 12px; color: var(--dim); margin-top: 2px; }
-  .feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .feat { display: flex; gap: 10px; align-items: flex-start; }
-  .feat img { width: 34px; height: 34px; border-radius: 8px; flex: 0 0 auto; }
-  .feat b { font-size: 13.5px; display: block; margin-bottom: 3px; }
-  .feat span { font-size: 12.5px; color: var(--dim); line-height: 1.4; display: block; }
-  @media (max-width: 860px) {
-    .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
-    .hero-main { grid-row: auto; }
-    .feats { grid-template-columns: 1fr; }
-  }
 </style>
 </head>
 <body>
@@ -41,40 +29,18 @@
 
     <section class="card hero-main">
       <h1 data-ru="Умные макросы для <b>воина-неистовства</b>" data-en="Smart macros for the <b>Fury Warrior</b>">Умные макросы для <b>воина-неистовства</b></h1>
-      <p data-ru="WotLK 3.3.5a · браузерный сервер lasthavens.com · русскоязычный клиент. Пять кнопок вместо пятнадцати: макрос сам выбирает умение под ситуацию, сам переключает стойку и не обновляет активные баффы."
-         data-en="WotLK 3.3.5a · lasthavens.com browser realm · Russian client. Five buttons instead of fifteen: each macro picks the right ability for the situation, swaps stances itself and never refreshes active buffs.">WotLK 3.3.5a · браузерный сервер lasthavens.com · русскоязычный клиент. Пять кнопок вместо пятнадцати: макрос сам выбирает умение под ситуацию, сам переключает стойку и не обновляет активные баффы.</p>
+      <p data-ru="WotLK 3.3.5a · браузерный сервер lasthavens.com · русскоязычный клиент. Пять кнопок вместо пятнадцати: назначь макросы на Q, E, R, F, G — и иди в бой."
+         data-en="WotLK 3.3.5a · lasthavens.com browser realm · Russian client. Five buttons instead of fifteen: bind the macros to Q, E, R, F, G — and go fight.">WotLK 3.3.5a · браузерный сервер lasthavens.com · русскоязычный клиент. Пять кнопок вместо пятнадцати: назначь макросы на Q, E, R, F, G — и иди в бой.</p>
       <div class="cta">
         <a class="btn" href="macros.html" data-ru="Забрать макросы" data-en="Get the macros">Забрать макросы</a>
         <a class="btn ghost" href="hero.html" data-ru="Импортировать героя" data-en="Import your hero">Импортировать героя</a>
       </div>
       <div class="krow">
-        <a href="macros.html"><span class="key">Q</span><span data-ru="Ротация" data-en="Rotation">Ротация</span><img src="assets/icons/large/inv_axe_66.jpg" alt=""></a>
-        <a href="macros.html"><span class="key">E</span><span data-ru="AoE" data-en="AoE">AoE</span><img src="assets/icons/large/ability_whirlwind.jpg" alt=""></a>
-        <a href="macros.html"><span class="key">R</span><span data-ru="Сбить каст" data-en="Interrupt">Сбить каст</span><img src="assets/icons/large/inv_gauntlets_04.jpg" alt=""></a>
-        <a href="macros.html"><span class="key">F</span><span data-ru="Рывок" data-en="Charge">Рывок</span><img src="assets/icons/large/ability_rogue_sprint.jpg" alt=""></a>
-        <a href="macros.html"><span class="key">G</span><span data-ru="Ярость" data-en="Rage">Ярость</span><img src="assets/icons/large/ability_racial_bloodrage.jpg" alt=""></a>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="feats">
-        <div class="feat"><img src="assets/icons/large/ability_warrior_battleshout.jpg" alt="">
-          <div><b data-ru="Боевой крик сам" data-en="Battle Shout on its own">Боевой крик сам</b>
-          <span data-ru="Обновляется только когда спал — GCD не тратится впустую.">Обновляется только когда спал — GCD не тратится впустую.</span></div></div>
-        <div class="feat"><img src="assets/icons/large/ability_racial_avatar.jpg" alt="">
-          <div><b data-ru="Стойки сами" data-en="Stances on their own">Стойки сами</b>
-          <span data-ru="Рывок из боя, Перехват в бою — без ручных танцев.">Рывок из боя, Перехват в бою — без ручных танцев.</span></div></div>
-        <div class="feat"><img src="assets/icons/large/inv_gauntlets_04.jpg" alt="">
-          <div><b data-ru="Прерывание" data-en="Interrupts">Прерывание</b>
-          <span data-ru="Наведи на кастующего и нажми — цель не меняется.">Наведи на кастующего и нажми — цель не меняется.</span></div></div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);height:100%;align-items:center;">
-        <div class="stat"><div class="v">5</div><div class="l" data-ru="кнопок на всё" data-en="buttons for everything">кнопок на всё</div></div>
-        <div class="stat"><div class="v">233</div><div class="l" data-ru="DPS в данже 54 ур." data-en="DPS in a lvl-54 dungeon">DPS в данже 54 ур.</div></div>
-        <div class="stat"><div class="v">1</div><div class="l" data-ru="клик — установка" data-en="click to install">клик — установка</div></div>
+        <a href="macros.html"><span class="key">Q</span><span data-ru="Ротация" data-en="Rotation">Ротация</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_66.jpg" alt=""></a>
+        <a href="macros.html"><span class="key">E</span><span data-ru="AoE" data-en="AoE">AoE</span><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt=""></a>
+        <a href="macros.html"><span class="key">R</span><span data-ru="Сбить каст" data-en="Interrupt">Сбить каст</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_04.jpg" alt=""></a>
+        <a href="macros.html"><span class="key">F</span><span data-ru="Рывок" data-en="Charge">Рывок</span><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg" alt=""></a>
+        <a href="macros.html"><span class="key">G</span><span data-ru="Ярость" data-en="Rage">Ярость</span><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg" alt=""></a>
       </div>
     </section>
 
