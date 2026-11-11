@@ -1,11 +1,7 @@
-#showtooltip
 /startattack
-/targetenemy [noharm][dead]
-/cast [nostance:3] Berserker Stance
-/cast [combat] Battle Shout
+/cast [stance:1,nocombat]Charge;[nocombat]Battle Stance;Berserker Stance
+/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end
+/cast Victory Rush
 /cast Bloodthirst
 /cast Whirlwind
-/cast Execute
-/cast Victory Rush
-/cast [m[m[mod:shift] !Heroic Strike
-/cast [m[m[mod:ctrl] Bloodrage
+/cast [mod:shift]Heroic Strike;Execute

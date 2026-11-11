@@ -1,8 +1,9 @@
-#showtooltip Вихрь
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/run d="Деморализующий крик"if not UnitDebuff("target",d)then CastSpellByName(d)end
+/cast Перехват
 /cast Вихрь
 /cast !Рассекающий удар
-/cast [m[m[mod:shift] Деморализующий крик
+/cast Кровожадность
+/cast Кровавая ярость
+/cast [mod:alt]Устрашающий крик

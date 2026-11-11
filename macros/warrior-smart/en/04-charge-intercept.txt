@@ -1,6 +1,0 @@
-#showtooltip
-/cast [nocombat,nostance:1] Battle Stance
-/cast [nocombat] Charge
-/cast [combat,nostance:3] Berserker Stance
-/cast [combat] Intercept
-/startattack

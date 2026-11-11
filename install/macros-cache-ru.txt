@@ -1,45 +1,36 @@
 ﻿MACRO 16777216 "Ротация" INV_Axe_67
-#showtooltip
 /startattack
-/targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/cast [stance:1,nocombat]Рывок;[nocombat]Боевая стойка;Стойка берсерка
+/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end
+/cast Победный раж
 /cast Кровожадность
 /cast Вихрь
-/cast Казнь
-/cast Победный раж
-/cast [m[m[mod:shift] !Удар героя
-/cast [m[m[mod:ctrl] Кровавая ярость
+/cast [mod:shift]Удар героя;Казнь
 END
 MACRO 16777217 "AoE" Ability_Whirlwind
-#showtooltip Вихрь
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/run d="Деморализующий крик"if not UnitDebuff("target",d)then CastSpellByName(d)end
+/cast Перехват
 /cast Вихрь
 /cast !Рассекающий удар
-/cast [m[m[mod:shift] Деморализующий крик
+/cast Кровожадность
+/cast Кровавая ярость
+/cast [mod:alt]Устрашающий крик
 END
 MACRO 16777218 "Сбить каст" INV_Gauntlets_04
 #showtooltip Зуботычина
-/stopattack
-/cast [nostance:3] Стойка берсерка
-/cast [@mouseover,harm,nodead][] Зуботычина
-/startattack
+/cast [nostance:3]Стойка берсерка
+/cast [@mouseover,harm,nodead][]Зуботычина
+/cast [mod:alt]Каждый за себя
+/cast [mod:alt]Оборонительная стойка
+/cast [mod:ctrl]Инстинкт смерти
+/cast [mod:ctrl]Безрассудство
+/use [mod:ctrl]13
 END
-MACRO 16777219 "Рывок" Ability_Rogue_Sprint
-#showtooltip
-/cast [nocombat,nostance:1] Боевая стойка
-/cast [nocombat] Рывок
-/cast [combat,nostance:3] Стойка берсерка
-/cast [combat] Перехват
-/startattack
+MACRO 16777219 "Экспорт 1" INV_Scroll_01
+/run u="player"n=UnitName(u)_,c=UnitClass(u)l=UnitLevel(u)b,z,v=UnitAttackPower(u)h=UnitHealthMax(u)t={}for i=1,3 do _,_,q=GetTalentTabInfo(i) t[i]=q end print("WEXP1|"..n.."|"..c.."|"..l.."|"..b+z+v.."|"..h.."|"..table.concat(t,"/"))
 END
-MACRO 16777220 "Ярость" Ability_Racial_Bloodrage
-#showtooltip
-/cast Кровавая ярость
-/cast Ярость берсерка
-/cast [m[m[mod:shift] Безрассудство
-/use [m[m[mod:shift] 13
+MACRO 16777220 "Экспорт 2" INV_Scroll_02
+/run u="player"r=UnitRace(u)print("WEXP0|"..r)for i=1,19 do l=GetInventoryItemLink(u,i)if l then print("WEXP2|"..i.."|"..l)end end
 END

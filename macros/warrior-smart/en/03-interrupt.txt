@@ -1,5 +1,8 @@
 #showtooltip Pummel
-/stopattack
-/cast [nostance:3] Berserker Stance
-/cast [@mouseover,harm,nodead][] Pummel
-/startattack
+/cast [nostance:3]Berserker Stance
+/cast [@mouseover,harm,nodead][]Pummel
+/cast [mod:alt]Every Man for Himself
+/cast [mod:alt]Defensive Stance
+/cast [mod:ctrl]Death Wish
+/cast [mod:ctrl]Recklessness
+/use [mod:ctrl]13

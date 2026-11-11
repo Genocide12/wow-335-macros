@@ -1,6 +1,0 @@
-#showtooltip
-/cast [nocombat,nostance:1] Боевая стойка
-/cast [nocombat] Рывок
-/cast [combat,nostance:3] Стойка берсерка
-/cast [combat] Перехват
-/startattack

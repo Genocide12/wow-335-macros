@@ -1,11 +1,7 @@
-#showtooltip
 /startattack
-/targetenemy [noharm][dead]
-/cast [nostance:3] Стойка берсерка
-/cast [combat] Боевой крик
+/cast [stance:1,nocombat]Рывок;[nocombat]Боевая стойка;Стойка берсерка
+/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end
+/cast Победный раж
 /cast Кровожадность
 /cast Вихрь
-/cast Казнь
-/cast Победный раж
-/cast [m[m[mod:shift] !Удар героя
-/cast [m[m[mod:ctrl] Кровавая ярость
+/cast [mod:shift]Удар героя;Казнь

@@ -1,8 +1,9 @@
-#showtooltip Whirlwind
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Berserker Stance
-/cast [combat] Battle Shout
+/run d="Demoralizing Shout"if not UnitDebuff("target",d)then CastSpellByName(d)end
+/cast Intercept
 /cast Whirlwind
 /cast !Cleave
-/cast [m[m[mod:shift] Demoralizing Shout
+/cast Bloodthirst
+/cast Bloodrage
+/cast [mod:alt]Intimidating Shout

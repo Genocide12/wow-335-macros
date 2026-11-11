@@ -1,5 +1,8 @@
 #showtooltip Зуботычина
-/stopattack
-/cast [nostance:3] Стойка берсерка
-/cast [@mouseover,harm,nodead][] Зуботычина
-/startattack
+/cast [nostance:3]Стойка берсерка
+/cast [@mouseover,harm,nodead][]Зуботычина
+/cast [mod:alt]Каждый за себя
+/cast [mod:alt]Оборонительная стойка
+/cast [mod:ctrl]Инстинкт смерти
+/cast [mod:ctrl]Безрассудство
+/use [mod:ctrl]13

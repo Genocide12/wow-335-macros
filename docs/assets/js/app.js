@@ -48,7 +48,7 @@
     // footer
     app.append(h(`
       <footer class="bot">
-        <span>WotLK 3.3.5a · lasthavens.com</span>
+        <span>WotLK 3.3.5a · ${lang === 'ru' ? 'Воин — Неистовство' : 'Fury Warrior'}</span>
         <a href="https://github.com/Genocide12/wow-335-macros" target="_blank" rel="noopener">GitHub</a>
         <span style="margin-left:auto" class="muted">${lang === 'ru' ? 'Иконки: Wowhead / zamimg' : 'Icons: Wowhead / zamimg'}</span>
       </footer>`));

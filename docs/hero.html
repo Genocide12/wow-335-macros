@@ -60,7 +60,7 @@
         <span data-ru="Импорт из игры" data-en="Import from game">Импорт из игры</span>
         <span id="hintSlot"></span></h2>
       <div class="steps">
-        <div class="step"><span class="n">1</span><div data-ru="В игре создай два макроса со строками ниже и нажми их (F1=статы, F2=экипировка)." data-en="In game, create two macros with the lines below and press them (1=stats, 2=gear).">В игре создай два макроса со строками ниже и нажми их (F1=статы, F2=экипировка).</div></div>
+        <div class="step"><span class="n">1</span><div data-ru="В игре набери /macro, создай два новых макроса и вставь в них строки ниже. Нажимай кнопку МАКРОСА на панели — не отправляй строку в чат!" data-en="In game type /macro, create two new macros and paste the lines below into them. Press the MACRO BUTTON on your action bar — do not send the line to chat!">В игре набери /macro, создай два новых макроса и вставь в них строки ниже. Нажимай кнопку МАКРОСА на панели — не отправляй строку в чат!</div></div>
         <div class="step"><span class="n">2</span><div data-ru="Открой чат, выдели строки WEXP|… и скопируй (Ctrl+C)." data-en="Open chat, select the WEXP|… lines and copy (Ctrl+C).">Открой чат, выдели строки WEXP|… и скопируй (Ctrl+C).</div></div>
         <div class="step"><span class="n">3</span><div data-ru="Вставь их сюда и нажми «Показать»." data-en="Paste them here and press Show.">Вставь их сюда и нажми «Показать».</div></div>
       </div>
@@ -84,8 +84,8 @@
 (() => {
   const lang = window.W.lang;
   const L = {
-    ru: { slots: SLOTS_RU, copy: 'копировать', hint: 'Аддон не нужен: сервер браузерный, свои аддоны туда не поставить — поэтому экспорт живёт в двух /run-макросах. Работает на любом 3.3.5: выдели строку в чате и Ctrl+C.', err: 'Не нашёл строк WEXP|… — проверь, что скопировал их из чата целиком.' },
-    en: { slots: SLOTS_EN, copy: 'copy', hint: 'No addon needed: the realm is browser-based, custom addons cannot be installed — so the export lives in two /run macros. Works on any 3.3.5: select the chat line and Ctrl+C.', err: 'No WEXP|… lines found — make sure you copied them fully from chat.' },
+    ru: { slots: SLOTS_RU, copy: 'копировать', hint: 'Аддон не нужен: экспорт делают два коротких /run-макроса. Важно: в игре нажимай кнопку МАКРОСА, а не отправляй строку в чат — из чата она не работает. Годится любой клиент 3.3.5a.', err: 'Не нашёл строк WEXP|… — проверь, что скопировал их из чата целиком.' },
+    en: { slots: SLOTS_EN, copy: 'copy', hint: 'No addon needed: the export is done by two short /run macros. Important: in game press the MACRO BUTTON, do not paste the line into chat — it does nothing from chat. Works on any 3.3.5a client.', err: 'No WEXP|… lines found — make sure you copied them fully from chat.' },
   };
   function SLOTS_RU() { return { 1: 'Голова', 2: 'Шея', 3: 'Плечи', 15: 'Спина', 5: 'Грудь', 4: 'Рубашка', 19: 'Гербовая накидка', 9: 'Запястья', 10: 'Кисти рук', 6: 'Пояс', 7: 'Ноги', 8: 'Ступни', 11: 'Кольцо', 12: 'Кольцо', 13: 'Аксессуар', 14: 'Аксессуар', 16: 'Правая рука', 17: 'Левая рука', 18: 'Дальний бой' }; }
   function SLOTS_EN() { return { 1: 'Head', 2: 'Neck', 3: 'Shoulder', 15: 'Back', 5: 'Chest', 4: 'Shirt', 19: 'Tabard', 9: 'Wrist', 10: 'Hands', 6: 'Waist', 7: 'Legs', 8: 'Feet', 11: 'Finger', 12: 'Finger', 13: 'Trinket', 14: 'Trinket', 16: 'Main hand', 17: 'Off hand', 18: 'Ranged' }; }
