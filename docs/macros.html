@@ -136,8 +136,34 @@ const MACROS = [
     note: { ru: 'Alt+R — много нажатий = каскад: снять контроль → уйти в оборону → разоружить → провоцировать. Ctrl+R — снять страх. Зуботычина бьёт и по цели, и по мобу под курсором — держи мышь на кастующем.',
             en: 'Alt+R pressed repeatedly is a cascade: break control → go defensive → disarm → taunt. Ctrl+R breaks fear. Pummel hits both your target and the mob under the cursor — keep the pointer on the caster.' },
   },
+  {
+    file: '04-buff-check', key: 'F', icon: 'ability_warrior_battleshout',
+    ru: ['Баф — только недостающее', 'Проверит Боевой крик и Деморализующий крик и повесит лишь то, чего нет'],
+    en: ['Buff — only what is missing', 'Checks Battle Shout and Demoralizing Shout, applies only what is absent'],
+    tags: { ru: ['перед пулом', 'проверка баффов', 'вне боя'],
+            en: ['pre-pull', 'buff check', 'out of combat'] },
+    feats: {
+      ru: [
+        { i: 'ability_warrior_battleshout', t: 'Боевой крик по проверке', d: 'баффа на тебе нет — повесит; висит — не потратит ни GCD, ни ярость' },
+        { i: 'ability_warrior_warcry', t: 'Деморализующий крик по проверке', d: 'дебаффа на цели нет — применит; уже висит — пропустит' },
+        { i: 'inv_misc_key_02', t: 'Одно нажатие перед боем', d: 'жмёшь F вне боя — оба длинных баффа на месте, дублирования нет' },
+        { i: 'ability_warrior_warcry', t: 'Ctrl — Деморализующий крик', d: 'ручное обновление дебаффа в бою: автопроверка в бою запрещена игрой' },
+      ],
+      en: [
+        { i: 'ability_warrior_battleshout', t: 'Battle Shout with a check', d: 'no buff on you — it applies one; already up — no GCD, no rage wasted' },
+        { i: 'ability_warrior_warcry', t: 'Demoralizing Shout with a check', d: 'no debuff on the target — it applies one; already up — it skips' },
+        { i: 'inv_misc_key_02', t: 'One press before the pull', d: 'press F out of combat — both long buffs are up, no duplicates' },
+        { i: 'ability_warrior_warcry', t: 'Ctrl — Demoralizing Shout', d: 'manual debuff refresh in combat: the game forbids auto-checks in combat' },
+      ],
+    },
+    note: { ru: 'Почему отдельная кнопка: в бою игра блокирует каст из /run («доступно только для интерфейса Blizzard»), а три боевых макроса уже забиты под лимит 255 символов. Поэтому авто-проверка вынесена на F и работает вне боя — перед пулом. В бою: Боевой крик — Alt+Q, Деморализующий крик — Ctrl+F.',
+            en: 'Why a separate button: in combat the game blocks /run casts (“only available to the Blizzard UI”), and the three combat macros are already at the 255-character limit. So the auto-check lives on F and works out of combat — before the pull. In combat: Battle Shout — Alt+Q, Demoralizing Shout — Ctrl+F.' },
+  },
 ];
 const MODS = [
+  { icon: 'ability_warrior_battleshout', k: 'F',
+    ru: ['Баф перед пулом', 'проверит Боевой крик и Деморализующий крик — повесит только недостающее'],
+    en: ['Buff before the pull', 'checks Battle Shout and Demoralizing Shout — applies only what is missing'] },
   { icon: 'ability_rogue_ambush', k: 'Shift + Q',
     ru: ['Удар героя', 'сброс лишней ярости — не в общем КД'],
     en: ['Heroic Strike', 'rage dump — off the GCD'] },
@@ -159,6 +185,9 @@ const MODS = [
   { icon: 'spell_nature_ancestralguardian', k: 'Ctrl + R',
     ru: ['Ярость берсерка', 'снять страх и получить ярость'],
     en: ['Berserker Rage', 'break fear and gain rage'] },
+  { icon: 'ability_warrior_warcry', k: 'Ctrl + F',
+    ru: ['Деморализующий крик', 'ручное обновление дебаффа в бою'],
+    en: ['Demoralizing Shout', 'manual debuff refresh in combat'] },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -201,8 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <div class="m-feats" style="grid-template-columns:1fr">${mods}</div>
       <div class="m-note">${lang === 'ru'
-        ? 'Макросы укладываются в лимит игры <b>255 символов</b> — весь extra-функционал живёт на модификаторах тех же трёх кнопок. В бою Blizzard запрещает макросам кастовать спеллы из Lua-кода (/run) — потому все проверки сделаны штатными средствами игры: приоритеты по кулдаунам, условия стойок и окон доступности.'
-        : 'Every macro fits the game\u2019s <b>255-character</b> limit — the extra features live on modifiers of the same three buttons. In combat Blizzard forbids macros from casting spells via Lua code (/run) — so every check uses the game\u2019s own tools: cooldown priorities, stance conditions and availability windows.'}</div>
+        ? 'Макросы укладываются в лимит игры <b>255 символов</b> — весь extra-функционал живёт на модификаторах тех же кнопок. В бою Blizzard запрещает макросам кастовать спеллы из Lua-кода (/run) — поэтому длинные баффы с проверкой вынесены на кнопку F (вне боя), а в бою Боевой крик — Alt+Q, Деморализующий крик — Ctrl+F.'
+        : 'Every macro fits the game\u2019s <b>255-character</b> limit — the extra features live on modifiers of the same buttons. In combat Blizzard forbids macros from casting spells via Lua code (/run) — so checked long buffs live on the F button (out of combat), and in combat Battle Shout is Alt+Q, Demoralizing Shout is Ctrl+F.'}</div>
     </section>`);
   wrap.innerHTML = rows.join('');
 });

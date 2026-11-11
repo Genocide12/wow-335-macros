@@ -28,29 +28,36 @@ and a combat & survival guide.**
 
 ## What is this
 
-A set of **3 smart macros** for a Fury warrior on WotLK 3.3.5a. Each macro
-decides which ability to fire: rotation priorities are baked into the `/cast`
-order, stances swap via conditions, and abilities only fire where they are
-actually available (Victory Rush inside its 20-sec window, Bloodrage off
-cooldown).
+A set of **3 combat macros + a “Buff” button** for a Fury warrior on WotLK
+3.3.5a. Each combat macro decides which ability to fire: rotation priorities
+are baked into the `/cast` order, stances swap via conditions, and abilities
+only fire where they are actually available (Victory Rush inside its 20-sec
+window, Bloodrage off cooldown).
 
-A note on buffs: in combat 3.3.5a **forbids** casting from Lua code (`/run` +
-`CastSpellByName` — the game says “this action is only available to the
-Blizzard UI”), and macros have no native `[buff:]` conditions. That is why
-Battle Shout is refreshed with **Alt+Q** instead of automatically — the only
-legal way in 3.3.5a. Every check the game does allow is in the macros:
-stances, combat state, availability windows, cooldowns.
+**Long buffs — only when checked.** The **F** button (“Buff”) checks **Battle
+Shout** (buff on you) and **Demoralizing Shout** (debuff on the target) before
+the pull and applies only what is missing — no GCD or rage wasted.
+
+Why it works this way: in combat 3.3.5a **forbids** casting from Lua code
+(`/run` + `CastSpellByName` — the game says “this action is only available to
+the Blizzard UI”), and macros have no native `[buff:]` conditions. Out of
+combat the check is legal — so the auto-check lives on F. In combat:
+Battle Shout — **Alt+Q**, Demoralizing Shout — **Ctrl+F**. Every check the
+game does allow is in the combat macros too: stances, combat state,
+availability windows, cooldowns.
 
 Every macro fits the game's **255-character limit** — the extra features live
 on modifiers of the same buttons.
 
 ```
 Q → rotation (single target) + Charge      E → AoE (2+ mobs) + Intercept
-R → interrupt (mouseover) + panic (Alt) + burst (Ctrl)
+R → interrupt (mouseover)                  F → checked buffs (before the pull)
 ```
 
-| Modifier | What it does |
+| Button / modifier | What it does |
 |---|---|
+| **F** | checks Battle Shout and Demoralizing Shout — applies only what is missing (out of combat) |
+| **Ctrl+F** | Demoralizing Shout by hand (in combat) |
 | **Shift+Q** | Heroic Strike — rage dump |
 | **Alt+Q** | Battle Shout — refresh the buff |
 | **Ctrl+Q** | Recklessness — burst: 3 guaranteed crits |
@@ -66,6 +73,7 @@ R → interrupt (mouseover) + panic (Alt) + burst (Ctrl)
 | **Q · Rotation** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush first (20-sec window) → Bloodthirst → Whirlwind → Execute; Bloodrage by itself off cooldown; Shift — Heroic Strike, Alt — Battle Shout, Ctrl — Recklessness |
 | **E · AoE** | auto target swap; Intercept in combat; Whirlwind + Cleave on every swing + Bloodthirst; Alt — Intimidating Shout; Ctrl — Death Wish + trinket |
 | **R · Interrupt** | Pummel into the mob **under the cursor** — no target switch; swaps to Berserker Stance itself; Alt — panic cascade: Every Man for Himself → Defensive Stance → Disarm → Taunt; Ctrl — Berserker Rage |
+| **F · Buff** | checks Battle Shout (on you) and Demoralizing Shout (on the target) and applies **only what is missing**; disables itself in combat (a game rule) |
 
 3.3.5 mechanics: one press fires the **first available** ability of the list,
 so the line order is the priority order. Spam Q and the rotation plays itself.
@@ -129,7 +137,7 @@ docs/               site (GitHub Pages)
   guide.html        guide: combat, survival, what & where to learn
   assets/js/macros-data.js  macro texts (embedded, no fetch)
   assets/           tree backgrounds, talent data, logo (icons come from the Wowhead CDN)
-macros/warrior-smart/{ru,en}/   3 macros + 2 export ones, RU and EN clients
+macros/warrior-smart/{ru,en}/   3 combat + buff + 2 export, RU and EN clients
 install/macros-cache-{ru,en}.txt  one-file install (attached to releases)
 ```
 

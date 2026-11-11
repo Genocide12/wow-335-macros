@@ -46,7 +46,7 @@
     fight: [
       { icon: 'ability_warrior_charge', name: 'Открывай Рывком',
         spells: ['ability_warrior_charge', 'ability_warrior_battleshout', 'ability_racial_bloodrage'],
-        text: 'Каждый бой начинай с <b>Рывка</b> — макрос Q вне боя сам встанет в боевую стойку и рванёт к цели, а пока летишь, ярость уже копится. <b>Боевой крик</b> обновляй по <b>Alt+Q</b>, когда иконка баффа начала мигать: в бою игра запрещает макросам кастовать из Lua-кода, поэтому крик живёт на кнопке, а не в автоматике.' },
+        text: 'Каждый бой начинай с <b>Рывка</b> — макрос Q вне боя сам встанет в боевую стойку и рванёт к цели, а пока летишь, ярость уже копится. Перед пулом нажми <b>F</b> («Баф») — макрос проверит Боевой крик и Деморализующий крик и повесит только недостающее. В бою игра запрещает макросам кастовать из Lua-кода: Боевой крик обновляй по <b>Alt+Q</b>, когда иконка начала мигать.' },
       { icon: 'inv_axe_66', name: 'Ротация — спамь Q',
         spells: ['ability_warrior_devastate', 'spell_nature_bloodlust', 'ability_whirlwind'],
         text: 'Приоритеты зашиты в порядок строк макроса: <b>Победный раж</b> (бесплатный, доступен лишь 20 сек после убийства — жми сразу, окно сгорает) → <b>Кровожадность</b> (ядро ротации, КД 4 сек) → <b>Вихрь</b> → <b>Казнь</b>. За одно нажатие срабатывает первый доступный удар.' },
@@ -85,7 +85,8 @@
       { icon: 'ability_rogue_ambush', name: 'Удар героя (Shift+Q)', why: 'сброс лишней ярости, не в общем КД' },
     ],
     auto: [
-      { icon: 'ability_warrior_battleshout', name: 'Боевой крик', why: 'Alt+Q — когда бафф начал мигать' },
+      { icon: 'ability_warrior_battleshout', name: 'Баф (F)', why: 'проверяет Боевой крик и Деморализующий крик — вешает только недостающее' },
+      { icon: 'ability_warrior_battleshout', name: 'Боевой крик в бою', why: 'Alt+Q — когда бафф начал мигать' },
       { icon: 'ability_racial_avatar', name: 'Стойки сами', why: 'боевая для Рывка, берсерка для ротации' },
       { icon: 'ability_racial_bloodrage', name: 'Кровавая ярость', why: 'сама выходит с кулдауна из кнопки Q' },
     ],
@@ -112,7 +113,7 @@
     fight: [
       { icon: 'ability_warrior_charge', name: 'Open with Charge',
         spells: ['ability_warrior_charge', 'ability_warrior_battleshout', 'ability_racial_bloodrage'],
-        text: 'Start every fight with <b>Charge</b> — out of combat macro Q swaps you to Battle Stance and charges in, and rage builds while you fly. Refresh <b>Battle Shout</b> with <b>Alt+Q</b> when its icon starts blinking: in combat the game forbids macros from casting via Lua code, so the shout lives on a button instead of automation.' },
+        text: 'Start every fight with <b>Charge</b> — out of combat macro Q swaps you to Battle Stance and charges in, and rage builds while you fly. Before the pull press <b>F</b> (“Buff”) — it checks Battle Shout and Demoralizing Shout and applies only what is missing. In combat the game forbids macros from casting via Lua code: refresh Battle Shout with <b>Alt+Q</b> when its icon starts blinking.' },
       { icon: 'inv_axe_66', name: 'Rotation — spam Q',
         spells: ['ability_warrior_devastate', 'spell_nature_bloodlust', 'ability_whirlwind'],
         text: 'Priorities are baked into the order of macro Q lines: <b>Victory Rush</b> (free, available for only 20 sec after a kill — fire it before the window closes) → <b>Bloodthirst</b> (the core, 4s CD) → <b>Whirlwind</b> → <b>Execute</b>. One press fires the first available strike.' },
@@ -151,7 +152,8 @@
       { icon: 'ability_rogue_ambush', name: 'Heroic Strike (Shift+Q)', why: 'rage dump, off GCD' },
     ],
     auto: [
-      { icon: 'ability_warrior_battleshout', name: 'Battle Shout', why: 'Alt+Q — when the buff starts blinking' },
+      { icon: 'ability_warrior_battleshout', name: 'Buff (F)', why: 'checks Battle Shout and Demoralizing Shout — applies only what is missing' },
+      { icon: 'ability_warrior_battleshout', name: 'Battle Shout in combat', why: 'Alt+Q — when the buff starts blinking' },
       { icon: 'ability_racial_avatar', name: 'Stances', why: 'Battle for Charge, Berserker for the rotation' },
       { icon: 'ability_racial_bloodrage', name: 'Bloodrage', why: 'fires itself off cooldown from the Q button' },
     ],
