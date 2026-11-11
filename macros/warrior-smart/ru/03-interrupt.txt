@@ -1,8 +1,7 @@
-#showtooltip Зуботычина
-/cast [nostance:3]Стойка берсерка
-/cast [@mouseover,harm,nodead][]Зуботычина
+/cast [nomod,@mouseover,harm,nodead][nomod]Зуботычина
+/cast [nomod,nostance:3]Стойка берсерка
 /cast [mod:alt]Каждый за себя
 /cast [mod:alt]Оборонительная стойка
-/cast [mod:ctrl]Инстинкт смерти
-/cast [mod:ctrl]Безрассудство
-/use [mod:ctrl]13
+/cast [mod:alt]Разоружение
+/cast [mod:alt]Провокация
+/cast [mod:ctrl]Ярость берсерка

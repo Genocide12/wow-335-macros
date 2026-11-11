@@ -1,7 +1,9 @@
 /startattack
 /cast [stance:1,nocombat]Рывок;[nocombat]Боевая стойка;Стойка берсерка
-/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end
 /cast Победный раж
+/cast Кровавая ярость
+/cast [mod:alt]Боевой крик
+/cast [mod:ctrl]Безрассудство
 /cast Кровожадность
 /cast Вихрь
 /cast [mod:shift]Удар героя;Казнь

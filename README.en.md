@@ -30,10 +30,16 @@ and a combat & survival guide.**
 
 A set of **3 smart macros** for a Fury warrior on WotLK 3.3.5a. Each macro
 decides which ability to fire: rotation priorities are baked into the `/cast`
-order, stances swap via conditions, and Battle Shout / Demoralizing Shout are
-cast **only when the buff/debuff has fallen off** — the check is done by a
-`/run` script (`UnitBuff`/`UnitDebuff`), because 3.3.5 macros have no buff
-conditions.
+order, stances swap via conditions, and abilities only fire where they are
+actually available (Victory Rush inside its 20-sec window, Bloodrage off
+cooldown).
+
+A note on buffs: in combat 3.3.5a **forbids** casting from Lua code (`/run` +
+`CastSpellByName` — the game says “this action is only available to the
+Blizzard UI”), and macros have no native `[buff:]` conditions. That is why
+Battle Shout is refreshed with **Alt+Q** instead of automatically — the only
+legal way in 3.3.5a. Every check the game does allow is in the macros:
+stances, combat state, availability windows, cooldowns.
 
 Every macro fits the game's **255-character limit** — the extra features live
 on modifiers of the same buttons.
@@ -46,17 +52,20 @@ R → interrupt (mouseover) + panic (Alt) + burst (Ctrl)
 | Modifier | What it does |
 |---|---|
 | **Shift+Q** | Heroic Strike — rage dump |
+| **Alt+Q** | Battle Shout — refresh the buff |
+| **Ctrl+Q** | Recklessness — burst: 3 guaranteed crits |
+| **Ctrl+E** | Death Wish + trinket — burst (+20% damage) |
 | **Alt+E** | Intimidating Shout — scatter the pack |
-| **Alt+R** | Every Man for Himself (human racial) + Defensive Stance |
-| **Ctrl+R** | Death Wish + Recklessness + trinket — full burst |
+| **Alt+R** | Every Man for Himself → Defensive Stance → Disarm → Taunt (several presses) |
+| **Ctrl+R** | Berserker Rage — break fear |
 
 ## How the smart macros work
 
 | Macro | What it does on its own |
 |---|---|
-| **Q · Rotation** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush first (20-sec window) → Bloodthirst → Whirlwind → Execute; Battle Shout only when it drops; Shift — Heroic Strike |
-| **E · AoE** | Whirlwind + Cleave on every swing + Bloodthirst; Demoralizing Shout via a debuff check; Intercept in combat; Bloodrage on cooldown; Alt — Intimidating Shout |
-| **R · Interrupt** | Pummel into the mob **under the cursor** — no target switch; swaps to Berserker Stance itself; Alt — Every Man for Himself + Defensive Stance; Ctrl — Death Wish + Recklessness + trinket |
+| **Q · Rotation** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush first (20-sec window) → Bloodthirst → Whirlwind → Execute; Bloodrage by itself off cooldown; Shift — Heroic Strike, Alt — Battle Shout, Ctrl — Recklessness |
+| **E · AoE** | auto target swap; Intercept in combat; Whirlwind + Cleave on every swing + Bloodthirst; Alt — Intimidating Shout; Ctrl — Death Wish + trinket |
+| **R · Interrupt** | Pummel into the mob **under the cursor** — no target switch; swaps to Berserker Stance itself; Alt — panic cascade: Every Man for Himself → Defensive Stance → Disarm → Taunt; Ctrl — Berserker Rage |
 
 3.3.5 mechanics: one press fires the **first available** ability of the list,
 so the line order is the priority order. Spam Q and the rotation plays itself.

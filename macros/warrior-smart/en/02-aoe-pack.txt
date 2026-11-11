@@ -1,9 +1,10 @@
 /startattack
 /targetenemy [noharm][dead]
-/run d="Demoralizing Shout"if not UnitDebuff("target",d)then CastSpellByName(d)end
+/cast [nomod,nostance:3]Berserker Stance
 /cast Intercept
+/cast [mod:ctrl]Death Wish
+/use [mod:ctrl]13
 /cast Whirlwind
-/cast !Cleave
+/cast Cleave
 /cast Bloodthirst
-/cast Bloodrage
 /cast [mod:alt]Intimidating Shout

@@ -1,7 +1,9 @@
 /startattack
-/cast [stance:1,nocombat]Charge;[nocombat]Battle Stance;Berserker Stance
-/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end
+/cast [stance:1,nocombat]Charge;Berserker Stance
 /cast Victory Rush
+/cast Bloodrage
+/cast [mod:alt]Battle Shout
+/cast [mod:ctrl]Recklessness
 /cast Bloodthirst
 /cast Whirlwind
 /cast [mod:shift]Heroic Strike;Execute

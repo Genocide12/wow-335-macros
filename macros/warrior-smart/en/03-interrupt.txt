@@ -1,8 +1,8 @@
-#showtooltip Pummel
-/cast [nostance:3]Berserker Stance
-/cast [@mouseover,harm,nodead][]Pummel
+#showtooltip
+/cast [nomod,@mouseover,harm,nodead][nomod]Pummel
+/cast [nomod,nostance:3]Berserker Stance
 /cast [mod:alt]Every Man for Himself
 /cast [mod:alt]Defensive Stance
-/cast [mod:ctrl]Death Wish
-/cast [mod:ctrl]Recklessness
-/use [mod:ctrl]13
+/cast [mod:alt]Disarm
+/cast [mod:alt]Taunt
+/cast [mod:ctrl]Berserker Rage

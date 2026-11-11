@@ -1,9 +1,10 @@
 /startattack
 /targetenemy [noharm][dead]
-/run d="Деморализующий крик"if not UnitDebuff("target",d)then CastSpellByName(d)end
+/cast [nomod,nostance:3]Стойка берсерка
 /cast Перехват
+/cast [mod:ctrl]Инстинкт смерти
+/use [mod:ctrl]13
 /cast Вихрь
-/cast !Рассекающий удар
+/cast Рассекающий удар
 /cast Кровожадность
-/cast Кровавая ярость
 /cast [mod:alt]Устрашающий крик
