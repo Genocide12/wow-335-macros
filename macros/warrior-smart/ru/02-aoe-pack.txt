@@ -3,7 +3,6 @@
 /cast [nomod,nostance:3]Стойка берсерка
 /cast Перехват
 /cast [mod:ctrl]Инстинкт смерти
-/use [mod:ctrl]13
 /cast Вихрь
 /cast Рассекающий удар
 /cast Кровожадность

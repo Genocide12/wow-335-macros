@@ -25,6 +25,10 @@
     border-radius: 9px; padding: 8px 10px; cursor: pointer; font-size: 12.5px; font-weight: 600; line-height: 1.35; }
   .preset button:hover { border-color: var(--gold); }
   .preset button small { display: block; color: var(--dim); font-weight: 400; }
+  .pg { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
+  .pg img { width: 20px; height: 20px; border-radius: 5px; }
+  .pg span { font-size: 12px; font-weight: 800; color: var(--gold2); text-transform: uppercase; letter-spacing: .5px; }
+  .pg-note { font-size: 10.8px; color: var(--dim); margin: -4px 0 1px; line-height: 1.35; }
   /* tree grid */
   .t-tree { position: relative; background: url('assets/icons/bg/164.jpg') center/cover; border-radius: var(--r);
     border: 1px solid var(--line); overflow: auto; }
@@ -76,11 +80,56 @@
   const I = window.W.icon; // icons come from the Wowhead CDN
   const TREE_NAMES = { arms: ['Оружие', 'Arms'], fury: ['Неистовство', 'Fury'], prot: ['Защита', 'Protection'] };
   const ICONS = { arms: 'ability_rogue_eviscerate', fury: 'ability_racial_avatar', prot: 'ability_warrior_defensivestance' };
-  // leveling build presets: talent id -> ranks (Fury DW leveling, from lvl 10)
+  /* Leveling presets 1-80, talent id -> ranks.
+     src: guide = консенсус топовых гайдов (Icy Veins / Wowhead / Warcraft Tavern),
+          raid = стандартный рейд-билд 3.3.5, mine = наша логика ДПС+выживание,
+          you = текущий билд игрока (из импорта героя). */
   const PRESETS = [
-    { ru: 'Старт прокачки (25 оч.)', en: 'Leveling start (25 pts)', pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 1581: 5, 1542: 2, 155: 1, 165: 1 } },
-    { ru: 'Средний этап (35 оч.)', en: 'Mid leveling (35 pts)', pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 1581: 5, 1542: 2, 155: 5, 165: 1, 1543: 2, 156: 5 } },
-    { ru: 'Мой билд 54 (45 оч.)', en: 'My lvl-54 build (45 pts)', pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 1581: 5, 1542: 2, 155: 5, 165: 1, 1543: 2, 156: 5, 167: 1, 1658: 5, 1868: 1, 1655: 2, 1865: 1 } },
+    // ---------- Fury: путь под наши макросы, Хватка титана на 60-м
+    { tree: 'fury', lvl: 24, src: 'guide', ru: 'Старт: крит и ярость', en: 'Start: crit & rage',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5 } },
+    { tree: 'fury', lvl: 39, src: 'guide', ru: 'Шквал атак', en: 'Flurry',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5 } },
+    { tree: 'fury', lvl: 40, src: 'guide', ru: 'Инстинкт смерти — бурст по КД', en: 'Death Wish — burst CD',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1 } },
+    { tree: 'fury', lvl: 42, src: 'guide', ru: 'Кровожадность — ядро ротации!', en: 'Bloodthirst — the core!',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1, 167: 1, 1657: 1 } },
+    { tree: 'fury', lvl: 49, src: 'guide', ru: 'Точность и бурст', en: 'Precision & burst',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1, 167: 1, 1657: 3, 1542: 2, 166: 3 } },
+    { tree: 'fury', lvl: 54, src: 'you', ru: 'Как у тебя сейчас', en: 'Your current build',
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 1542: 2, 155: 5, 1581: 5, 165: 1, 1543: 2, 156: 5, 167: 1, 1658: 5, 1655: 2, 1865: 1, 1868: 1 } },
+    { tree: 'fury', lvl: 59, src: 'guide', ru: 'Путь к Хватке титана', en: "Road to Titan's Grip",
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1, 167: 1, 1657: 3, 1542: 2, 166: 3, 1866: 3, 1541: 2, 155: 5 } },
+    { tree: 'fury', lvl: 60, src: 'guide', ru: 'Хватка титана — два двуручных!', en: "Titan's Grip — two 2H!",
+      pts: { 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1, 167: 1, 1657: 3, 1542: 2, 166: 3, 1866: 3, 1541: 2, 155: 5, 1867: 1 } },
+    { tree: 'fury', lvl: 80, src: 'raid', ru: 'Финал по гайдам: 18/53/0', en: 'Guides final: 18/53/0',
+      pts: { 124: 3, 127: 2, 641: 3, 126: 2, 136: 3, 662: 2, 121: 3, 157: 5, 2250: 3, 159: 5, 154: 5, 1581: 5, 1657: 3, 165: 1, 156: 5, 167: 1, 1866: 3, 1659: 1, 1658: 5, 1655: 2, 2234: 5, 1867: 1, 1542: 2, 1541: 1 } },
+    { tree: 'fury', lvl: 80, src: 'mine', ru: 'Мой: соло-фарм, ДПС + выживание', en: 'Mine: solo farm, DPS + survival',
+      pts: { 124: 3, 157: 5, 2250: 3, 158: 2, 159: 5, 154: 5, 1581: 5, 156: 5, 165: 1, 167: 1, 1657: 3, 1542: 2, 166: 3, 1866: 3, 1541: 2, 155: 5, 1659: 1, 1658: 5, 1655: 2, 2234: 5, 1864: 3, 161: 2 } },
+    // ---------- Arms: по гайдам — самый быстрый старт с одним двуручным
+    { tree: 'arms', lvl: 24, src: 'guide', ru: 'Старт: дешёвый Удар героя', en: 'Start: cheap Heroic Strike',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3 } },
+    { tree: 'arms', lvl: 39, src: 'guide', ru: 'Специализация на топорах + Размашистые удары', en: 'Poleaxe Spec + Sweeping Strikes',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3, 130: 5, 132: 5, 133: 1, 128: 3, 1859: 1 } },
+    { tree: 'arms', lvl: 40, src: 'guide', ru: 'Смертельный удар!', en: 'Mortal Strike!',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3, 130: 5, 132: 5, 133: 1, 128: 3, 1859: 1, 135: 1 } },
+    { tree: 'arms', lvl: 59, src: 'guide', ru: 'Погром и Внезапная смерть', en: 'Wrecking Crew & Sudden Death',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3, 130: 5, 132: 5, 133: 1, 128: 3, 1859: 2, 135: 1, 136: 3, 134: 2, 1824: 2, 2233: 2, 1663: 2, 1862: 2, 1662: 3, 2283: 1, 137: 1 } },
+    { tree: 'arms', lvl: 60, src: 'guide', ru: 'Вихрь клинков!', en: 'Bladestorm!',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3, 130: 5, 132: 5, 133: 1, 128: 3, 1859: 2, 135: 1, 136: 3, 134: 2, 1824: 2, 2233: 2, 1663: 2, 1862: 2, 1662: 3, 2283: 1, 137: 1, 1863: 1 } },
+    { tree: 'arms', lvl: 80, src: 'raid', ru: 'Финал по гайдам: 54/17/0', en: 'Guides final: 54/17/0',
+      pts: { 124: 3, 127: 2, 126: 2, 641: 3, 662: 2, 121: 3, 130: 5, 132: 5, 133: 1, 128: 3, 1859: 2, 135: 1, 136: 3, 134: 2, 1824: 2, 2233: 2, 1663: 2, 1862: 2, 1662: 3, 2283: 1, 137: 1, 1863: 1, 1661: 1, 1860: 2, 157: 5, 2250: 3, 158: 2, 159: 5, 166: 2 } },
+    // ---------- Protection: по гайду Wowhead — качайся танком в данжах
+    { tree: 'prot', lvl: 24, src: 'guide', ru: 'Старт: блоки и Реванш', en: 'Start: blocks & Revenge',
+      pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 1 } },
+    { tree: 'prot', lvl: 39, src: 'guide', ru: 'Ни шагу назад', en: 'Last Stand',
+      pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 2, 153: 1, 144: 3, 149: 2, 142: 2, 140: 5, 146: 1 } },
+    { tree: 'prot', lvl: 59, src: 'guide', ru: 'Урон и угроза', en: 'Damage & threat',
+      pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 2, 153: 1, 144: 3, 149: 2, 142: 2, 140: 5, 146: 3, 702: 5, 152: 1, 2247: 2, 150: 2, 151: 2, 1660: 3, 1653: 2, 148: 1 } },
+    { tree: 'prot', lvl: 60, src: 'guide', ru: 'Ударная волна!', en: 'Shockwave!',
+      pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 2, 153: 1, 144: 3, 149: 2, 142: 2, 140: 5, 146: 3, 702: 5, 152: 1, 2247: 2, 150: 2, 151: 2, 1660: 3, 1653: 2, 148: 1, 1872: 1 } },
+    { tree: 'prot', lvl: 80, src: 'raid', ru: 'Финал: танк данжей и рейдов', en: 'Final: dungeon & raid tank',
+      pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 2, 153: 1, 144: 3, 149: 2, 142: 2, 140: 5, 146: 3, 702: 5, 152: 1, 2247: 2, 150: 2, 151: 2, 1660: 3, 1653: 2, 148: 1, 1872: 1, 1666: 1, 1871: 3, 1893: 3, 2236: 1, 2246: 2, 1652: 2, 157: 5, 2250: 3 } },
   ];
   const state = { tree: 'fury', pts: {}, tipTalent: null };
   const TREES = TALENTS.trees;
@@ -156,23 +205,42 @@
     // side panel
     const b = document.getElementById('bpanel');
     const pts = totalPoints();
-    const L = { ru: ['очков', 'Сброс', 'Код билда (вставь в /run-макрос экспорта не нужно — это просто ссылка)', 'Пресеты прокачки', 'Клик — вложить очко · Shift+клик — убрать · Наведи — описание'],
-                en: ['points', 'Reset', 'Build code', 'Leveling presets', 'Click — add a point · Shift+click — remove · Hover — description'] }[lang];
+    const L = {
+      ru: { pts: 'очков', reset: 'Сброс', presets: 'Пресеты прокачки до 80-го',
+            hint: 'Клик — вложить очко · Shift+клик — убрать · Наведи — описание', lvl: 'ур.',
+            src: { guide: 'по гайдам', raid: 'рейд-стандарт', mine: 'мой билд', you: 'как у тебя' },
+            gnote: { fury: 'наш путь: под макросы Q/E/R, на 60-м — Хватка титана и два двуручных',
+                     arms: 'по гайдам: самый быстрый старт соло; для меча замени 132 (топоры) на 123 (мечи)',
+                     prot: 'по гайду Wowhead: качайся танком — мгновенные группы в данжи' } },
+      en: { pts: 'points', reset: 'Reset', presets: 'Leveling presets to 80',
+            hint: 'Click — add a point · Shift+click — remove · Hover — description', lvl: 'lvl',
+            src: { guide: 'per guides', raid: 'raid standard', mine: 'my build', you: 'your current' },
+            gnote: { fury: "our path: fits the Q/E/R macros, Titan's Grip and two 2H at 60",
+                     arms: 'per guides: fastest solo start; for swords swap 132 (axes) for 123 (swords)',
+                     prot: 'per the Wowhead guide: level as a tank — instant dungeon groups' } }
+    }[lang];
+    const sum = p => Object.values(p.pts).reduce((a, b) => a + b, 0);
+    const groups = ['fury', 'arms', 'prot'].map(key => ({ key, items: PRESETS.map((p, i) => ({ p, i })).filter(x => x.p.tree === key) }));
     b.innerHTML = `
       <div>
         <div class="b-num">${pts}</div>
-        <div class="b-sub">${L[0]}</div>
+        <div class="b-sub">${L.pts}</div>
       </div>
       <div class="b-link"><textarea readonly id="bcode">${buildCode()}</textarea></div>
       <div class="preset">
-        <b style="font-size:13px;color:var(--gold2)">${L[3]}</b>
-        ${PRESETS.map((p, i) => `<button data-p="${i}">${lang === 'ru' ? p.ru : p.en}<small>${Object.values(p.pts).reduce((a, b) => a + b, 0)} ${L[0]}</small></button>`).join('')}
+        <b style="font-size:13px;color:var(--gold2)">${L.presets}</b>
+        ${groups.map(g => `
+          <div class="pg"><img src="${I(ICONS[g.key])}" alt=""><span>${TREE_NAMES[g.key][lang === 'ru' ? 0 : 1]}</span></div>
+          <div class="pg-note">${L.gnote[g.key]}</div>
+          ${g.items.map(({ p, i }) => `<button data-p="${i}">${lang === 'ru' ? p.ru : p.en}
+            <small>${L.lvl} ${p.lvl} · ${sum(p)} ${L.pts} · ${L.src[p.src]}</small></button>`).join('')}`).join('')}
       </div>
-      <button class="btn ghost" id="reset">${L[1]}</button>
-      <div class="small muted">${L[4]}</div>`;
+      <button class="btn ghost" id="reset">${L.reset}</button>
+      <div class="small muted">${L.hint}</div>`;
     document.getElementById('reset').onclick = () => { state.pts = {}; draw(); };
     b.querySelectorAll('[data-p]').forEach(btn => btn.onclick = () => {
-      state.pts = { ...PRESETS[btn.dataset.p].pts }; draw();
+      const p = PRESETS[btn.dataset.p];
+      state.pts = { ...p.pts }; state.tree = p.tree; draw();
     });
     if (state.tipTalent) showTip(byId[state.tipTalent]);
   }

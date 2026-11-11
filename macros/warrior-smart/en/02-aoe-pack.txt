@@ -3,7 +3,6 @@
 /cast [nomod,nostance:3]Berserker Stance
 /cast Intercept
 /cast [mod:ctrl]Death Wish
-/use [mod:ctrl]13
 /cast Whirlwind
 /cast Cleave
 /cast Bloodthirst

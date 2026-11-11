@@ -61,7 +61,7 @@ R → interrupt (mouseover)                  F → checked buffs (before the pul
 | **Shift+Q** | Heroic Strike — rage dump |
 | **Alt+Q** | Battle Shout — refresh the buff |
 | **Ctrl+Q** | Recklessness — burst: 3 guaranteed crits |
-| **Ctrl+E** | Death Wish + trinket — burst (+20% damage) |
+| **Ctrl+E** | Death Wish — burst (+20% damage for 30 sec); space for a future trinket is reserved in the macro (`/use [mod:ctrl]13`) |
 | **Alt+E** | Intimidating Shout — scatter the pack |
 | **Alt+R** | Every Man for Himself → Defensive Stance → Disarm → Taunt (several presses) |
 | **Ctrl+R** | Berserker Rage — break fear |
@@ -71,7 +71,7 @@ R → interrupt (mouseover)                  F → checked buffs (before the pul
 | Macro | What it does on its own |
 |---|---|
 | **Q · Rotation** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush first (20-sec window) → Bloodthirst → Whirlwind → Execute; Bloodrage by itself off cooldown; Shift — Heroic Strike, Alt — Battle Shout, Ctrl — Recklessness |
-| **E · AoE** | auto target swap; Intercept in combat; Whirlwind + Cleave on every swing + Bloodthirst; Alt — Intimidating Shout; Ctrl — Death Wish + trinket |
+| **E · AoE** | auto target swap; Intercept in combat; Whirlwind + Cleave on every swing + Bloodthirst; Alt — Intimidating Shout; Ctrl — Death Wish (40 characters reserved for a trinket) |
 | **R · Interrupt** | Pummel into the mob **under the cursor** — no target switch; swaps to Berserker Stance itself; Alt — panic cascade: Every Man for Himself → Defensive Stance → Disarm → Taunt; Ctrl — Berserker Rage |
 | **F · Buff** | checks Battle Shout (on you) and Demoralizing Shout (on the target) and applies **only what is missing**; disables itself in combat (a game rule) |
 
@@ -111,13 +111,18 @@ Five screens, each fits **without scrolling** on desktop and mobile:
   features right in the card.
 * **Talents** — every warrior talent in three trees, like in game: icons, ranks,
   dependency arrows, requirement checks. Click — add a point, Shift+click — remove.
-  Leveling presets and my level-54 build.
+  **Leveling presets to 80 for all three trees**: Fury (the road to Titan's Grip
+  at 60), Arms and Protection — per the top guides (Wowhead / Icy Veins /
+  Warcraft Tavern) plus my own DPS and survival builds, and "your current".
 * **Hero** — **addon-free** character import: two short `/run` macros print a
   `WEXP|…` line into chat (paste the line into a macro and press the macro
   button — do not send it to chat); paste the lines on the site and you get a
   paperdoll with real item icons and live Wowhead tooltips.
 * **Guide** — how to fight and survive: rotation, rage management, positioning,
   survival and what to learn where to squeeze the maximum out of your character.
+  A dedicated **Titan's Grip (60+)** section: two two-handed swords or axes,
+  the −10% physical damage penalty and why it is still top, stats, and what
+  changes in the rotation (spoiler: the macros stay the same).
 
 ## Releases
 
