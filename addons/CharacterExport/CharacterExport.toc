@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: Character Export |cff9d9d9d(/cexp)|r
+## Notes: Collects your character data (talents, glyphs, gear, stats) as JSON for the wow-335-macros site. Type /cexp in chat.
+## Author: Genocide12
+## Version: 1.0.0
+## SavedVariables: CharacterExportDB
+
+CharacterExport.lua

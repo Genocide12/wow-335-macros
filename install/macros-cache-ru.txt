@@ -1,0 +1,62 @@
+﻿MACRO 16777216 "Ротация" INV_Axe_67
+#showtooltip
+/startattack
+/targetenemy [noharm][dead]
+/cast [nostance:3] Стойка берсерка
+/cast Кровожадность
+/cast Вихрь
+/cast Казнь
+/cast Победный раж
+/cast [mod:shift] !Удар героя
+/cast [mod:ctrl] Боевой крик
+/cast [mod:alt] Кровавая ярость
+END
+MACRO 16777217 "AoE" INV_Axe_67
+#showtooltip Вихрь
+/startattack
+/targetenemy [noharm][dead]
+/cast [nostance:3] Стойка берсерка
+/cast Вихрь
+/cast !Рассекающий удар
+/cast [mod:shift] Деморализующий крик
+/cast [mod:ctrl] Боевой крик
+END
+MACRO 16777218 "Сброс каста" INV_Gauntlets_05
+#showtooltip Зуботычина
+/cast [nostance:3] Стойка берсерка
+/cast [@mouseover,harm,nodead][] Зуботычина
+END
+MACRO 16777219 "Стан / догнать" INV_ThrowingAxe_07
+#showtooltip Перехват
+/cast [nostance:3] Стойка берсерка
+/cast [@mouseover,harm,nodead][] Перехват
+END
+MACRO 16777220 "Рывок" Ability_Warrior_Charge
+#showtooltip Рывок
+/startattack
+/cast [nostance:1] Боевая стойка
+/cast Рывок
+END
+MACRO 16777221 "Ярость" Ability_Rally
+#showtooltip
+/cast Кровавая ярость
+/cast Ярость берсерка
+END
+MACRO 16777222 "Кулдауны" Ability_Warrior_OffensiveStance
+#showtooltip Жажда смерти
+/cast [nostance:3] Стойка берсерка
+/cast Жажда смерти
+/cast Безрассудство
+/use 13
+END
+MACRO 16777223 "Возмездие" Ability_Whirlwind
+#showtooltip Возмездие
+/cast [stance:1] Возмездие
+/cast [nostance:1] Боевая стойка
+END
+MACRO 16777224 "Оборона" Ability_Warrior_DefensiveStance
+#showtooltip Удар грома
+/cast [nostance:2] Оборонительная стойка
+/cast Деморализующий крик
+/cast Удар грома
+END

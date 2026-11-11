@@ -1,0 +1,4 @@
+#showtooltip Charge
+/startattack
+/cast [nostance:1] Battle Stance
+/cast Charge

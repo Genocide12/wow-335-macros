@@ -1,0 +1,5 @@
+#showtooltip Death Wish
+/cast [nostance:3] Berserker Stance
+/cast Death Wish
+/cast Recklessness
+/use 13

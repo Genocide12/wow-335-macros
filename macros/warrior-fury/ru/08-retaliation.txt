@@ -1,0 +1,3 @@
+﻿#showtooltip Возмездие
+/cast [stance:1] Возмездие
+/cast [nostance:1] Боевая стойка

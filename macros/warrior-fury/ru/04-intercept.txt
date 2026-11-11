@@ -1,0 +1,3 @@
+﻿#showtooltip Перехват
+/cast [nostance:3] Стойка берсерка
+/cast [@mouseover,harm,nodead][] Перехват

@@ -1,0 +1,3 @@
+#showtooltip Retaliation
+/cast [stance:1] Retaliation
+/cast [nostance:1] Battle Stance
