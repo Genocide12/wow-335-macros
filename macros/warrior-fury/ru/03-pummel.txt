@@ -1,3 +1,0 @@
-﻿#showtooltip Зуботычина
-/cast [nostance:3] Стойка берсерка
-/cast [@mouseover,harm,nodead][] Зуботычина

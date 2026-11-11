@@ -1,4 +1,0 @@
-#showtooltip Thunder Clap
-/cast [nostance:2] Defensive Stance
-/cast Demoralizing Shout
-/cast Thunder Clap

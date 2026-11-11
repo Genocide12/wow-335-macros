@@ -1,0 +1,8 @@
+#showtooltip Вихрь
+/startattack
+/targetenemy [noharm][dead]
+/cast [nostance:3] Стойка берсерка
+/cast [combat] Боевой крик
+/cast Вихрь
+/cast !Рассекающий удар
+/cast [mod:shift] Деморализующий крик

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Гайд 1–80 — WoW 3.3.5 Fury</title>
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .g-layout { grid-template-columns: 1.1fr 1fr; grid-template-rows: 1fr; }
+  .g-scroll { overflow-y: auto; padding-right: 4px; }
+  .phase { border-left: 3px solid var(--gold); padding: 2px 0 2px 14px; margin-bottom: 14px; }
+  .phase b.ph { color: var(--gold2); font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .phase b.ph img { width: 30px; height: 30px; border-radius: 7px; }
+  .phase .row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 7px; }
+  .phase .row img { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); }
+  .phase p { font-size: 13px; color: var(--txt); line-height: 1.5; margin-top: 6px; }
+  .phase p b { color: var(--gold2); }
+  .lvl-badge { background: var(--panel2); border: 1px solid var(--line); border-radius: 999px;
+    font-size: 11px; padding: 2px 8px; color: var(--dim); font-weight: 700; }
+  .rot { display: flex; flex-direction: column; gap: 8px; }
+  .rot-step { display: flex; gap: 10px; align-items: center; background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+  .rot-step img { width: 36px; height: 36px; border-radius: 8px; flex: 0 0 auto; }
+  .rot-step .t b { font-size: 13.5px; display: block; }
+  .rot-step .t span { font-size: 12px; color: var(--dim); }
+  .rot-step .why { margin-left: auto; }
+  h3.sec { font-size: 14px; color: var(--gold2); margin: 4px 0 8px; }
+  .tal-link { display: inline-flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+<div id="app">
+<main>
+  <div class="grid g-layout">
+    <section class="card g-scroll" id="left"></section>
+    <section class="card g-scroll" id="right"></section>
+  </div>
+</main>
+</div>
+<script src="assets/js/app.js"></script>
+<script>
+(() => {
+  const lang = window.W.lang;
+  const I = n => `assets/icons/large/${n}.jpg`;
+  const R = {
+    title: 'Гайд по прокачке: 1 → 80',
+    subtitle: 'Воин · Неистовство · двуручное → два оружия. Сервер lasthavens.com, WotLK 3.3.5a.',
+    phases: [
+      { lvl: '1–9', icon: 'ability_warrior_offensivestance', name: 'Старт: Боевая стойка',
+        spells: ['ability_rogue_ambush', 'ability_warrior_battleshout', 'ability_warrior_charge'],
+        text: 'Талантов ещё нет. Качайся по квестам: <b>Боевой крик</b> перед боем, <b>Рывок</b> для сближения, <b>Удар героя</b> как сброс ярости. На 6 — <b>Удар грома</b> против паков, на 6 — <b>Победный раж</b> после каждого убийства (лечит!).' },
+      { lvl: '10–19', icon: 'ability_racial_avatar', name: 'Первые таланты: Неистовство',
+        spells: ['ability_warrior_cleave', 'spell_nature_reincarnation', 'ability_racial_bloodrage'],
+        text: 'С 10-го уровня вкладывай очки в <b>Неистовство</b>: первым делом <b>Безжалостность</b> (5/5) — крит лечит через <b>Кровавую жатву</b>… вернее, даёт всплеск ярости. На 10 доступна <b>Оборонительная стойка</b> и <b>Провокация</b> — для данжей. <b>Кровавая ярость</b> (10) — мгновенный запас ярости, жми перед боем.' },
+      { lvl: '20–29', icon: 'ability_warrior_cleave', name: 'Рассекающий удар и Казнь',
+        spells: ['ability_warrior_cleave', 'inv_sword_48', 'ability_warrior_warcry'],
+        text: 'На 20 — <b>Рассекающий удар</b>: замена Удара героя против 2+ мобов. На 24 — <b>Казнь</b> (добивание под 20% HP). В 20+ бери таланты: <b>Специализация на бое двумя оружием</b> не нужна, пока бьёшь двуручным; если два одноручных — качай её. <b>Устрашающий крик</b> (22) — аварийная кнопка.' },
+      { lvl: '30–39', icon: 'ability_racial_avatar', name: 'Стойка берсерка',
+        spells: ['ability_racial_avatar', 'ability_rogue_sprint', 'spell_nature_ancestralguardian', 'ability_warrior_decisivestrike'],
+        text: 'На 30 — <b>Стойка берсерка</b> (+3% крит), <b>Перехват</b> (стан в бою) и <b>Мощный удар</b>. На 32 — <b>Ярость берсерка</b>: иммунитет к страху + ярость. К этому моменту в Неистовстве должно быть ~20 очков: <b>Кровожадность</b> (31) открывается на 30-м ряду — центральная способность билда.' },
+      { lvl: '40–49', icon: 'ability_warrior_savageblow', name: 'Кровожадность и два оружия',
+        spells: ['ability_warrior_devastate', 'ability_whirlwind'],
+        text: '<b>Кровожадность</b> (получена на 30 ряду талантов) — главный удар: 4 сек КД, лечит на 1% за каждые применения. <b>Специализация на бое двумя оружием</b> 5/5 — теперь два одноручных меча (человеку +3 экспертизы с мечей) обгоняют двуручку. На 36 — <b>Вихрь</b>: бьёт обеими руками по всем вокруг. На 38 — <b>Зуботычина</b> (сбивание каста).' },
+      { lvl: '50–59', icon: 'ability_criticalstrike', name: 'Безрассудство и данжи',
+        spells: ['ability_criticalstrike', 'ability_warrior_shieldwall'],
+        text: 'На 50 — <b>Безрассудство</b>: +50% крит на следующие 6 ударов — жми на боссах вместе с Кровавой яростью (макрос G). Ветки: добей <b>Прилив крови</b> (мгновенные Вихри) и <b>Улучшенную стойку берсерка</b>. На 54 у меня на этом этапе было 233 DPS в Temple Atal\'Hakkar — ориентир для тебя.' },
+      { lvl: '60–80', icon: 'inv_axe_66', name: 'Нордскол: разгон',
+        spells: ['inv_sword_11', 'ability_warrior_rallyingcry', 'ability_warrior_shatteringthrow'],
+        text: 'На 60 — <b>Сокрушение</b> (заменит Раскол брони). На 68 — <b>Командирский крик</b> (+hp вместо ap — полезно в данжах). В Нордсколе возьми <b>Буйство</b> (31 очко, +5% крит… фактически раек) и <b>Бесконечное неистовство</b>. Ротация та же: Кровожадность → Вихрь → Казнь → Победный раж.' },
+    ],
+    buildTitle: 'Порядок талантов',
+    buildNote: 'Открый страницу Талантов — там этот билд можно покликать и посмотреть.',
+    rotTitle: 'Ротация (макрос Q решает всё)',
+    rot: [
+      { icon: 'ability_warrior_devastate', name: 'Кровожадность', why: 'КД 4 сек — первый приоритет, ещё и лечит' },
+      { icon: 'ability_whirlwind', name: 'Вихрь', why: 'КД 10 сек (8 с талантом), бьёт обеими руками' },
+      { icon: 'inv_sword_48', name: 'Казнь', why: 'под 20% HP цели — урона больше всего' },
+      { icon: 'ability_warrior_devastate', name: 'Победный раж', why: '20 сек после убийства, бесплатно, лечит' },
+      { icon: 'ability_rogue_ambush', name: 'Удар героя (Shift+Q)', why: 'сброс лишней ярости, не в GCD' },
+    ],
+  };
+  const E = {
+    title: 'Leveling Guide: 1 → 80',
+    subtitle: 'Warrior · Fury · two-hander → dual wield. lasthavens.com realm, WotLK 3.3.5a.',
+    phases: [
+      { lvl: '1–9', icon: 'ability_warrior_offensivestance', name: 'Start: Battle Stance',
+        spells: ['ability_rogue_ambush', 'ability_warrior_battleshout', 'ability_warrior_charge'],
+        text: 'No talents yet. Quest along: <b>Battle Shout</b> before pulls, <b>Charge</b> to close in, <b>Heroic Strike</b> as a rage dump. At 6 — <b>Thunder Clap</b> for packs and <b>Victory Rush</b> after every kill (heals!).' },
+      { lvl: '10–19', icon: 'ability_racial_avatar', name: 'First talents: Fury',
+        spells: ['ability_warrior_cleave', 'spell_nature_reincarnation', 'ability_racial_bloodrage'],
+        text: 'From level 10 put every point into <b>Fury</b>: <b>Cruelty</b> 5/5 first (crit = rage and damage). At 10 you also get <b>Defensive Stance</b> and <b>Taunt</b> for dungeons. <b>Bloodrage</b> (10) — instant rage, press before combat.' },
+      { lvl: '20–29', icon: 'ability_warrior_cleave', name: 'Cleave and Execute',
+        spells: ['ability_warrior_cleave', 'inv_sword_48', 'ability_warrior_warcry'],
+        text: 'At 20 — <b>Cleave</b>: replaces Heroic Strike vs 2+ mobs. At 24 — <b>Execute</b> (finisher under 20% HP). Take <b>Dual Wield Specialization</b> only if you already swing two one-handers. <b>Intimidating Shout</b> (22) — panic button.' },
+      { lvl: '30–39', icon: 'ability_racial_avatar', name: 'Berserker Stance',
+        spells: ['ability_racial_avatar', 'ability_rogue_sprint', 'spell_nature_ancestralguardian', 'ability_warrior_decisivestrike'],
+        text: 'At 30 — <b>Berserker Stance</b> (+3% crit), <b>Intercept</b> (in-combat stun) and <b>Mortal Strike</b>… actually Slam rank. At 32 — <b>Berserker Rage</b>: fear immunity + rage. By now ~20 points in Fury: <b>Bloodthirst</b> unlocks at the 7th tier — the core ability of the build.' },
+      { lvl: '40–49', icon: 'ability_warrior_savageblow', name: 'Bloodthirst and dual wield',
+        spells: ['ability_warrior_devastate', 'ability_whirlwind'],
+        text: '<b>Bloodthirst</b> — the main strike: 4s CD and heals you for 1% per hit. <b>Dual Wield Spec</b> 5/5 — two one-hand swords (human +3 expertise with swords) now beat a two-hander. At 36 — <b>Whirlwind</b>: hits with both weapons at everything around. At 38 — <b>Pummel</b> (interrupt).' },
+      { lvl: '50–59', icon: 'ability_criticalstrike', name: 'Recklessness and dungeons',
+        spells: ['ability_criticalstrike', 'ability_warrior_shieldwall'],
+        text: 'At 50 — <b>Recklessness</b>: +50% crit for the next 6 swings — pop it on bosses together with Bloodrage (macro G). Finish <b>Bloodsurge</b> (instant Slams) and <b>Improved Berserker Stance</b>. My benchmark at this stage: 233 DPS in Temple of Atal\'Hakkar at level 54.' },
+      { lvl: '60–80', icon: 'inv_axe_66', name: 'Northrend: full speed',
+        spells: ['inv_sword_11', 'ability_warrior_rallyingcry', 'ability_warrior_shatteringthrow'],
+        text: 'At 60 — <b>Devastate</b> (replaces Sunder Armor). At 68 — <b>Commanding Shout</b> (+hp instead of ap — great in dungeons). In Northrend grab <b>Rampage</b> (31-point) and <b>Endless Rage</b>. Rotation unchanged: Bloodthirst → Whirlwind → Execute → Victory Rush.' },
+    ],
+    buildTitle: 'Talent order',
+    buildNote: 'Open the Talents page — the same build is clickable there.',
+    rotTitle: 'Rotation (macro Q handles it all)',
+    rot: [
+      { icon: 'ability_warrior_devastate', name: 'Bloodthirst', why: '4s CD — top priority, heals you' },
+      { icon: 'ability_whirlwind', name: 'Whirlwind', why: '10s CD (8 with talent), both weapons' },
+      { icon: 'inv_sword_48', name: 'Execute', why: 'under 20% target HP — biggest damage' },
+      { icon: 'ability_warrior_devastate', name: 'Victory Rush', why: '20s after a kill, free, heals' },
+      { icon: 'ability_rogue_ambush', name: 'Heroic Strike (Shift+Q)', why: 'rage dump, off GCD' },
+    ],
+  };
+  const D = lang === 'ru' ? R : E;
+  document.title = D.title + ' — WoW 3.3.5 Fury';
+
+  document.getElementById('left').innerHTML = `
+    <h2>${D.title}</h2>
+    <p class="muted small" style="margin-bottom:12px">${D.subtitle}</p>
+    ${D.phases.map(p => `
+      <div class="phase">
+        <b class="ph"><img src="${I(p.icon)}" alt="">${p.name} <span class="lvl-badge">${p.lvl}</span></b>
+        <div class="row">${p.spells.map(s => `<img src="${I(s)}" alt="">`).join('')}</div>
+        <p>${p.text}</p>
+      </div>`).join('')}
+    <p class="small muted">${D.buildNote}</p>`;
+
+  document.getElementById('right').innerHTML = `
+    <h3 class="sec">${D.buildTitle}</h3>
+    <div class="rot">${D.rot.map(r => `
+      <div class="rot-step"><img src="${I(r.icon)}" alt="">
+        <div class="t"><b>${r.name}</b><span>${r.why}</span></div></div>`).join('')}
+    </div>
+    <h3 class="sec" style="margin-top:14px">${D.rotTitle}</h3>
+    <div class="rot">
+      <div class="rot-step"><img src="${I('ability_warrior_battleshout')}" alt=""><div class="t"><b>${lang === 'ru' ? 'Боевой крик' : 'Battle Shout'}</b><span>${lang === 'ru' ? 'макрос сам обновит, когда спадёт' : 'the macro refreshes it when it drops'}</span></div></div>
+      <div class="rot-step"><img src="${I('ability_racial_avatar')}" alt=""><div class="t"><b>${lang === 'ru' ? 'Стойка берсерка' : 'Berserker Stance'}</b><span>${lang === 'ru' ? 'макросы переключают сами' : 'macros swap it for you'}</span></div></div>
+    </div>`;
+})();
+</script>
+</body>
+</html>

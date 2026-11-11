@@ -1,0 +1,11 @@
+#showtooltip
+/startattack
+/targetenemy [noharm][dead]
+/cast [nostance:3] Стойка берсерка
+/cast [combat] Боевой крик
+/cast Bloodthirst
+/cast Whirlwind
+/cast Execute
+/cast Victory Rush
+/cast [mod:shift] !Heroic Strike
+/cast [mod:ctrl] Bloodrage

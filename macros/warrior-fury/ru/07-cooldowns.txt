@@ -1,5 +1,0 @@
-﻿#showtooltip Жажда смерти
-/cast [nostance:3] Стойка берсерка
-/cast Жажда смерти
-/cast Безрассудство
-/use 13

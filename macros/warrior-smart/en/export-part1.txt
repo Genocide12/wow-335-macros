@@ -1,0 +1,5 @@
+# Character export without an addon — Part 1/2 (character + talents).
+# Copy the line below (without #) into an in-game macro and press it.
+# A WEXP1|... line appears in chat — paste it into the Hero page field.
+
+/run n=UnitName"player"_,c=UnitClass"player"l=UnitLevel"player"b,p,m=UnitAttackPower"player"hp=UnitHealthMax"player"t={}for i=1,3 do _,_,q=GetTalentTabInfo(i)t[i]=q end print("WEXP1|"..n.."|"..c.."|"..l.."|"..b+p+m.."|"..hp.."|"..table.concat(t,"/"))

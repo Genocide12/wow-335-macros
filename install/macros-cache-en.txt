@@ -1,62 +1,45 @@
-MACRO 16777216 "Rotation" INV_Axe_67
+﻿MACRO 16777216 "Rotation" INV_Axe_67
 #showtooltip
 /startattack
 /targetenemy [noharm][dead]
-/cast [nostance:3] Berserker Stance
+/cast [nostance:3] Стойка берсерка
+/cast [combat] Боевой крик
 /cast Bloodthirst
 /cast Whirlwind
 /cast Execute
 /cast Victory Rush
 /cast [mod:shift] !Heroic Strike
-/cast [mod:ctrl] Battle Shout
-/cast [mod:alt] Bloodrage
+/cast [mod:ctrl] Bloodrage
 END
-MACRO 16777217 "AoE" INV_Axe_67
+MACRO 16777217 "AoE" Ability_Whirlwind
 #showtooltip Whirlwind
 /startattack
 /targetenemy [noharm][dead]
 /cast [nostance:3] Berserker Stance
+/cast [combat] Battle Shout
 /cast Whirlwind
 /cast !Cleave
 /cast [mod:shift] Demoralizing Shout
-/cast [mod:ctrl] Battle Shout
 END
-MACRO 16777218 "Interrupt" INV_Gauntlets_05
+MACRO 16777218 "Interrupt" INV_Gauntlets_04
 #showtooltip Pummel
+/stopattack
 /cast [nostance:3] Berserker Stance
 /cast [@mouseover,harm,nodead][] Pummel
-END
-MACRO 16777219 "Stun / chase" INV_ThrowingAxe_07
-#showtooltip Intercept
-/cast [nostance:3] Berserker Stance
-/cast [@mouseover,harm,nodead][] Intercept
-END
-MACRO 16777220 "Charge" Ability_Warrior_Charge
-#showtooltip Charge
 /startattack
-/cast [nostance:1] Battle Stance
-/cast Charge
 END
-MACRO 16777221 "Rage" Ability_Rally
+MACRO 16777219 "Charge" Ability_Rogue_Sprint
+#showtooltip
+/cast [nocombat,nostance:1] Battle Stance
+/cast [nocombat] Charge
+/cast [combat,nostance:3] Berserker Stance
+/cast [combat] Intercept
+/startattack
+END
+MACRO 16777220 "Rage" Ability_Racial_Bloodrage
 #showtooltip
 /cast Bloodrage
 /cast Berserker Rage
-END
-MACRO 16777222 "Cooldowns" Ability_Warrior_OffensiveStance
-#showtooltip Death Wish
-/cast [nostance:3] Berserker Stance
-/cast Death Wish
-/cast Recklessness
-/use 13
-END
-MACRO 16777223 "Retaliation" Ability_Whirlwind
-#showtooltip Retaliation
-/cast [stance:1] Retaliation
-/cast [nostance:1] Battle Stance
-END
-MACRO 16777224 "Defense" Ability_Warrior_DefensiveStance
-#showtooltip Thunder Clap
-/cast [nostance:2] Defensive Stance
-/cast Demoralizing Shout
-/cast Thunder Clap
+/cast [mod:shift] Recklessness
+/use [mod:shift] 13
 END

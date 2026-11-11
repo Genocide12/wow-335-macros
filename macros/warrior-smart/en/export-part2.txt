@@ -1,0 +1,5 @@
+# Character export without an addon — Part 2/2 (race + gear).
+# Copy the line below (without #) into an in-game macro and press it.
+# WEXP0|... and WEXP2|... lines appear in chat — paste ALL of them into the same field.
+
+/run _,_,r=UnitRace"player"print("WEXP0|"..r)for i=1,19 do l=GetInventoryItemLink("player",i)if l then print("WEXP2|"..i.."|"..l)end end

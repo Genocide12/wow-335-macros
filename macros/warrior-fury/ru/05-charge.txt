@@ -1,4 +1,0 @@
-﻿#showtooltip Рывок
-/startattack
-/cast [nostance:1] Боевая стойка
-/cast Рывок

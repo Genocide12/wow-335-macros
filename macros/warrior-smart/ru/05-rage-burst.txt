@@ -1,0 +1,5 @@
+#showtooltip
+/cast Кровавая ярость
+/cast Ярость берсерка
+/cast [mod:shift] Безрассудство
+/use [mod:shift] 13

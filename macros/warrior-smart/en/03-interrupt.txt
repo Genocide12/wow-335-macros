@@ -1,0 +1,5 @@
+#showtooltip Pummel
+/stopattack
+/cast [nostance:3] Berserker Stance
+/cast [@mouseover,harm,nodead][] Pummel
+/startattack

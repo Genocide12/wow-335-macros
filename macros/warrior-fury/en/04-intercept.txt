@@ -1,3 +1,0 @@
-#showtooltip Intercept
-/cast [nostance:3] Berserker Stance
-/cast [@mouseover,harm,nodead][] Intercept

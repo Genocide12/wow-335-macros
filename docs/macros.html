@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Макросы — WoW 3.3.5 Fury</title>
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .m-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .m-card { display: flex; flex-direction: column; gap: 8px; }
+  .m-head { display: flex; align-items: center; gap: 10px; }
+  .m-head img { width: 40px; height: 40px; border-radius: 9px; border: 1px solid var(--gold); }
+  .m-head .t b { display: block; font-size: 15px; color: #fff; }
+  .m-head .t span { font-size: 12px; color: var(--dim); }
+  .key { display: inline-flex; width: 26px; height: 26px; border-radius: 7px; background: #0a0c12;
+    border: 1px solid var(--gold); color: var(--gold2); align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; margin-left: auto; flex: 0 0 auto; }
+  .m-card pre { flex: 1; max-height: 190px; }
+  .m-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 700; color: var(--dim); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 9px; }
+  .m-grid.wide { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 860px) { .m-grid { grid-template-rows: auto; } .m-card pre { max-height: 220px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<main>
+  <div class="grid m-grid" id="cards"></div>
+</main>
+</div>
+<script src="assets/js/app.js"></script>
+<script>
+const RU = {
+  title: 'Макросы', install: 'Установка', installTip: 'Быстро: скачай <b>macros-cache-ru.txt</b> из репозитория и положи его в <code>WTF/Аккаунт/&lt;имя&gt;/macros-cache.txt</code> (старый файл сохрани). Перезайди в игру — макросы уже в общем списке /macro. Или просто скопируй текст кнопкой ✓ и вставь в новый макрос.',
+  langNote: 'Имена умений — как в русской игре. Для английского клиента переключи язык вверху.',
+};
+const EN = {
+  title: 'Macros', install: 'Install', installTip: 'Fast way: download <b>macros-cache-en.txt</b> from the repo and drop it into <code>WTF/Account/&lt;name&gt;/macros-cache.txt</code> (back up the old one). Re-log — macros are in the shared /macro list. Or just copy the text with the ✓ button and paste into a new macro.',
+  langNote: 'Ability names match the English client. Switch the language at the top for Russian.',
+};
+// macro definitions (name/tooltip resolve via lang)
+const MACROS = [
+  {
+    file: '01-attack-rotation', key: 'Q', icon: 'inv_axe_66',
+    ru: ['Ротация — одна кнопка', 'Кровожадность → Вихрь → Казнь → Победный раж'],
+    en: ['Rotation — one button', 'Bloodthirst → Whirlwind → Execute → Victory Rush'],
+    tags: { ru: ['одна цель', 'Shift: Удар героя', 'Ctrl: Кровавая ярость'], en: ['single target', 'Shift: Heroic Strike', 'Ctrl: Bloodrage'] },
+  },
+  {
+    file: '02-aoe-pack', key: 'E', icon: 'ability_whirlwind',
+    ru: ['AoE — пак из 2+ мобов', 'Вихрь + Рассекающий удар каждый свинг'],
+    en: ['AoE — packs of 2+', 'Whirlwind + Cleave on every swing'],
+    tags: { ru: ['AoE', 'Shift: Деморализующий крик'], en: ['AoE', 'Shift: Demoralizing Shout'] },
+  },
+  {
+    file: '03-interrupt', key: 'R', icon: 'inv_gauntlets_04',
+    ru: ['Сбить каст', 'Наведи курсор на кастующего — цель не меняется'],
+    en: ['Interrupt', 'Hover the caster — your target stays'],
+    tags: { ru: ['мышь', 'без смены цели'], en: ['mouseover', 'no target switch'] },
+  },
+  {
+    file: '04-charge-intercept', key: 'F', icon: 'ability_rogue_sprint',
+    ru: ['Рывок / Перехват', 'Вне боя — Рывок из боевой стойки, в бою — Перехват'],
+    en: ['Charge / Intercept', 'Out of combat — Charge, in combat — Intercept'],
+    tags: { ru: ['догнать', 'стан'], en: ['gap closer', 'stun'] },
+  },
+  {
+    file: '05-rage-burst', key: 'G', icon: 'ability_racial_bloodrage',
+    ru: ['Ярость + бурст', 'Кровавая ярость + Ярость берсерка; Shift — Безрассудство + тринкет'],
+    en: ['Rage + burst', 'Bloodrage + Berserker Rage; Shift — Recklessness + trinket'],
+    tags: { ru: ['без GCD', 'Shift: бурст'], en: ['off GCD', 'Shift: burst'] },
+  },
+];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const lang = window.W.lang;
+  const L = lang === 'ru' ? RU : EN;
+  document.title = L.title + ' — WoW 3.3.5 Fury';
+  const wrap = document.getElementById('cards');
+  const rows = [];
+  for (const m of MACROS) {
+    const txt = await fetch(`../macros/warrior-smart/${lang}/${m.file}.txt`).catch(() => '');
+    const body = (txt && await txt.text ? await txt.text() : '').trim();
+    const [name, sub] = m[lang];
+    const tags = (m.tags[lang] || []).map(t => `<span class="tag">${t}</span>`).join('');
+    rows.push(`
+    <section class="card m-card">
+      <div class="m-head">
+        <img src="assets/icons/large/${m.icon}.jpg" alt="">
+        <div class="t"><b>${name}</b><span>${sub}</span></div>
+        <span class="key">${m.key}</span>
+      </div>
+      <div class="macro-box"><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${lang === 'ru' ? 'копировать' : 'copy'}</button>
+      <pre>${body.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</pre></div>
+      <div class="m-meta">${tags}</div>
+    </section>`);
+  }
+  // 6th cell: install hint + client language note
+  rows.push(`
+  <section class="card m-card" style="justify-content:center;gap:10px;">
+    <h2>${L.install} ${window.W.hint(L.installTip, true)}</h2>
+    <div class="m-meta">${L.langNote}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a class="btn" href="https://github.com/Genocide12/wow-335-macros/raw/main/install/macros-cache-${lang}.txt">
+        macros-cache-${lang}.txt</a>
+      <a class="btn ghost" href="https://github.com/Genocide12/wow-335-macros" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>`);
+  wrap.innerHTML = rows.join('');
+});
+</script>
+</body>
+</html>

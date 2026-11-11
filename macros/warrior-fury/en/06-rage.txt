@@ -1,3 +1,0 @@
-#showtooltip
-/cast Bloodrage
-/cast Berserker Rage

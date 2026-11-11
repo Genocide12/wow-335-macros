@@ -1,86 +1,116 @@
-# WoW 3.3.5a — Warrior / Fury macros + character export
+<div align="center">
 
-Battle-tested macros for a leveling Fury warrior on WotLK 3.3.5a (verified on a
-level 54 human warrior, RU client), plus a tiny addon that dumps your character
-to JSON for the companion site.
+<img src="docs/assets/banner.png" alt="WoW 3.3.5 · Умные макросы воина — баннер сайта">
 
-**Site (copy macros in one click, import your profile, stat-cap guide):**
-<https://genocide12.github.io/wow-335-macros/>
+# WoW 3.3.5 · Умные макросы воина-неистовства
 
-> **Client language matters.** A 3.3.5 macro only understands ability names in
-> your client's language. Pick the `en/` set for English clients, `ru/` for
-> Russian ones — or use the site switch.
+**Пять кнопок вместо пятнадцати: макрос сам выбирает умение под ситуацию, сам
+переключает стойку и не обновляет активные баффы. Плюс сайт-приложение:
+просмотрщик талантов как в игре, импорт героя без аддонов и гайд по прокачке с 1-го уровня.**
 
-## What's inside
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-сайт-ffcd5c?style=flat-square&logo=github)](https://genocide12.github.io/wow-335-macros/)
+[![WotLK](https://img.shields.io/badge/WotLK-3.3.5a-c93a46?style=flat-square)](https://lasthavens.com/)
+[![Macros](https://img.shields.io/badge/макросов-5_умных-3ac96e?style=flat-square)](macros/warrior-smart/ru/)
+[![License: MIT](https://img.shields.io/badge/лицензия-MIT-4a86e8?style=flat-square)](LICENSE)
 
-| File | Key | What it does |
-|---|---|---|
-| `macros/warrior-fury/en/01-rotation` | **Q** | The whole rotation: Bloodthirst (4s CD) → Whirlwind (10s) → Execute (<20% HP) → Victory Rush (45% AP after a kill). Auto-attack, next-target pickup, Berserker Stance included. Shift — Heroic Strike rage dump, Ctrl — Battle Shout, Alt — Bloodrage |
-| `…/02-aoe` | **E** | Packs: Whirlwind + Cleave on every swing. Shift — Demoralizing Shout |
-| `…/03-pummel` | **R** | Pummel **on mouseover** — interrupt without switching targets; auto-switches to Berserker Stance if needed |
-| `…/04-intercept` | **F** | Intercept **on mouseover** — gap closer + stun, works in combat |
-| `…/05-charge` | **T** | Battle Stance + Charge (out of combat opener) |
-| `…/06-rage` | **G** | Bloodrage + Berserker Rage (rage + 10s fear immunity) |
-| `…/07-cooldowns` | **X** | Death Wish + Recklessness + trinket slot 13 — press 2–3 times |
-| `…/08-retaliation` | **C** | Stance dance: Battle Stance → Retaliation (12s counterattacks) |
-| `…/09-defense` | **Z** | Defensive Stance + Demoralizing Shout + Thunder Clap — panic button |
+**[▶ ОТКРЫТЬ САЙТ](https://genocide12.github.io/wow-335-macros/)** ·
+**[Макросы](https://genocide12.github.io/wow-335-macros/macros.html)** ·
+**[Таланты](https://genocide12.github.io/wow-335-macros/talents.html)** ·
+**[Герой](https://genocide12.github.io/wow-335-macros/hero.html)** ·
+**[Гайд 1–80](https://genocide12.github.io/wow-335-macros/guide.html)**
 
-Same nine files exist under `macros/warrior-fury/ru/` with Russian spell names.
+**English? → [README.en.md](README.en.md)**
 
-Stance requirements are handled inside the macros: Pummel / Intercept /
-Whirlwind / Recklessness need Berserker Stance, Charge / Retaliation need Battle
-Stance — every macro that can be pressed from the "wrong" stance switches first.
-The rotation keeps you in Berserker Stance.
+</div>
 
-## Install macros
+---
 
-**Fast way** — close the game, download `install/macros-cache-en.txt` (or
-`-ru.txt`), save it as `WTF/Account/<AccountName>/macros-cache.txt` (back up
-your old file — it will be overwritten). Launch, `/macro` → "General" tab: all
-9 macros are ready, drag them to your bars.
+## Что это
 
-**Manual way** — `/macro` → New → paste the file contents → drag to a bar.
+Набор из **5 умных макросов** для воина (Неистовство, прокачка) под WotLK 3.3.5a
+и браузерный сервер [lasthavens.com](https://lasthavens.com/). Каждый макрос сам
+решает, какое умение нажать: приоритеты ротации зашиты в порядок `/cast`,
+стойки переключаются по условию, Боевой крик обновляется только когда спал.
 
-## CharacterExport addon (`/cexp`)
-
-Collects talents, glyphs, gear with item levels, and combat stats (AP, crit,
-hit, expertise, haste, armor pen, armor) into a JSON blob.
-
-1. Copy `addons/CharacterExport/` into `Interface/AddOns/`.
-2. In game: `/cexp`, then `/reload`.
-3. Open `WTF/Account/<AccountName>/SavedVariables/CharacterExport.lua` and copy
-   the `["data"] = "..."` string.
-4. Paste it on the site (profile card + cap checks), or convert locally:
-
-   ```
-   python tools/char_export.py WTF/Account/<acc>/SavedVariables/CharacterExport.lua -o out
-   ```
-
-   → writes `profile.json` + `profile.md`.
-
-## Stat targets (level 80 raid boss)
-
-- Yellow hit **8%** (5% from gear with Precision 3/3), white dual-wield cap ~27%
-- Expertise **26** (214 rating)
-- Priority: hit to caps → expertise 26 → Strength → Crit → ArP → Haste
-- Major glyphs: Heroic Strike (+10 rage on crit), Whirlwind (−2s CD), Execution (+10 effective rage)
-
-Full guide, rotation priorities, stance table and PvP combos live on the
-[site](https://genocide12.github.io/wow-335-macros/).
-
-## Structure
+Проверено в бою: храм Атал'Хаккар пройден на 54-м уровне, **233 DPS**
+(экипировка ilvl 51, gearscore 537).
 
 ```
-macros/warrior-fury/{en,ru}/   9 macros per client language
-install/                       macros-cache.txt installers
-addons/CharacterExport/        /cexp addon (Interface 30300)
-tools/char_export.py           SavedVariables → profile.json/md converter
-docs/                          GitHub Pages site
+Q → ротация (одна цель)     E → AoE (2+ моба)      R → сбить каст (по наведению)
+F → рывок/перехват          G → ярость + бурст
 ```
 
-Contributions: one macro per `.txt`, spell names must match your client's
-spellbook, keep bodies ≤ 255 characters.
+## Сайт — как приложение
 
-## License
+Пять экранов, каждый помещается **без прокрутки** на ПК и телефоне:
 
-MIT — see [LICENSE](LICENSE).
+| Главная | Макросы |
+|:---:|:---:|
+| ![Главная](docs/assets/shots/home.png) | ![Макросы](docs/assets/shots/macros.png) |
+
+| Таланты (билд 54) | Герой (импорт) | Гайд 1–80 |
+|:---:|:---:|:---:|
+| ![Таланты](docs/assets/shots/talents.png) | ![Герой](docs/assets/shots/hero.png) | ![Гайд](docs/assets/shots/guide.png) |
+
+* **Макросы** — карточки с настоящими иконками умений, копирование в один клик,
+  подсказки при наведении вместо страницы «Установка».
+* **Таланты** — все 85 талантов воина в трёх ветках, как в игре: иконки, ранги,
+  стрелки зависимостей, проверка требований. Клик — вложить очко,
+  Shift+клик — убрать. Пресеты прокачки и мой билд 54-го уровня.
+* **Герой** — импорт персонажа **без аддона**: два коротких `/run`-макроса
+  (в lasthavens свои аддоны ставить нельзя) печатают в чат строку `WEXP|…`;
+  вставь её на сайт — получишь папердолл с настоящими иконками предметов
+  и тултипами, подтягиваемыми живьём с Wowhead.
+* **Гайд** — прокачка с 1-го уровня: этапы, что качать, ротация, иконки умений.
+
+## Установка макросов (1 минута)
+
+1. Скачай [`install/macros-cache-ru.txt`](install/macros-cache-ru.txt)
+   (для русского клиента; для английского — [`-en.txt`](install/macros-cache-en.txt)).
+2. Закрой игру. Положи файл в `WTF/Аккаунт/<имя>/macros-cache.txt`
+   (старый файл сохрани — он перезапишется).
+3. Зайди в игру, `/macro` → вкладка «Общие» — все 5 макросов готовы.
+   Растащи их на Q, E, R, F, G.
+
+Или просто скопируй текст каждого макроса кнопкой ✓ на
+[странице макросов](https://genocide12.github.io/wow-335-macros/macros.html)
+и вставь в новые макросы в игре.
+
+> **Язык клиента важен.** Макрос 3.3.5 понимает только названия умений на языке
+> клиента. `ru/` — русский клиент, `en/` — английский.
+
+## Как работают умные макросы
+
+| Макрос | Что делает сам |
+|---|---|
+| **Q · Ротация** | Кровожадность → Вихрь → Казнь (<20% HP) → Победный раж; Боевой крик обновится, только если спал; Shift — Удар героя (сброс ярости), Ctrl — Кровавая ярость |
+| **E · AoE** | Вихрь + Рассекающий удар каждый свинг; Shift — Деморализующий крик |
+| **R · Сбить каст** | Зуботычина по цели **под курсором** — цель не переключается; сам встанет в стойку берсерка |
+| **F · Рывок/Перехват** | Вне боя — Боевая стойка + Рывок, в бою — стойка берсерка + Перехват |
+| **G · Ярость** | Кровавая ярость + Ярость берсерка (обе без GCD); Shift — Безрассудство + тринкет |
+
+Механика 3.3.5: за одно нажатие срабатывает **первый доступный** навык списка,
+поэтому порядок строк = порядок приоритетов. Спамь Q — ротация исполняется сама.
+
+## Структура
+
+```
+docs/               сайт (GitHub Pages)
+  index.html        главная
+  macros.html       макросы: иконки, копирование, подсказки
+  talents.html      просмотрщик талантов (85 талантов, 3 ветки, пресеты)
+  hero.html         импорт героя из игры (WEXP), папердолл, тултипы Wowhead
+  guide.html        гайд по прокачке 1–80
+  assets/           иконки (186 шт, zamimg), фоны веток, данные талантов
+macros/warrior-smart/{ru,en}/   5 макросов + 2 экспортных, RU и EN клиенты
+install/macros-cache-{ru,en}.txt  установка в один файл
+```
+
+Данные талантов и все иконки — из открытых источников ([Wowhead WotLK](https://www.wowhead.com/wotlk),
+[zamimg CDN](https://wow.zamimg.com)), сложены в репозиторий: сайт работает и офлайн,
+живые тултипы предметов подтягиваются с Wowhead на лету.
+
+## Лицензия
+
+[MIT](LICENSE). Иконки и данные — © Blizzard Entertainment, собраны через открытые
+API Wowhead/zamimg.

@@ -1,0 +1,8 @@
+#showtooltip Whirlwind
+/startattack
+/targetenemy [noharm][dead]
+/cast [nostance:3] Berserker Stance
+/cast [combat] Battle Shout
+/cast Whirlwind
+/cast !Cleave
+/cast [mod:shift] Demoralizing Shout

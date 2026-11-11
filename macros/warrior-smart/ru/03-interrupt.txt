@@ -1,0 +1,5 @@
+#showtooltip Зуботычина
+/stopattack
+/cast [nostance:3] Стойка берсерка
+/cast [@mouseover,harm,nodead][] Зуботычина
+/startattack
