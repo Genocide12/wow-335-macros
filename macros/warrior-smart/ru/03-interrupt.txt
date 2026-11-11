@@ -1,7 +1,8 @@
-/cast [nomod,@mouseover,harm,nodead][nomod]Зуботычина
-/cast [nomod,nostance:3]Стойка берсерка
+/cast [@mouseover,harm,nodead][]Зуботычина
+/cast [nostance:3]Стойка берсерка
+/cast Ярость берсерка
 /cast [mod:alt]Каждый за себя
+/cast [mod:alt]Устрашающий крик
 /cast [mod:alt]Оборонительная стойка
 /cast [mod:alt]Разоружение
 /cast [mod:alt]Провокация
-/cast [mod:ctrl]Ярость берсерка

@@ -1,9 +1,9 @@
-/startattack
 /targetenemy [noharm][dead]
-/cast [nomod,nostance:3]Berserker Stance
+/startattack
+/cast [combat,nostance:3]Berserker Stance
 /cast Intercept
-/cast [mod:ctrl]Death Wish
 /cast Whirlwind
-/cast Cleave
 /cast Bloodthirst
-/cast [mod:alt]Intimidating Shout
+/cast Cleave
+/stopmacro [combat]
+/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end

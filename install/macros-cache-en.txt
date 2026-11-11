@@ -1,50 +1,44 @@
 ﻿MACRO 16777216 "Rotation" INV_Axe_67
 /startattack
-/cast [stance:1,nocombat]Charge;Berserker Stance
+/cast [stance:1,nocombat]Charge;[nocombat]Battle Stance;Berserker Stance
 /cast Victory Rush
-/cast Bloodrage
-/cast [mod:alt]Battle Shout
-/cast [mod:ctrl]Recklessness
+/cast [combat]Bloodrage
+/cast [combat]Recklessness
+/cast [combat]Death Wish
 /cast Bloodthirst
 /cast Whirlwind
-/cast [mod:shift]Heroic Strike;Execute
+/cast Execute
 
 END
 MACRO 16777217 "AoE" Ability_Whirlwind
-/startattack
 /targetenemy [noharm][dead]
-/cast [nomod,nostance:3]Berserker Stance
+/startattack
+/cast [combat,nostance:3]Berserker Stance
 /cast Intercept
-/cast [mod:ctrl]Death Wish
 /cast Whirlwind
-/cast Cleave
 /cast Bloodthirst
-/cast [mod:alt]Intimidating Shout
+/cast Cleave
+/stopmacro [combat]
+/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end
 
 END
 MACRO 16777218 "Interrupt" INV_Gauntlets_04
-/cast [nomod,@mouseover,harm,nodead][nomod]Pummel
-/cast [nomod,nostance:3]Berserker Stance
+/cast [@mouseover,harm,nodead][]Pummel
+/cast [nostance:3]Berserker Stance
+/cast Berserker Rage
 /cast [mod:alt]Every Man for Himself
+/cast [mod:alt]Intimidating Shout
 /cast [mod:alt]Defensive Stance
 /cast [mod:alt]Disarm
 /cast [mod:alt]Taunt
-/cast [mod:ctrl]Berserker Rage
 
 END
-MACRO 16777219 "Buff" Ability_Warrior_BattleShout
-/cast [mod:ctrl]Demoralizing Shout
-/stopmacro [combat]
-/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end
-/run d="Demoralizing Shout"if UnitExists("target")and not UnitDebuff("target",d)then CastSpellByName(d)end
-
-END
-MACRO 16777220 "Export 1" INV_Scroll_01
+MACRO 16777219 "Export 1" INV_Scroll_01
 
 /run u="player"n=UnitName(u)_,c=UnitClass(u)l=UnitLevel(u)b,z,v=UnitAttackPower(u)h=UnitHealthMax(u)t={}for i=1,3 do _,_,q=GetTalentTabInfo(i) t[i]=q end print("WEXP1|"..n.."|"..c.."|"..l.."|"..b+z+v.."|"..h.."|"..table.concat(t,"/"))
 
 END
-MACRO 16777221 "Export 2" INV_Scroll_02
+MACRO 16777220 "Export 2" INV_Scroll_02
 
 /run u="player"print("WEXP0|"..UnitRace(u))for i=1,19 do l=GetInventoryItemLink(u,i)if l then n,_,r,d,_,_,_,_,_,t=GetItemInfo(l)print("WEXP2|"..i.."|"..r.."|"..d.."|"..l:match("item:(%d+)").."|"..t.."|"..n)end end
 

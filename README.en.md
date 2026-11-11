@@ -4,10 +4,10 @@
 
 # WoW 3.3.5 · Smart Fury Warrior Macros
 
-**Three buttons instead of fifteen: each macro picks the right ability for the
-situation, swaps stances by itself and never refreshes buffs that are already up.
-Plus an app-like site: an in-game-style talent viewer, addon-free hero import
-and a combat & survival guide.**
+**Three buttons instead of fifteen: one button does it all — each macro picks
+the right ability for the situation, swaps stances by itself, fires cooldowns
+by itself and keeps Battle Shout checked. Plus an app-like site: an in-game
+style talent viewer, addon-free hero import and a combat & survival guide.**
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-website-ffcd5c?style=flat-square&logo=github)](https://genocide12.github.io/wow-335-macros/)
 [![WotLK](https://img.shields.io/badge/WotLK-3.3.5a-c93a46?style=flat-square)](https://github.com/Genocide12/wow-335-macros/releases)
@@ -28,55 +28,56 @@ and a combat & survival guide.**
 
 ## What is this
 
-A set of **3 combat macros + a “Buff” button** for a Fury warrior on WotLK
-3.3.5a. Each combat macro decides which ability to fire: rotation priorities
-are baked into the `/cast` order, stances swap via conditions, and abilities
-only fire where they are actually available (Victory Rush inside its 20-sec
-window, Bloodrage off cooldown).
+A set of **3 combat macros** for a Fury warrior on WotLK 3.3.5a.
+**No Shift, no Ctrl — Alt survives in exactly one place**, the panic block of
+button R. Everything else the button does on its own:
 
-**Long buffs — only when checked.** The **F** button (“Buff”) checks **Battle
-Shout** (buff on you) and **Demoralizing Shout** (debuff on the target) before
-the pull and applies only what is missing — no GCD or rage wasted.
+* rotation priorities are baked into the `/cast` order — one press fires the
+  first available ability;
+* stances swap via `[stance]` conditions, combat state via `[combat]`;
+* **cooldowns fire themselves**: Bloodrage, Recklessness and Death Wish go off
+  in combat the moment they are ready — no keys to hold;
+* **long buffs — only when checked**: out of combat macro E checks
+  **Battle Shout** and applies it only if missing — no GCD or rage wasted.
 
-Why it works this way: in combat 3.3.5a **forbids** casting from Lua code
-(`/run` + `CastSpellByName` — the game says “this action is only available to
-the Blizzard UI”), and macros have no native `[buff:]` conditions. Out of
-combat the check is legal — so the auto-check lives on F. In combat:
-Battle Shout — **Alt+Q**, Demoralizing Shout — **Ctrl+F**. Every check the
-game does allow is in the combat macros too: stances, combat state,
-availability windows, cooldowns.
+Why the check only works out of combat: in combat 3.3.5a **forbids** casting
+from Lua code (`/run` + `CastSpellByName` — the game says “this action is only
+available to the Blizzard UI”), and macros have no native `[buff:]`
+conditions. The `/stopmacro [combat]` line in E disables the check in combat
+by itself — fully legal. An applied shout lasts 2 minutes and comfortably
+outlasts most fights.
 
-Every macro fits the game's **255-character limit** — the extra features live
-on modifiers of the same buttons.
+Every macro fits the game's **255-character limit**.
 
 ```
-Q → rotation (single target) + Charge      E → AoE (2+ mobs) + Intercept
-R → interrupt (mouseover)                  F → checked buffs (before the pull)
+Q → rotation (single target): Charge, cooldowns, Bloodthirst → Whirlwind → Execute
+E → AoE (2+ mobs): auto-target, Intercept, Whirlwind → Bloodthirst → Cleave
+R → interrupt (mouseover) + Alt — the panic block
 ```
 
-| Button / modifier | What it does |
+| Button | What it does on its own |
 |---|---|
-| **F** | checks Battle Shout and Demoralizing Shout — applies only what is missing (out of combat) |
-| **Ctrl+F** | Demoralizing Shout by hand (in combat) |
-| **Shift+Q** | Heroic Strike — rage dump |
-| **Alt+Q** | Battle Shout — refresh the buff |
-| **Ctrl+Q** | Recklessness — burst: 3 guaranteed crits |
-| **Ctrl+E** | Death Wish — burst (+20% damage for 30 sec); space for a future trinket is reserved in the macro (`/use [mod:ctrl]13`) |
-| **Alt+E** | Intimidating Shout — scatter the pack |
-| **Alt+R** | Every Man for Himself → Defensive Stance → Disarm → Taunt (several presses) |
-| **Ctrl+R** | Berserker Rage — break fear |
+| **Q** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush → Bloodthirst → Whirlwind → Execute; Bloodrage, Recklessness and Death Wish fire themselves off cooldown |
+| **E** | auto target swap; in combat — Intercept + Berserker Stance; Whirlwind → Bloodthirst → Cleave; out of combat — checked Battle Shout |
+| **R** | Pummel into the mob **under the cursor** — no target switch; Berserker Stance itself; Berserker Rage itself off cooldown |
+| **Alt+R** | the only modifier — panic cascade: Every Man for Himself → Intimidating Shout → Defensive Stance → Disarm → Taunt (several presses in a row) |
+
+Only **Heroic Strike** lives on its own button: it sits off the GCD, eats rage
+and does not fit a spam rotation — bind it separately and press it above 50
+rage. **9 characters** are reserved in macro E for a trinket — the line
+`/use 13` comes back with a single insert once you get one.
 
 ## How the smart macros work
 
-| Macro | What it does on its own |
-|---|---|
-| **Q · Rotation** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush first (20-sec window) → Bloodthirst → Whirlwind → Execute; Bloodrage by itself off cooldown; Shift — Heroic Strike, Alt — Battle Shout, Ctrl — Recklessness |
-| **E · AoE** | auto target swap; Intercept in combat; Whirlwind + Cleave on every swing + Bloodthirst; Alt — Intimidating Shout; Ctrl — Death Wish (40 characters reserved for a trinket) |
-| **R · Interrupt** | Pummel into the mob **under the cursor** — no target switch; swaps to Berserker Stance itself; Alt — panic cascade: Every Man for Himself → Defensive Stance → Disarm → Taunt; Ctrl — Berserker Rage |
-| **F · Buff** | checks Battle Shout (on you) and Demoralizing Shout (on the target) and applies **only what is missing**; disables itself in combat (a game rule) |
-
 3.3.5 mechanics: one press fires the **first available** ability of the list,
-so the line order is the priority order. Spam Q and the rotation plays itself.
+so the line order is the priority order. Spam Q and the rotation plays itself,
+cooldowns go off the moment they are ready. Press E between packs and Battle
+Shout is always up. R is your interrupt, your anti-fear and your panic button.
+
+> **Client language matters.** A 3.3.5 macro only understands ability names in
+> the client's language. `ru/` — Russian client, `en/` — English. The Russian
+> names are verified against the real 3.3.5a client DB (wowroad.info): talent
+> 12292 is “Жажда смерти” (WotLK Classic renamed it — not your client).
 
 ## Install (1 minute)
 
@@ -91,9 +92,6 @@ so the line order is the priority order. Spam Q and the rotation plays itself.
 Or simply copy each macro's text with the ✓ button on the
 [macros page](https://genocide12.github.io/wow-335-macros/macros.html?lang=en)
 and paste it into new in-game macros.
-
-> **Client language matters.** A 3.3.5 macro only understands ability names in
-> the client's language. `ru/` — Russian client, `en/` — English.
 
 ## The site — like an app
 
@@ -139,10 +137,10 @@ docs/               site (GitHub Pages)
   macros.html       macros: icons, copy, features, modifiers
   talents.html      talent viewer (3 trees, presets)
   hero.html         in-game hero import (WEXP), paperdoll, Wowhead tooltips
-  guide.html        guide: combat, survival, what & where to learn
+  guide.html        guide: combat, survival, Titan's Grip, what & where to learn
   assets/js/macros-data.js  macro texts (embedded, no fetch)
   assets/           tree backgrounds, talent data, logo (icons come from the Wowhead CDN)
-macros/warrior-smart/{ru,en}/   3 combat + buff + 2 export, RU and EN clients
+macros/warrior-smart/{ru,en}/   3 combat + 2 export, RU and EN clients
 install/macros-cache-{ru,en}.txt  one-file install (attached to releases)
 ```
 

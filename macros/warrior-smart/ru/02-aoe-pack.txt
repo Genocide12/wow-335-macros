@@ -1,9 +1,9 @@
-/startattack
 /targetenemy [noharm][dead]
-/cast [nomod,nostance:3]Стойка берсерка
+/startattack
+/cast [combat,nostance:3]Стойка берсерка
 /cast Перехват
-/cast [mod:ctrl]Инстинкт смерти
 /cast Вихрь
-/cast Рассекающий удар
 /cast Кровожадность
-/cast [mod:alt]Устрашающий крик
+/cast Рассекающий удар
+/stopmacro [combat]
+/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end
