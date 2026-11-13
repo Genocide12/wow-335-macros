@@ -20,6 +20,28 @@
     location.href = u;
   }
   const lang = LANGS.includes(getLang()) ? getLang() : 'ru';
+  let soundOn = localStorage.getItem('wfxSound') === 'on';
+  let audioCtx;
+  function playUiSound(kind = 'click') {
+    if (!soundOn) return;
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      audioCtx ||= new AudioContext();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const notes = kind === 'select' ? [660, 880] : kind === 'open' ? [392, 587] : [520];
+      notes.forEach((hz, i) => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(hz, now + i * .055);
+        gain.gain.setValueAtTime(.0001, now + i * .055);
+        gain.gain.exponentialRampToValueAtTime(.035, now + i * .055 + .012);
+        gain.gain.exponentialRampToValueAtTime(.0001, now + i * .055 + .105);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(now + i * .055); osc.stop(now + i * .055 + .12);
+      });
+    } catch (_) {}
+  }
 
   // Keep the UI intact when an upstream game icon is missing or its CDN is unavailable.
   document.addEventListener('error', event => {
@@ -50,9 +72,17 @@
           <span class="t">WoW 3.3.5 · Fury</span>
         </a>
         <nav>${nav}</nav>
+        <button class="sound-btn" id="soundBtn" type="button" aria-pressed="${soundOn}" title="${lang === 'ru' ? 'Звуки интерфейса' : 'Interface sounds'}">${soundOn ? '♫' : '♪'}</button>
         <button class="lang-btn" id="langBtn">${lang === 'ru' ? 'EN' : 'RU'}</button>
       </header>`));
     document.getElementById('langBtn').onclick = () => setLang(lang === 'ru' ? 'en' : 'ru');
+    document.getElementById('soundBtn').onclick = event => {
+      soundOn = !soundOn;
+      localStorage.setItem('wfxSound', soundOn ? 'on' : 'off');
+      event.currentTarget.textContent = soundOn ? '♫' : '♪';
+      event.currentTarget.setAttribute('aria-pressed', String(soundOn));
+      if (soundOn) playUiSound('open');
+    };
 
     // footer
     app.append(h(`
@@ -66,7 +96,23 @@
 
   // Delegation supports buttons rendered after DOMContentLoaded; decode old encoded payloads.
   document.addEventListener('click', async event => {
+    const target = event.target;
+    const dialogBackdrop = target instanceof Element ? target.closest('dialog[open]') : null;
+    if (dialogBackdrop && target === dialogBackdrop) dialogBackdrop.close();
+    const dropdown = document.querySelector('.macro-dropdown.open');
+    if (dropdown && !dropdown.contains(target) && !target.closest('.krow a')) dropdown.classList.remove('open');
+    if (!target.closest('.tal[data-id], .tipcard, .slot')) {
+      document.querySelectorAll('.tipcard').forEach(tip => { tip.style.display = 'none'; });
+    }
     const btn = event.target.closest('[data-copy]');
+    const interactive = target.closest('button, a, .tal[data-id], .slot, .t-tab, .g-item');
+    if (interactive) {
+      playUiSound(interactive.matches('.krow a, .detail-btn, #guideSources') ? 'open' : (interactive.matches('.tal[data-id], .t-tab, .g-item') ? 'select' : 'click'));
+      interactive.classList.remove('ui-hit');
+      void interactive.offsetWidth;
+      interactive.classList.add('ui-hit');
+      setTimeout(() => interactive.classList.remove('ui-hit'), 420);
+    }
     if (!btn) return;
     let txt = btn.getAttribute('data-copy') || '';
     try { txt = decodeURIComponent(txt); } catch (_) {}
@@ -89,9 +135,17 @@
     setTimeout(() => { btn.textContent = old; btn.classList.remove('ok'); }, 1400);
   });
 
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close());
+    document.querySelectorAll('.macro-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    document.querySelectorAll('.tipcard').forEach(tip => { tip.style.display = 'none'; });
+  });
+
   // export helpers
   window.W = {
     lang,
+    sound: playUiSound,
     // Wowhead CDN serves every WotLK icon — nothing is stored in the repo
     icon(name, size) {
       return `https://wow.zamimg.com/images/wow/icons/${size || 'large'}/${name}.jpg`;

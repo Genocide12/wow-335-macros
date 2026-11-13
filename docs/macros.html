@@ -78,7 +78,7 @@ const L10N = { ru: { copy: 'копировать' }, en: { copy: 'copy' } };
 // macro bodies come from macros-data.js (embedded, no fetch)
 const MACROS = [
   {
-    file: '01-attack-rotation', key: 'Q', icon: 'inv_axe_66',
+    file: '01-attack-rotation', icon: 'inv_axe_66',
     ru: ['Ротация — одна кнопка', 'Рывок → Победный раж → Кровожадность → Вихрь → Казнь; кулдауны срабатывают сами'],
     en: ['Rotation — one button', 'Charge → Victory Rush → Bloodthirst → Whirlwind → Execute; cooldowns fire themselves'],
     tags: { ru: ['одна цель', 'без модификаторов', 'кулдауны сами'],
@@ -87,7 +87,7 @@ const MACROS = [
       ru: [
         { i: 'ability_warrior_charge', t: 'Рывок сам', d: 'вне боя макрос встанет в боевую стойку и рванёт к цели; в бою вернёт стойку берсерка' },
         { i: 'ability_warrior_devastate', t: 'Победный раж первым', d: 'доступен только 20 сек после убийства — макрос бьёт им первым, окно не сгорает зря' },
-        { i: 'ability_racial_bloodrage', t: 'Кровавая ярость сама', d: 'только в бою и не в общем КД: жмёшь Q — ярость капает сама' },
+        { i: 'ability_racial_bloodrage', t: 'Кровавая ярость сама', d: 'только в бою и не в общем КД: жмёшь макрос ротации — ярость капает сама' },
         { i: 'ability_criticalstrike', t: 'Безрассудство само', d: 'как только кулдаун готов в бою, три следующих удара критуют — без зажатых клавиш' },
         { i: 'spell_shadow_deathpact', t: 'Жажда смерти сама', d: '+20% физического урона на 30 сек — выходит с кулдауна прямо из ротации' },
         { i: 'inv_sword_48', t: 'Казнь сама', d: 'цель ниже 20% HP — макрос сам добивает Казнью, без смены кнопки в фазе казни' },
@@ -95,17 +95,17 @@ const MACROS = [
       en: [
         { i: 'ability_warrior_charge', t: 'Charge on its own', d: 'out of combat it charges from Battle Stance; in combat it returns you to Berserker Stance' },
         { i: 'ability_warrior_devastate', t: 'Victory Rush first', d: 'available for 20 sec after a kill — the macro fires it immediately, before the window closes' },
-        { i: 'ability_racial_bloodrage', t: 'Bloodrage on its own', d: 'in combat only and off the GCD — press Q and rage trickles in by itself' },
+        { i: 'ability_racial_bloodrage', t: 'Bloodrage on its own', d: 'in combat only and off the GCD — press press it and rage trickles in by itself' },
         { i: 'ability_criticalstrike', t: 'Recklessness on its own', d: 'once its cooldown is up in combat, your next three strikes crit — no keys to hold' },
         { i: 'spell_shadow_deathpact', t: 'Death Wish on its own', d: '+20% physical damage for 30 sec — rides the rotation off its cooldown' },
         { i: 'inv_sword_48', t: 'Execute on its own', d: 'target under 20% HP — the macro finishes with Execute, no button swap in the kill phase' },
       ],
     },
-    note: { ru: 'Одно нажатие — первый доступный удар списка: просто спамь Q. Безрассудство и Жажда смерти срабатывают по кулдауну сами. Если нужно придержать бурст для босса, используй эти способности отдельно.',
-            en: 'Every press fires the first available ability — just spam Q. Recklessness and Death Wish fire themselves off cooldown. If you need to save burst for a boss, use those abilities separately.' },
+    note: { ru: 'Одно нажатие — первый доступный удар списка: просто спамь макрос ротации. Безрассудство и Жажда смерти срабатывают по кулдауну сами. Если нужно придержать бурст для босса, используй эти способности отдельно.',
+            en: 'Every press fires the first available ability — just repeat the rotation macro. Recklessness and Death Wish fire themselves off cooldown. If you need to save burst for a boss, use those abilities separately.' },
   },
   {
-    file: '02-aoe-pack', key: 'E', icon: 'ability_whirlwind',
+    file: '02-aoe-pack', icon: 'ability_whirlwind',
     ru: ['AoE — пак из 2+ мобов', 'Вихрь + Кровожадность + Рассекающий удар; Перехват; вне боя сам вешает Боевой крик'],
     en: ['AoE — packs of 2+', 'Whirlwind + Bloodthirst + Cleave; Intercept; out of combat it keeps Battle Shout up'],
     tags: { ru: ['AoE', 'автотаргет', 'крик по проверке'],
@@ -132,7 +132,7 @@ const MACROS = [
             en: 'The shout check runs <b>out of combat only</b>: the /stopmacro [combat] line disables it in combat — that is the 3.3.5a rule (Blizzard blocks Lua casts in combat, no way around it). In combat the macro leaves the shout alone so rage is not burned — an applied buff comfortably outlasts most packs. The trinket use (/use 13) is removed for now — <b>9 characters reserved</b>.' },
   },
   {
-    file: '03-interrupt', key: 'R', icon: 'inv_gauntlets_04',
+    file: '03-interrupt', icon: 'inv_gauntlets_04',
     ru: ['Прерывание и защита', 'Зуботычина по наведению, стойка и все команды защитного макроса'],
     en: ['Interrupt & defense', 'Mouseover Pummel, stance, and the full defensive sequence'],
     tags: { ru: ['мышь', 'без смены цели', 'одна кнопка'],
@@ -143,18 +143,18 @@ const MACROS = [
         { i: 'ability_racial_avatar', t: 'Стойка сама', d: 'не в стойке берсерка — сначала встанет в неё, со второго нажатия бьёт' },
         { i: 'spell_nature_ancestralguardian', t: 'Ярость берсерка сама', d: 'выходит с кулдауна при нажатии: ярость и иммунитет к страху — без отдельной кнопки' },
         { i: 'ability_warrior_disarm', t: 'Полный набор действий', d: 'После прерывания макрос содержит команды для расовой способности, страха, защитной стойки, Разоружения и Провокации — без сочетаний клавиш' },
-        { i: 'ability_parry', t: 'Вернись в бой', d: 'выбрался из передряги — жми Q: макрос сам вернёт стойку берсерка' },
+        { i: 'ability_parry', t: 'Вернись в бой', d: 'выбрался из передряги — жми макрос ротации: макрос сам вернёт стойку берсерка' },
       ],
       en: [
         { i: 'inv_gauntlets_04', t: 'Interrupt without switching', d: 'Pummel goes into the mob under the cursor — your target stays' },
         { i: 'ability_racial_avatar', t: 'Stance on its own', d: 'not in Berserker Stance — it swaps first, interrupts from the second press' },
         { i: 'spell_nature_ancestralguardian', t: 'Berserker Rage on its own', d: 'fires off cooldown on press: rage plus fear immunity — no extra button' },
         { i: 'ability_warrior_disarm', t: 'Full action sequence', d: 'The macro retains its racial, fear, Defensive Stance, Disarm, and Taunt commands without modifier keys' },
-        { i: 'ability_parry', t: 'Back into the fight', d: 'survived the pinch — press Q: the macro swaps you back to Berserker Stance' },
+        { i: 'ability_parry', t: 'Back into the fight', d: 'survived the pinch — use the rotation macro: it swaps you back to Berserker Stance' },
       ],
     },
-    note: { ru: 'Все исходные команды сохранены; убраны только условия Alt. Без условия модификатора макрос проверяет строки по порядку, поэтому следующие готовые умения могут срабатывать при повторных нажатиях R.',
-            en: 'All original cast commands are preserved; only the Alt conditions were removed. Without modifier conditions the macro checks lines in order, so later ready abilities may fire on repeated R presses.' },
+    note: { ru: 'Все исходные команды сохранены; убраны только условия Alt. Без условия модификатора макрос проверяет строки по порядку, поэтому следующие готовые умения могут срабатывать при повторных нажатиях макроса.',
+            en: 'All original cast commands are preserved; only the Alt conditions were removed. Without modifier conditions the macro checks lines in order, so later ready abilities may fire on repeated defense macro presses.' },
   },
 ];
 document.addEventListener('DOMContentLoaded', () => {
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="m-head">
         <img src="${I(m.icon)}" alt="">
         <div class="t"><b>${name}</b><span>${sub}</span></div>
-        <span class="key">${m.key}</span>
+        
       </div>
       <div class="macro-box"><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${L.copy}</button>
       <pre>${body.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</pre></div>
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   wrap.innerHTML = rows.join('');
   const tabs=document.getElementById('macroTabs');
-  tabs.innerHTML=MACROS.map((m,i)=>`<button class="${i===0?'on':''}" data-macro="${i}">${m.key} · ${m[lang][0]}</button>`).join('');
+  tabs.innerHTML=MACROS.map((m,i)=>`<button class="${i===0?'on':''}" data-macro="${i}">${m[lang][0]}</button>`).join('');
   tabs.querySelectorAll('[data-macro]').forEach(btn=>btn.onclick=()=>{
     tabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===btn));
     wrap.querySelectorAll('.m-card').forEach((card,i)=>card.classList.toggle('active',i===+btn.dataset.macro));

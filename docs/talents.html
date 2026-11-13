@@ -6,19 +6,19 @@
 <title>Таланты — WoW 3.3.5 Fury</title>
 <link rel="stylesheet" href="assets/css/app.css">
 <style>
-  .t-layout { grid-template-columns: minmax(180px,220px) minmax(0,1fr); grid-template-rows: auto minmax(0,1fr); gap: 8px; }
-  .t-tabs { grid-column: 1 / span 2; display: flex; gap: 8px; }
+  .t-layout { grid-template-columns: minmax(0,1fr); grid-template-rows: auto auto minmax(0,1fr); gap: 8px; }
+  .t-tabs { grid-column: 1; display: flex; gap: 8px; }
   .t-tabs{padding:5px;background:linear-gradient(90deg,#141720,#22212a);border:1px solid #655334;border-radius:12px;box-shadow:inset 0 1px #ffffff12,0 5px 20px #0006}
-  .t-tab { flex: 1; display: flex; align-items: center; gap: 9px; background: var(--panel2); border: 1px solid var(--line);
-    border-radius: 11px; padding: 8px 12px; cursor: pointer; font-weight: 700; font-size: 14px; color: var(--txt); }
-  .t-tab img { width: 28px; height: 28px; border-radius: 7px; }
+  .t-tab { flex: 1; display: flex; align-items: center; gap: 12px; background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 11px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--txt); }
+  .t-tab img { width: 42px; height: 42px; border-radius: 8px; box-shadow:0 0 12px #0009; }
   .t-tab.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset,0 0 18px #c8a95135; background:linear-gradient(135deg,#3c3525,#211f20); }
   .t-tab .pts { margin-left: auto; font-size: 12px; color: var(--dim); font-weight: 800; }
   /* preset panel */
-  .b-panel { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
-  .preset { display: flex; flex-direction: column; gap: 7px; }
-  .preset button { text-align: left; background: var(--panel2); border: 1px solid var(--line); color: var(--txt);
-    border-radius: 9px; padding: 8px 10px; cursor: pointer; font-size: 12.5px; font-weight: 600; line-height: 1.35; }
+  .b-panel { display: flex; align-items:center; gap: 10px; overflow: hidden; padding:7px 10px; }
+  .preset { display: flex; flex:1; align-items:center; gap: 8px; min-width:0; }
+  .preset button { flex:1; text-align: center; background: var(--panel2); border: 1px solid var(--line); color: var(--txt);
+    border-radius: 9px; padding: 8px 10px; cursor: pointer; font-size: 12.5px; font-weight: 700; line-height: 1.35; }
   .preset button:hover { border-color: var(--gold); }
   .preset button{transition:transform .16s,border-color .16s,background .16s}.preset button:hover{transform:translateX(2px);background:#272738}
   .preset button small { display: block; color: var(--dim); font-weight: 400; }
@@ -27,14 +27,17 @@
   .pg span { font-size: 12px; font-weight: 800; color: var(--gold2); text-transform: uppercase; letter-spacing: .5px; }
   .pg-note { font-size: 10.8px; color: var(--dim); margin: -4px 0 1px; line-height: 1.35; }
   /* tree grid */
-  .t-tree { position: relative; background: linear-gradient(#090b10a8,#090b10b8),url('assets/icons/bg/164.jpg') center/cover; border-radius: var(--r);
-    border: 1px solid #766039; overflow: hidden;box-shadow:inset 0 0 42px #0009,0 8px 25px #0005 }
-  .t-inner { position: relative; width: 100%; min-width: 0; margin: 0 auto; padding: 5px;
-    background: rgba(10, 12, 18, .82); min-height: 100%; }
-  .t-row { display: grid; grid-template-columns: repeat(4, 48px); justify-content: center; gap: 2px; margin-bottom: clamp(2px,.45vh,5px); position: relative; z-index: 2; }
-  .tal { position: relative; width: 48px; height: clamp(25px,5vh,44px); }
-  .tal .frame { width: clamp(24px,5vh,42px); height: clamp(24px,5vh,42px); margin: 0 auto; border: 2px solid #77706a; border-radius: 6px; overflow: hidden;
-    background: #05070c; cursor: pointer; position: relative; touch-action:none; }
+  .t-tree { position: relative; isolation:isolate; background: linear-gradient(#090b10a0,#090b10a8),url('assets/icons/bg/164.jpg') center/cover; border-radius: var(--r);
+    border: 1px solid #8a7140; overflow: hidden;box-shadow:inset 0 0 42px #0009,0 8px 25px #0005 }
+  .t-tree::before { content:"";position:absolute;inset:-80% -20%;z-index:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,#f2d47b08 49%,#f2d47b20 50%,#f2d47b08 51%,transparent 58%);transform:translateX(-35%);animation:tree-glint 9s ease-in-out infinite alternate }
+  @keyframes tree-glint { to { transform:translateX(35%); } }
+  .t-inner { position: relative;z-index:1; display:flex; flex-direction:column; width: 100%; min-width: 0; height:100%; margin: 0; padding: clamp(5px,.8vw,12px);
+    background: rgba(10, 12, 18, .68); }
+  .t-row { flex:1; min-height:0; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); justify-content:stretch; gap: clamp(3px,.7vw,12px); margin: 0; position: relative; z-index: 2; }
+  .tal { position: relative; width: 100%; height: 100%; display:grid; place-items:center; }
+  .tal .frame { width: clamp(30px, min(6.2vh, 6vw), 74px); height: clamp(30px, min(6.2vh, 6vw), 74px); margin: 0 auto; border: 2px solid #77706a; border-radius: 9px; overflow: hidden;
+    background: #05070c; cursor: pointer; position: relative; touch-action:none; transition:transform .15s,border-color .18s,filter .18s,box-shadow .18s; }
+  .tal .frame:hover { transform:scale(1.08);border-color:#d8bd6d;box-shadow:0 0 20px #e8c96a48;z-index:3 }
   .tal .frame img { width: 100%; height: 100%; display: block; opacity: .45; filter: grayscale(.8); }
   .tal.ok .frame img { opacity: 1; filter: none; }
   .tal.ok .frame { border-color: #72bd59;box-shadow:0 0 12px #67b8485e; }
@@ -53,14 +56,24 @@
   .tipcard .rk { color: var(--dim); font-size: 11.5px; margin-top: 6px; }
   @media (max-width: 900px) {
     .t-layout { grid-template-columns: minmax(0,1fr); grid-template-rows: auto auto minmax(0,1fr); }
-    .t-tabs { grid-column: auto; }
-    .b-panel { flex-direction: row; flex-wrap: wrap; align-items: center; padding:6px; gap:5px; }
-    .preset { flex:1; flex-direction:row; flex-wrap:wrap; align-items:center; gap:4px; }
-    .preset b { width:100%; }
-    .preset button { flex:1 1 30%; padding:5px; font-size:10px; text-align:center; }
-    #reset { padding:6px 10px; }
-    .t-row { margin-bottom:2px; }
-    .t-inner { padding:3px; }
+    .t-tabs { grid-column: auto; gap:4px; }
+    .t-tab { gap:6px; padding:5px; font-size:12px; }
+    .t-tab img { width:32px; height:32px; }
+    .b-panel { padding:5px; gap:5px; }
+    .preset { gap:4px; }
+    .preset button { padding:5px 3px; font-size:10px; }
+    .preset b { display:none; }
+    #reset { padding:6px 9px; }
+    .t-inner { padding:4px; }
+    .tal .frame { width:clamp(27px,min(6vh,12vw),58px); height:clamp(27px,min(6vh,12vw),58px); }
+  }
+  @media (max-height:620px) {
+    .t-layout { gap:4px; }
+    .t-tabs { gap:4px; }
+    .t-tab { padding:3px 8px; }
+    .t-tab img { width:28px; height:28px; }
+    .b-panel { padding:3px 6px; }
+    .preset button { padding:4px; }
   }
 </style>
 </head>

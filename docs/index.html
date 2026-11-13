@@ -39,16 +39,16 @@
 
     <section class="card hero-main">
       <h1 data-ru="Умные макросы для <b>воина-неистовства</b>" data-en="Smart macros for the <b>Fury Warrior</b>">Умные макросы для <b>воина-неистовства</b></h1>
-      <p data-ru="WotLK 3.3.5a · воин Неистовства · русскоязычный клиент. Q, E, R — бой: одна кнопка делает всё сама. Три кнопки вместо пятнадцати — и в бой."
-         data-en="WotLK 3.3.5a · Fury Warrior · Russian client. Q, E, R — combat: one button does it all. Three buttons instead of fifteen — go fight.">WotLK 3.3.5a · воин Неистовства · русскоязычный клиент. Q, E, R — бой: одна кнопка делает всё сама. Три кнопки вместо пятнадцати — и в бой.</p>
+      <p data-ru="WotLK 3.3.5a · воин Неистовства · русскоязычный клиент. Три боевых макроса выбирают доступные удары по порядку. Назначь им любые удобные кнопки и отправляйся в бой."
+         data-en="WotLK 3.3.5a · Fury Warrior · Russian client. Three combat macros prioritize available abilities. Put them on any buttons you like and head into battle.">WotLK 3.3.5a · воин Неистовства · русскоязычный клиент. Три боевых макроса выбирают доступные удары по порядку. Назначь им любые удобные кнопки и отправляйся в бой.</p>
       <div class="cta">
         <a class="btn" href="macros.html" data-ru="Открыть макросы" data-en="Open macros">Открыть макросы</a>
         <a class="btn ghost" href="hero.html" data-ru="Импортировать героя" data-en="Import your hero">Импортировать героя</a>
       </div>
       <div class="krow">
-        <a href="#macro-q"><span class="key">Q</span><span data-ru="Ротация" data-en="Rotation">Ротация</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_66.jpg" alt=""></a>
-        <a href="#macro-e"><span class="key">E</span><span data-ru="AoE" data-en="AoE">AoE</span><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt=""></a>
-        <a href="#macro-r"><span class="key">R</span><span data-ru="Сбить каст" data-en="Interrupt">Сбить каст</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_04.jpg" alt=""></a>
+        <a href="#macro-q"><span data-ru="Ротация" data-en="Rotation">Ротация</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_66.jpg" alt=""></a>
+        <a href="#macro-e"><span data-ru="AoE" data-en="AoE">AoE</span><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt=""></a>
+        <a href="#macro-r"><span data-ru="Сбить каст" data-en="Interrupt">Сбить каст</span><img src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_04.jpg" alt=""></a>
       </div>
       <section class="macro-dropdown" id="macroDropdown" aria-live="polite"></section>
     </section>
@@ -67,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (v != null) el.innerHTML = v;
   });
   const titles=lang==='ru'?[
-    ['Ротация одной цели','Q · Кровожадность → Вихрь → Казнь','/startattack\n/cast [stance:1,nocombat]Рывок;[nocombat]Боевая стойка;Стойка берсерка\n/cast Победный раж\n/cast [combat]Кровавая ярость\n/cast [combat]Безрассудство\n/cast [combat]Жажда смерти\n/cast Кровожадность\n/cast Вихрь\n/cast Казнь','inv_axe_66'],
-    ['Бой с группой','E · Вихрь и Рассекающий удар','/targetenemy [noharm][dead]\n/startattack\n/cast [combat,nostance:3]Стойка берсерка\n/cast Перехват\n/cast Вихрь\n/cast Кровожадность\n/cast Рассекающий удар\n/stopmacro [combat]\n/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end','ability_whirlwind'],
-    ['Прерывание и защита','R · Зуботычка и защитные умения','/cast [@mouseover,harm,nodead][]Зуботычка\n/cast [nostance:3]Стойка берсерка\n/cast Ярость берсерка\n/cast Каждый за себя\n/cast Устрашающий крик\n/cast Оборонительная стойка\n/cast Разоружение\n/cast Провокация','inv_gauntlets_04']
+    ['Ротация одной цели','Кровожадность → Вихрь → Казнь','/startattack\n/cast [stance:1,nocombat]Рывок;[nocombat]Боевая стойка;Стойка берсерка\n/cast Победный раж\n/cast [combat]Кровавая ярость\n/cast [combat]Безрассудство\n/cast [combat]Жажда смерти\n/cast Кровожадность\n/cast Вихрь\n/cast Казнь','inv_axe_66'],
+    ['Бой с группой','Вихрь и Рассекающий удар','/targetenemy [noharm][dead]\n/startattack\n/cast [combat,nostance:3]Стойка берсерка\n/cast Перехват\n/cast Вихрь\n/cast Кровожадность\n/cast Рассекающий удар\n/stopmacro [combat]\n/run s="Боевой крик"if not UnitBuff("player",s)then CastSpellByName(s)end','ability_whirlwind'],
+    ['Прерывание и защита','Зуботычка и защитные умения','/cast [@mouseover,harm,nodead][]Зуботычка\n/cast [nostance:3]Стойка берсерка\n/cast Ярость берсерка\n/cast Каждый за себя\n/cast Устрашающий крик\n/cast Оборонительная стойка\n/cast Разоружение\n/cast Провокация','inv_gauntlets_04']
   ]:[
-    ['Single-target rotation','Q · Bloodthirst → Whirlwind → Execute','/startattack\n/cast [stance:1,nocombat]Charge;[nocombat]Battle Stance;Berserker Stance\n/cast Victory Rush\n/cast [combat]Bloodrage\n/cast [combat]Recklessness\n/cast [combat]Death Wish\n/cast Bloodthirst\n/cast Whirlwind\n/cast Execute','inv_axe_66'],
-    ['Cleave pack','E · Whirlwind and Cleave','/targetenemy [noharm][dead]\n/startattack\n/cast [combat,nostance:3]Berserker Stance\n/cast Intercept\n/cast Whirlwind\n/cast Bloodthirst\n/cast Cleave\n/stopmacro [combat]\n/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end','ability_whirlwind'],
-    ['Interrupt & defense','R · Pummel and defensive abilities','/cast [@mouseover,harm,nodead][]Pummel\n/cast [nostance:3]Berserker Stance\n/cast Berserker Rage\n/cast Every Man for Himself\n/cast Intimidating Shout\n/cast Defensive Stance\n/cast Disarm\n/cast Taunt','inv_gauntlets_04']
+    ['Single-target rotation','Bloodthirst → Whirlwind → Execute','/startattack\n/cast [stance:1,nocombat]Charge;[nocombat]Battle Stance;Berserker Stance\n/cast Victory Rush\n/cast [combat]Bloodrage\n/cast [combat]Recklessness\n/cast [combat]Death Wish\n/cast Bloodthirst\n/cast Whirlwind\n/cast Execute','inv_axe_66'],
+    ['Cleave pack','Whirlwind and Cleave','/targetenemy [noharm][dead]\n/startattack\n/cast [combat,nostance:3]Berserker Stance\n/cast Intercept\n/cast Whirlwind\n/cast Bloodthirst\n/cast Cleave\n/stopmacro [combat]\n/run s="Battle Shout"if not UnitBuff("player",s)then CastSpellByName(s)end','ability_whirlwind'],
+    ['Interrupt & defense','Pummel and defensive abilities','/cast [@mouseover,harm,nodead][]Pummel\n/cast [nostance:3]Berserker Stance\n/cast Berserker Rage\n/cast Every Man for Himself\n/cast Intimidating Shout\n/cast Defensive Stance\n/cast Disarm\n/cast Taunt','inv_gauntlets_04']
   ];
   const dropdown=document.getElementById('macroDropdown');
   const openMacro=i=>{const [name,sub,body]=titles[i];dropdown.innerHTML=`<button class="macro-close" aria-label="Close">×</button><h2>${name}</h2><p>${sub}</p><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${lang==='ru'?'Копировать':'Copy'}</button><pre>${body.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre><a class="tal-link" href="macros.html?lang=${lang}">${lang==='ru'?'Все макросы и подробности →':'All macros and details →'}</a>`;dropdown.classList.add('open');dropdown.querySelector('.macro-close').onclick=()=>dropdown.classList.remove('open');};

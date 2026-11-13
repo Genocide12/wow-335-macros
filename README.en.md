@@ -29,50 +29,48 @@ style talent viewer, addon-free hero import and a combat & survival guide.**
 ## What is this
 
 A set of **3 combat macros** for a Fury warrior on WotLK 3.3.5a.
-**No Shift, no Ctrl — Alt survives in exactly one place**, the panic block of
-button R. Everything else the button does on its own:
+**No modifier keys are required.** Each macro checks its abilities in order and uses the first one available:
 
 * rotation priorities are baked into the `/cast` order — one press fires the
   first available ability;
 * stances swap via `[stance]` conditions, combat state via `[combat]`;
 * **cooldowns fire themselves**: Bloodrage, Recklessness and Death Wish go off
   in combat the moment they are ready — no keys to hold;
-* **long buffs — only when checked**: out of combat macro E checks
+* **long buffs — only when checked**: out of combat, the AoE macro checks
   **Battle Shout** and applies it only if missing — no GCD or rage wasted.
 
 Why the check only works out of combat: in combat 3.3.5a **forbids** casting
 from Lua code (`/run` + `CastSpellByName` — the game says “this action is only
 available to the Blizzard UI”), and macros have no native `[buff:]`
-conditions. The `/stopmacro [combat]` line in E disables the check in combat
+conditions. The `/stopmacro [combat]` line in the AoE macro disables the check in combat
 by itself — fully legal. An applied shout lasts 2 minutes and comfortably
 outlasts most fights.
 
 Every macro fits the game's **255-character limit**.
 
 ```
-Q → rotation (single target): Charge, cooldowns, Bloodthirst → Whirlwind → Execute
-E → AoE (2+ mobs): auto-target, Intercept, Whirlwind → Bloodthirst → Cleave
-R → interrupt (mouseover) + Alt — the panic block
+rotation macro → rotation (single target): Charge, cooldowns, Bloodthirst → Whirlwind → Execute
+AoE macro → AoE (2+ mobs): auto-target, Intercept, Whirlwind → Bloodthirst → Cleave
+defense macro → mouseover interrupt; all three macros work without key combinations
 ```
 
-| Button | What it does on its own |
+| Macro | What it does |
 |---|---|
-| **Q** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush → Bloodthirst → Whirlwind → Execute; Bloodrage, Recklessness and Death Wish fire themselves off cooldown |
-| **E** | auto target swap; in combat — Intercept + Berserker Stance; Whirlwind → Bloodthirst → Cleave; out of combat — checked Battle Shout |
-| **R** | Pummel into the mob **under the cursor** — no target switch; Berserker Stance itself; Berserker Rage itself off cooldown |
-| **Alt+R** | the only modifier — panic cascade: Every Man for Himself → Intimidating Shout → Defensive Stance → Disarm → Taunt (several presses in a row) |
+| **rotation macro** | out of combat — Battle Stance + Charge; in combat — Berserker Stance; Victory Rush → Bloodthirst → Whirlwind → Execute; Bloodrage, Recklessness and Death Wish fire themselves off cooldown |
+| **AoE macro** | auto target swap; in combat — Intercept + Berserker Stance; Whirlwind → Bloodthirst → Cleave; out of combat — checked Battle Shout |
+| **defense macro** | Mouseover Pummel, Berserker Stance and the retained defensive commands — no modifier keys |
 
 Only **Heroic Strike** lives on its own button: it sits off the GCD, eats rage
 and does not fit a spam rotation — bind it separately and press it above 50
-rage. **9 characters** are reserved in macro E for a trinket — the line
+rage. **9 characters** are reserved in AoE macro for a trinket — the line
 `/use 13` comes back with a single insert once you get one.
 
 ## How the smart macros work
 
 3.3.5 mechanics: one press fires the **first available** ability of the list,
-so the line order is the priority order. Spam Q and the rotation plays itself,
-cooldowns go off the moment they are ready. Press E between packs and Battle
-Shout is always up. R is your interrupt, your anti-fear and your panic button.
+so the line order is the priority order. Repeat the rotation macro and the rotation plays itself,
+cooldowns go off the moment they are ready. Use the AoE macro between packs and Battle
+Shout is always up. The defense macro is your interrupt, your anti-fear and your panic button.
 
 > **Client language matters.** A 3.3.5 macro only understands ability names in
 > the client's language. `ru/` — Russian client, `en/` — English. The Russian
@@ -87,7 +85,7 @@ Shout is always up. R is your interrupt, your anti-fear and your panic button.
 2. Close the game. Put the file into `WTF/Account/<name>/macros-cache.txt`
    (back up the old file — it gets overwritten).
 3. Log in, `/macro` → "General" tab — all macros are there.
-   Bind them to Q, E, R.
+   Place them on any convenient action-bar buttons.
 
 Or simply copy each macro's text with the ✓ button on the
 [macros page](https://genocide12.github.io/wow-335-macros/macros.html?lang=en)
@@ -134,7 +132,7 @@ so you can download and drop them into the game without cloning the repo.
 ```
 docs/               site (GitHub Pages)
   index.html        home
-  macros.html       macros: icons, copy, features, modifiers
+  macros.html       macros: icons, copy, ability details
   talents.html      talent viewer (3 trees, presets)
   hero.html         in-game hero import (WEXP), paperdoll, Wowhead tooltips
   guide.html        guide: combat, survival, Titan's Grip, what & where to learn

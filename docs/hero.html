@@ -21,7 +21,7 @@
   .slot.has:hover img { transform: scale(1.06); }
   .slot:hover { border-color: #8a7f5c; }
   .doll-center { text-align: center; padding: 2px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; width:100%; }
-  .character-stage{position:relative;width:100%;height:clamp(230px,42vh,340px);display:grid;place-items:center;overflow:hidden;border:0;border-radius:0;background:transparent;box-shadow:none;touch-action:none}
+  .character-stage{position:relative;width:100%;height:clamp(320px,48vh,440px);display:grid;place-items:center;overflow:hidden;border:0;border-radius:0;background:transparent;box-shadow:none;touch-action:none}
   #wow-model{position:absolute;inset:0;z-index:2;width:100%;height:100%;opacity:1;transition:opacity .5s;cursor:grab;touch-action:none}
   #wow-model:active{cursor:grabbing}
   #wow-model canvas{width:100%!important;height:100%!important;display:block}
@@ -87,7 +87,7 @@
     .import>.btn,.import button{font-size:11px;padding:7px 9px}
   }
   @media(max-height:620px) and (max-width:700px){.character-stage{height:120px}.step{font-size:9px}.import textarea{height:42px}.h-layout>.hero-panel{padding:6px}}
-  @media(max-height:560px) and (min-width:701px){.character-stage{height:135px}.slot{width:28px;height:28px}.slot img{width:23px;height:23px}.doll-col{gap:2px}.import textarea{height:48px}.steps{gap:3px}.step{font-size:10px}}
+  @media(max-height:560px) and (min-width:701px){.character-stage{height:clamp(190px,40vh,240px)}.slot{width:28px;height:28px}.slot img{width:23px;height:23px}.doll-col{gap:2px}.import textarea{height:48px}.steps{gap:3px}.step{font-size:10px}}
 </style>
 </head>
 <body>
@@ -452,7 +452,7 @@
         const nextModel=await generateModels(1.25,'#wow-model',{race:char.raceId,gender:char.gender,skin:0,face:0,hairStyle:0,hairColor:0,facialStyle:0,items:[],hideProgressBar:false},'live');
         if(request!==modelRequest){nextModel?.destroy?.();return;}
         activeModel=nextModel;
-        if(innerWidth>700)activeModel.setDistance(7.5);
+        if(innerWidth>700)activeModel.setDistance(10.5);
         window.activeWowModel=activeModel;
         const attachGearItem=async(slot,g,model=activeModel)=>{
           if(!model||!g?.id||!g?.displayId)return;
