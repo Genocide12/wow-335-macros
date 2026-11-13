@@ -56,6 +56,7 @@ footer.bot a { color: var(--dim); text-decoration: none; }
 footer.bot a:hover { color: var(--gold2); }
 /* ===== cards / layout helpers ===== */
 .grid { display: grid; gap: 12px; min-height: 0; flex: 1; }
+.grid, .card { overflow: hidden; }
 .card {
   background: linear-gradient(160deg, var(--panel2), var(--panel));
   border: 1px solid var(--line); border-radius: var(--r);
@@ -110,19 +111,25 @@ h2 img.ic { object-fit: cover; }
 @media (max-width: 860px) {
   header.top { padding: 8px 10px; gap: 8px; }
   header.top .logo span.t { display: none; }
-  header.top nav { gap: 2px; }
+  header.top nav { gap: 2px; flex-wrap: wrap; overflow: hidden; justify-content: flex-end; }
   header.top nav a { padding: 7px 9px; font-size: 12.5px; }
   main { padding: 10px; }
-  .grid { grid-template-columns: 1fr !important; overflow-y: auto; }
-  .card { overflow-y: auto; }
+  .grid { grid-template-columns: 1fr !important; overflow: hidden; }
+  .card { overflow: hidden; }
 }
 @media (max-width: 480px) {
   header.top nav a { padding: 6px 7px; font-size: 12px; }
 }
-/* scrollable only inside panels on mobile; desktop = fixed app look */
+/* Fixed app canvas: all page content stays inside one viewport. */
 @media (min-width: 861px) {
   .grid { overflow: hidden; }
-  .card { overflow-y: auto; scrollbar-width: thin; }
+  .card { overflow: hidden; }
 }
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: #2a3049; border-radius: 4px; }
+::-webkit-scrollbar { width: 0; height: 0; }
+/* Mobile app behavior: prevent accidental selection while keeping code and form fields usable. */
+@media (pointer: coarse) {
+  html, body, body * { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+  input, textarea, pre, code, [contenteditable="true"] { -webkit-user-select:text; user-select:text; }
+  button, a, .tal, .slot, summary { touch-action:manipulation; }
+  body { overscroll-behavior:none; }
+}

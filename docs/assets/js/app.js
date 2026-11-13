@@ -21,6 +21,15 @@
   }
   const lang = LANGS.includes(getLang()) ? getLang() : 'ru';
 
+  // Keep the UI intact when an upstream game icon is missing or its CDN is unavailable.
+  document.addEventListener('error', event => {
+    const img=event.target;
+    if (img instanceof HTMLImageElement && img.src.includes('wow.zamimg.com')) {
+      if(img.dataset.fallbackSrc&&!img.dataset.iconFallback){img.dataset.iconFallback='1';img.src=img.dataset.fallbackSrc;}
+      else img.src='assets/icons/item-missing.svg';
+    }
+  }, true);
+
   function h(html) {
     const t = document.createElement('template');
     t.innerHTML = html.trim();
@@ -53,23 +62,31 @@
         <span style="margin-left:auto" class="muted">${lang === 'ru' ? 'Иконки: Wowhead / zamimg' : 'Icons: Wowhead / zamimg'}</span>
       </footer>`));
 
-    // copy buttons
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const txt = btn.getAttribute('data-copy');
-        (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject())
-          .catch(() => {
-            const ta = document.createElement('textarea');
-            ta.value = txt; document.body.appendChild(ta); ta.select();
-            document.execCommand('copy'); ta.remove();
-          })
-          .finally(() => {
-            const old = btn.textContent;
-            btn.textContent = '✓'; btn.classList.add('ok');
-            setTimeout(() => { btn.textContent = old; btn.classList.remove('ok'); }, 1200);
-          });
-      });
-    });
+  });
+
+  // Delegation supports buttons rendered after DOMContentLoaded; decode old encoded payloads.
+  document.addEventListener('click', async event => {
+    const btn = event.target.closest('[data-copy]');
+    if (!btn) return;
+    let txt = btn.getAttribute('data-copy') || '';
+    try { txt = decodeURIComponent(txt); } catch (_) {}
+    let copied = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(txt);
+      else throw new Error('clipboard unavailable');
+      copied = true;
+    } catch (_) {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { copied = document.execCommand('copy'); } catch (_) {}
+      ta.remove();
+    }
+    const old = btn.textContent;
+    btn.textContent = copied ? '✓' : (lang === 'ru' ? 'Выделено' : 'Selected');
+    btn.classList.add('ok');
+    if (!copied) { const pre=btn.parentElement.querySelector('pre'); if(pre){const r=document.createRange();r.selectNodeContents(pre);getSelection().removeAllRanges();getSelection().addRange(r);} }
+    setTimeout(() => { btn.textContent = old; btn.classList.remove('ok'); }, 1400);
   });
 
   // export helpers

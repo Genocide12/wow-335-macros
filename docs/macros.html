@@ -6,9 +6,21 @@
 <title>Макросы — WoW 3.3.5 Fury</title>
 <link rel="stylesheet" href="assets/css/app.css">
 <style>
-  .m-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: max-content max-content; overflow-y: auto; align-content: start; }
-  .m-card { display: flex; flex-direction: column; gap: 8px; overflow: visible; }
-  .m-card pre { font-size: 10.5px; line-height: 1.45; }
+  .macro-page{min-height:0;flex:1;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  .m-tabs{display:flex;gap:6px;flex:0 0 auto}
+  .m-tabs button{flex:1;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-weight:700;cursor:pointer}
+  .m-tabs button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .m-tabs button.on{border-color:var(--gold);color:var(--gold2);background:linear-gradient(135deg,#3c3525,#211f20)}
+  .m-grid { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr); overflow: hidden; }
+  .m-card { display: none; flex-direction: column; gap: 8px; overflow: hidden; min-height:0; }
+  .m-card.active { display:flex; }
+  .m-card { position:relative; border-color:#5a4d34; background:linear-gradient(145deg,rgba(42,39,32,.97),rgba(17,19,27,.98)); box-shadow:inset 0 0 0 1px rgba(218,183,103,.08),0 10px 26px #0005; animation:arrive .45s both; }
+  .m-card:nth-child(2){animation-delay:.08s}.m-card:nth-child(3){animation-delay:.16s}.m-card:nth-child(4){animation-delay:.24s}
+  @keyframes arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .npc-dialog { display:flex;align-items:center;gap:11px;padding:9px 11px;background:linear-gradient(90deg,#302a1d,#1c1d25);border:1px solid #79643c;border-radius:10px;color:#e4d9bd;font-size:12px;line-height:1.45; }
+  .npc-dialog img{width:48px;height:48px;object-fit:cover;border:2px solid #b59858;border-radius:7px;box-shadow:0 0 15px #c8a95135}
+  .npc-dialog b{display:block;color:#f1d791;font-size:13px;margin-bottom:2px}
+  .m-card pre { font-size: 10.5px; line-height: 1.35; white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;max-height:min(150px,20vh); }
   .m-head { display: flex; align-items: center; gap: 10px; }
   .m-head img { width: 40px; height: 40px; border-radius: 9px; border: 1px solid var(--gold); }
   .m-head .t b { display: block; font-size: 15px; color: #fff; }
@@ -16,7 +28,7 @@
   .key { display: inline-flex; width: 26px; height: 26px; border-radius: 7px; background: #0a0c12;
     border: 1px solid var(--gold); color: var(--gold2); align-items: center; justify-content: center;
     font-size: 13px; font-weight: 800; margin-left: auto; flex: 0 0 auto; }
-  .m-card pre { flex: 0 0 auto; max-height: 170px; }
+  .m-card pre { flex: 0 0 auto; max-height:min(150px,20vh); }
   .m-meta { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag { font-size: 11px; font-weight: 700; color: var(--dim); border: 1px solid var(--line);
     border-radius: 999px; padding: 3px 9px; }
@@ -27,7 +39,11 @@
   .mf .t b { color: var(--gold2); font-size: 12px; }
   .m-note { font-size: 11.5px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 7px; line-height: 1.45; }
   .m-note b { color: var(--gold2); }
-  /* modifiers card */
+  .m-dialog{width:min(720px,92vw);max-height:82dvh;margin:auto;padding:0;background:#141720;color:var(--txt);border:1px solid var(--gold);border-radius:14px;box-shadow:0 20px 70px #000d}
+  .m-dialog::backdrop{background:#05060bbd;backdrop-filter:blur(4px)}
+  .m-dialog-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--gold2);font-weight:800}
+  .m-dialog-head button{background:none;border:0;color:var(--dim);font-size:24px;cursor:pointer}
+  .m-dialog-body{padding:14px 16px;overflow:auto;max-height:calc(82dvh - 50px)}
   .mod-card { background: linear-gradient(160deg, var(--panel2), var(--panel)); }
   .mod-row { display: flex; gap: 10px; align-items: center; background: rgba(10,12,18,.55); border: 1px solid var(--line);
     border-radius: 10px; padding: 8px 10px; }
@@ -38,19 +54,23 @@
     border: 1px solid var(--gold); color: var(--gold2); align-items: center; justify-content: center;
     font-size: 11.5px; font-weight: 800; margin-left: auto; padding: 0 7px; flex: 0 0 auto; }
   @media (max-width: 860px) {
-    .m-grid { grid-template-rows: auto; }
+    .macro-page{gap:5px}.m-tabs button{padding:6px 4px;font-size:11px}
     .m-card { grid-column: auto !important; }
-    .m-feats { grid-template-columns: 1fr; }
-    .m-card pre { max-height: 220px; }
+    .m-feats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .m-card pre { max-height:min(130px,18vh); }
   }
 </style>
 </head>
 <body>
 <div id="app">
 <main>
-  <div class="grid m-grid" id="cards"></div>
+  <div class="macro-page">
+    <div class="m-tabs" id="macroTabs"></div>
+    <div class="grid m-grid" id="cards"></div>
+  </div>
 </main>
 </div>
+<dialog class="m-dialog" id="macroDetails"><div class="m-dialog-head"><span id="macroDetailsTitle"></span><button class="macro-close" id="closeMacroDetails" aria-label="Close">×</button></div><div class="m-dialog-body" id="macroDetailsBody"></div></dialog>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/macros-data.js"></script>
 <script>
@@ -81,8 +101,8 @@ const MACROS = [
         { i: 'inv_sword_48', t: 'Execute on its own', d: 'target under 20% HP — the macro finishes with Execute, no button swap in the kill phase' },
       ],
     },
-    note: { ru: 'Одно нажатие — первый доступный удар списка: просто спамь Q. Ни Shift, ни Ctrl, ни Alt — Безрассудство и Жажда смерти срабатывают по кулдауну сами, это и есть «одна кнопка делает всё». Хочешь копить бурст под конкретного босса — вынеси эти две строки из макроса в отдельную кнопку и жми вручную.',
-            en: 'Every press fires the first available ability — just spam Q. No Shift, no Ctrl, no Alt — Recklessness and Death Wish fire themselves off cooldown: that is what “one button does it all” means. Want to hold burst for a specific boss? Move those two lines into a separate manual button.' },
+    note: { ru: 'Одно нажатие — первый доступный удар списка: просто спамь Q. Безрассудство и Жажда смерти срабатывают по кулдауну сами. Если нужно придержать бурст для босса, используй эти способности отдельно.',
+            en: 'Every press fires the first available ability — just spam Q. Recklessness and Death Wish fire themselves off cooldown. If you need to save burst for a boss, use those abilities separately.' },
   },
   {
     file: '02-aoe-pack', key: 'E', icon: 'ability_whirlwind',
@@ -113,38 +133,30 @@ const MACROS = [
   },
   {
     file: '03-interrupt', key: 'R', icon: 'inv_gauntlets_04',
-    ru: ['Сбить каст + аварийка', 'Зуботычина в цель под курсором; Alt — единственный модификатор, аварийный блок'],
-    en: ['Interrupt + panic kit', 'Pummel into the mob under your cursor; Alt — the only modifier, the panic block'],
-    tags: { ru: ['мышь', 'без смены цели', 'Alt — аварийка'],
-            en: ['mouseover', 'no target switch', 'Alt — panic'] },
+    ru: ['Прерывание и защита', 'Зуботычина по наведению, стойка и все команды защитного макроса'],
+    en: ['Interrupt & defense', 'Mouseover Pummel, stance, and the full defensive sequence'],
+    tags: { ru: ['мышь', 'без смены цели', 'одна кнопка'],
+            en: ['mouseover', 'no target switch', 'single button'] },
     feats: {
       ru: [
         { i: 'inv_gauntlets_04', t: 'Сбивай не меняя цель', d: 'Зуботычина летит в моба под курсором — твоя цель не переключается' },
         { i: 'ability_racial_avatar', t: 'Стойка сама', d: 'не в стойке берсерка — сначала встанет в неё, со второго нажатия бьёт' },
         { i: 'spell_nature_ancestralguardian', t: 'Ярость берсерка сама', d: 'выходит с кулдауна при нажатии: ярость и иммунитет к страху — без отдельной кнопки' },
-        { i: 'spell_shadow_charm', t: 'Alt — аварийный каскад', d: 'Каждый за себя (снимет контроль) → Устрашающий крик (распугает пак) → Оборонительная стойка → Разоружение → Провокация: жми несколько раз подряд' },
-        { i: 'ability_warrior_disarm', t: 'Защитная стойка в деле', d: 'Разоружение и Провокация — способности защитной стойки: спасают хила и гасят урон милишек' },
+        { i: 'ability_warrior_disarm', t: 'Полный набор действий', d: 'После прерывания макрос содержит команды для расовой способности, страха, защитной стойки, Разоружения и Провокации — без сочетаний клавиш' },
         { i: 'ability_parry', t: 'Вернись в бой', d: 'выбрался из передряги — жми Q: макрос сам вернёт стойку берсерка' },
       ],
       en: [
         { i: 'inv_gauntlets_04', t: 'Interrupt without switching', d: 'Pummel goes into the mob under the cursor — your target stays' },
         { i: 'ability_racial_avatar', t: 'Stance on its own', d: 'not in Berserker Stance — it swaps first, interrupts from the second press' },
         { i: 'spell_nature_ancestralguardian', t: 'Berserker Rage on its own', d: 'fires off cooldown on press: rage plus fear immunity — no extra button' },
-        { i: 'spell_shadow_charm', t: 'Alt — panic cascade', d: 'Every Man for Himself (breaks control) → Intimidating Shout (scatters the pack) → Defensive Stance → Disarm → Taunt: press several times in a row' },
-        { i: 'ability_warrior_disarm', t: 'Defensive Stance at work', d: 'Disarm and Taunt are defensive-stance abilities: save your healer, mute melee damage' },
+        { i: 'ability_warrior_disarm', t: 'Full action sequence', d: 'The macro retains its racial, fear, Defensive Stance, Disarm, and Taunt commands without modifier keys' },
         { i: 'ability_parry', t: 'Back into the fight', d: 'survived the pinch — press Q: the macro swaps you back to Berserker Stance' },
       ],
     },
-    note: { ru: 'Alt+R — <b>единственный модификатор во всём наборе</b>, и он только для редких случаев, когда прижало: жми подряд — каскад разыграется сам (снять контроль → распугать → оборона → разоружить → провоцировать). Обычное нажатие R — просто Зуботычина плюс Ярость берсерка по кулдауну. Сбивание работает и по цели, и по наведению — держи мышь на кастующем.',
-            en: 'Alt+R is <b>the only modifier in the whole set</b>, reserved for rare emergencies: mash it and the cascade plays itself (break control → scatter → defense → disarm → taunt). A plain R press is just Pummel plus Berserker Rage off cooldown. The interrupt works on both your target and your mouseover — keep the pointer on the caster.' },
+    note: { ru: 'Все исходные команды сохранены; убраны только условия Alt. Без условия модификатора макрос проверяет строки по порядку, поэтому следующие готовые умения могут срабатывать при повторных нажатиях R.',
+            en: 'All original cast commands are preserved; only the Alt conditions were removed. Without modifier conditions the macro checks lines in order, so later ready abilities may fire on repeated R presses.' },
   },
 ];
-const MODS = [
-  { icon: 'spell_shadow_charm', k: 'Alt + R',
-    ru: ['Аварийка: контроль → страх → оборона', 'Каждый за себя → Устрашающий крик → Оборонительная стойка → Разоружение → Провокация'],
-    en: ['Panic: control break → fear → defense', 'Every Man for Himself → Intimidating Shout → Defensive Stance → Disarm → Taunt'] },
-];
-
 document.addEventListener('DOMContentLoaded', () => {
   const lang = window.W.lang;
   const I = window.W.icon;
@@ -168,27 +180,29 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="macro-box"><button class="copy-btn" data-copy="${encodeURIComponent(body)}">✓ ${L.copy}</button>
       <pre>${body.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</pre></div>
       <div class="m-meta">${tags}</div>
-      <div class="m-feats">${feats}</div>
-      <div class="m-note">${m.note[lang]}</div>
+      <button class="btn ghost detail-btn" data-detail>${lang==='ru'?'Подробнее':'Details'}</button>
+      <div class="m-extra" hidden><div class="m-feats">${feats}</div><div class="m-note">${m.note[lang]}</div></div>
     </section>`);
   }
-  const mods = MODS.map(x => `
-    <div class="mod-row"><img src="${I(x.icon)}" alt="">
-      <div class="t"><b>${x[lang][0]}</b><span>${x[lang][1]}</span></div>
-      <span class="mod-k">${x.k}</span></div>`).join('');
-  rows.push(`
-    <section class="card m-card mod-card">
-      <div class="m-head">
-        <img src="${I('inv_misc_key_02')}" alt="">
-        <div class="t"><b>${lang === 'ru' ? 'Модификаторы' : 'Modifiers'}</b>
-          <span>${lang === 'ru' ? 'почти не нужны: одна кнопка делает всё сама' : 'barely needed: one button does it all'}</span></div>
-      </div>
-      <div class="m-feats" style="grid-template-columns:1fr">${mods}</div>
-      <div class="m-note">${lang === 'ru'
-        ? 'Q и E — <b>вообще без модификаторов</b>: вся логика на условиях [combat]/[nocombat]/[stance] и порядке строк — кулдауны, стойки и проверка Боевого крика (вне боя) срабатывают сами. Alt остался только на аварийном блоке R — редкий исключительный случай. Единственное, что живёт на отдельной кнопке — <b>Удар героя</b>: он не в общем КД, съедает ярость и в спам-ротацию не встраивается (жми его вручную при ярости 50+). Все макросы по-прежнему в лимите игры <b>255 символов</b>.'
-        : 'Q and E carry <b>no modifiers at all</b>: all logic lives on [combat]/[nocombat]/[stance] conditionals and line order — cooldowns, stances and the out-of-combat Battle Shout check fire themselves. Alt remains only on the R panic block — a rare exceptional case. The single thing on its own button is <b>Heroic Strike</b>: it sits off the GCD, eats rage and does not fit a spam rotation (press it manually above 50 rage). Every macro still fits the game’s <b>255-character</b> limit.'}</div>
-    </section>`);
   wrap.innerHTML = rows.join('');
+  const tabs=document.getElementById('macroTabs');
+  tabs.innerHTML=MACROS.map((m,i)=>`<button class="${i===0?'on':''}" data-macro="${i}">${m.key} · ${m[lang][0]}</button>`).join('');
+  tabs.querySelectorAll('[data-macro]').forEach(btn=>btn.onclick=()=>{
+    tabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===btn));
+    wrap.querySelectorAll('.m-card').forEach((card,i)=>card.classList.toggle('active',i===+btn.dataset.macro));
+  });
+  wrap.querySelectorAll('.m-card').forEach((card,i)=>{
+    card.classList.toggle('active',i===0);
+    card.querySelector('[data-detail]').onclick=()=>{
+      document.getElementById('macroDetailsTitle').textContent=MACROS[i][lang][0];
+      document.getElementById('macroDetailsBody').innerHTML=card.querySelector('.macro-box').outerHTML+card.querySelector('.m-extra').innerHTML;
+      document.getElementById('macroDetails').showModal();
+    };
+  });
+  document.getElementById('closeMacroDetails').onclick=()=>document.getElementById('macroDetails').close();
+  wrap.querySelectorAll('.m-card:not(.mod-card)').forEach((card,i)=>{
+    const q=document.createElement('div');q.className='npc-dialog';q.innerHTML=`<img src="${I(['npc_undead_male_warrior','npc_human_male_warrior','npc_orc_male_warrior'][i])}" onerror="this.src='${I('ability_warrior_battleshout')}'" alt=""><span><b>${lang==='ru'?'Наставник воинов':'Warrior Trainer'}</b>${lang==='ru'?'Тактика проста: выбери приём, изучи запись и забери её в книгу макросов.':'Choose an ability, review the inscription, and copy it into your macro book.'}</span>`;card.insertBefore(q,card.children[1]);
+  });
 });
 </script>
 </body>

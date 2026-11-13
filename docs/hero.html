@@ -21,9 +21,9 @@
   .slot.has:hover img { transform: scale(1.06); }
   .slot:hover { border-color: #8a7f5c; }
   .doll-center { text-align: center; padding: 2px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; width:100%; }
-  .character-stage{position:relative;width:min(100%,300px);height:clamp(210px,40vh,300px);display:grid;place-items:center;overflow:hidden;border-radius:18px;background:radial-gradient(ellipse at 50% 48%,#856b3d55 0,#32291944 36%,#090b10 75%);border:1px solid #766039;box-shadow:inset 0 0 45px #000b,0 0 22px #b78a3022}
-  .character-stage:after{content:"";position:absolute;bottom:12px;width:72%;height:22px;border-radius:50%;background:#e6bd4f33;filter:blur(12px)}
-  #wow-model{position:absolute;inset:0;z-index:2;width:100%;height:100%;opacity:1;transition:opacity .5s}
+  .character-stage{position:relative;width:100%;height:clamp(230px,42vh,340px);display:grid;place-items:center;overflow:hidden;border:0;border-radius:0;background:transparent;box-shadow:none;touch-action:none}
+  #wow-model{position:absolute;inset:0;z-index:2;width:100%;height:100%;opacity:1;transition:opacity .5s;cursor:grab;touch-action:none}
+  #wow-model:active{cursor:grabbing}
   #wow-model canvas{width:100%!important;height:100%!important;display:block}
   .character-stage.model-ready #wow-model{opacity:1}
   .model-status{position:absolute;z-index:3;left:8px;right:8px;bottom:6px;color:#c6b681;font-size:10px;text-align:center;text-shadow:0 2px 4px #000;pointer-events:none}
@@ -78,7 +78,7 @@
     .doll-grid{grid-template-columns:30px minmax(0,1fr) 30px;gap:2px}
     .doll-col{gap:2px}.slot{width:26px;height:26px}.slot img{width:22px;height:22px}
     .doll-center{gap:3px;padding:0 2px}
-    .character-stage{height:clamp(130px,25vh,190px);width:min(100%,230px)}
+    .character-stage{height:clamp(130px,25vh,190px);width:100%}
     .cstats{gap:2px}.crow{font-size:10px;padding:2px 6px}.tal{padding:2px}.tal .v{font-size:11px}.tal .l{font-size:8px}
     .weapons{margin-top:3px;gap:5px}.legacy-warn{margin-top:3px;padding:4px 6px;font-size:10px}
     .import{gap:5px}.import h2{margin-bottom:2px}.import textarea{height:54px;padding:5px;font-size:10px}
@@ -174,7 +174,6 @@
 
   const $ = id => document.getElementById(id);
   const state = { char: null, gear: {}, tips: {}, legacy: false };
-  let modelRefreshTimer=0;
 
   function macroRun(file) {
     return ((((window.MACRO_TXT || {})[lang] || {})[file] || '')
@@ -322,8 +321,7 @@
           if (!j) return;
           state.tips[g.id] = j;
           const displayId=+(j.displayId||j.displayid||j.display_id||0);
-          if(displayId)g.displayId=displayId;
-          if(displayId&&window.renderWowCharacter){clearTimeout(modelRefreshTimer);modelRefreshTimer=setTimeout(()=>window.renderWowCharacter(state.char,state.gear),300);}
+          if(displayId){g.displayId=displayId;window.updateWowGearItem?.(+slot,g);}
           const d = document.querySelector(`.slot[data-slot="${slot}"]`);
           if (!d) return;
           if (!g.tex && !d.querySelector('img').dataset.iconFallback && j.icon) {
@@ -410,15 +408,24 @@
 <script type="module">
   try {
     const loadScript=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('Failed to load '+src));document.head.appendChild(s);});
-    await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
     const modelAssetBase=window.WOW_MODELVIEWER_PROXY||'https://wow.zamimg.com/';
     window.CONTENT_PATH=modelAssetBase+'modelviewer/live/';
     window.WOTLK_TO_RETAIL_DISPLAY_ID_API='https://wotlk.murlocvillage.com/api/items';
-    await loadScript(`${window.CONTENT_PATH}viewer/viewer.min.js`);
+    await Promise.all([loadScript('https://code.jquery.com/jquery-3.7.1.min.js'),loadScript(`${window.CONTENT_PATH}viewer/viewer.min.js`)]);
     await loadScript('assets/js/vendor/wow-model-viewer.bundle.js');
     const {generateModels}=window.WowModelViewerBundle;
     let activeModel=null, modelRequest=0;
     const convertedItems=new Map();
+    const pendingGearItems=new Map();
+    const lockModelInput=host=>{
+      if(host.dataset.inputLocked)return;
+      host.dataset.inputLocked='1';
+      host.addEventListener('wheel',e=>{e.preventDefault();e.stopImmediatePropagation();},{capture:true,passive:false});
+      host.addEventListener('mousedown',e=>{if(e.button===2||e.ctrlKey){e.preventDefault();e.stopImmediatePropagation();}},true);
+      host.addEventListener('contextmenu',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
+      host.addEventListener('dblclick',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
+      host.addEventListener('touchstart',e=>{if(e.touches.length>1)e.preventDefault();},{capture:true,passive:false});
+    };
     async function liveDisplayId(itemId,classicDisplayId){
       const key=itemId+':'+classicDisplayId;
       if(convertedItems.has(key))return convertedItems.get(key);
@@ -432,7 +439,9 @@
     window.renderWowCharacter=async(char,gear)=>{
       const stage=document.getElementById('character-stage'),host=document.getElementById('wow-model'),status=document.getElementById('model-status');
       if(!char||!char.raceId)return;
+      lockModelInput(host);
       const request=++modelRequest;
+      pendingGearItems.clear();
       if(activeModel?.destroy)activeModel.destroy();
       host.replaceChildren();stage.classList.remove('model-ready');status.textContent=window.W.lang==='ru'?'Загрузка модели WoW…':'Loading WoW model…';
       const itemModels=Promise.all(Object.entries(gear).filter(([slot,g])=>g.id&&g.displayId&&![2,11,12,13,14].includes(+slot)).map(async([slot,g])=>{
@@ -443,7 +452,17 @@
         const nextModel=await generateModels(1.25,'#wow-model',{race:char.raceId,gender:char.gender,skin:0,face:0,hairStyle:0,hairColor:0,facialStyle:0,items:[],hideProgressBar:false},'live');
         if(request!==modelRequest){nextModel?.destroy?.();return;}
         activeModel=nextModel;
+        if(innerWidth>700)activeModel.setDistance(7.5);
         window.activeWowModel=activeModel;
+        const attachGearItem=async(slot,g,model=activeModel)=>{
+          if(!model||!g?.id||!g?.displayId)return;
+          const displaySlot=({16:21,17:22,18:15}[+slot]||(g.inventoryType===16?15:g.inventoryType===20?20:g.inventoryType||+slot));
+          const displayId=await liveDisplayId(g.id,g.displayId);
+          if(model!==activeModel)return;
+          if(!model.renderer?.actors?.length){pendingGearItems.set(+slot,g);return;}
+          try{model.updateItemViewer(displaySlot,displayId,0);}catch(error){console.warn('Could not attach WoW item model:',displaySlot,displayId,error);}
+        };
+        window.updateWowGearItem=(slot,g)=>attachGearItem(slot,g);
         let checks=0;
         const waitForCharacter=()=>{
           if(request!==modelRequest)return;
@@ -452,10 +471,12 @@
             itemModels.then(items=>{
               if(request!==modelRequest)return;
               for(const [slot,displayId] of items){try{activeModel.updateItemViewer(slot,displayId,0);}catch(error){console.warn('Could not attach WoW item model:',slot,displayId,error);}}
+              for(const [slot,g] of pendingGearItems)attachGearItem(slot,g,activeModel);
+              pendingGearItems.clear();
             });
             return;
           }
-          if(++checks<40){setTimeout(waitForCharacter,500);return;}
+          if(++checks<120){setTimeout(waitForCharacter,100);return;}
           status.textContent=window.W.lang==='ru'?'Игровая 3D-модель не загрузилась.':'The in-game 3D model did not load.';
         };
         waitForCharacter();

@@ -6,46 +6,43 @@
 <title>Таланты — WoW 3.3.5 Fury</title>
 <link rel="stylesheet" href="assets/css/app.css">
 <style>
-  .t-layout { grid-template-columns: 250px 1fr; grid-template-rows: auto 1fr; gap: 12px; }
+  .t-layout { grid-template-columns: minmax(180px,220px) minmax(0,1fr); grid-template-rows: auto minmax(0,1fr); gap: 8px; }
   .t-tabs { grid-column: 1 / span 2; display: flex; gap: 8px; }
+  .t-tabs{padding:5px;background:linear-gradient(90deg,#141720,#22212a);border:1px solid #655334;border-radius:12px;box-shadow:inset 0 1px #ffffff12,0 5px 20px #0006}
   .t-tab { flex: 1; display: flex; align-items: center; gap: 9px; background: var(--panel2); border: 1px solid var(--line);
     border-radius: 11px; padding: 8px 12px; cursor: pointer; font-weight: 700; font-size: 14px; color: var(--txt); }
   .t-tab img { width: 28px; height: 28px; border-radius: 7px; }
-  .t-tab.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .t-tab.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset,0 0 18px #c8a95135; background:linear-gradient(135deg,#3c3525,#211f20); }
   .t-tab .pts { margin-left: auto; font-size: 12px; color: var(--dim); font-weight: 800; }
-  /* build panel */
-  .b-panel { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-  .b-num { font-size: 34px; font-weight: 800; color: var(--gold2); text-align: center; line-height: 1; }
-  .b-sub { text-align: center; color: var(--dim); font-size: 12px; }
-  .b-link { text-align: center; }
-  .b-link textarea { width: 100%; background: #0a0c12; color: #9fb0d0; border: 1px solid var(--line); border-radius: 8px;
-    font-family: ui-monospace, monospace; font-size: 11px; padding: 6px; resize: none; height: 58px; }
+  /* preset panel */
+  .b-panel { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
   .preset { display: flex; flex-direction: column; gap: 7px; }
   .preset button { text-align: left; background: var(--panel2); border: 1px solid var(--line); color: var(--txt);
     border-radius: 9px; padding: 8px 10px; cursor: pointer; font-size: 12.5px; font-weight: 600; line-height: 1.35; }
   .preset button:hover { border-color: var(--gold); }
+  .preset button{transition:transform .16s,border-color .16s,background .16s}.preset button:hover{transform:translateX(2px);background:#272738}
   .preset button small { display: block; color: var(--dim); font-weight: 400; }
   .pg { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
   .pg img { width: 20px; height: 20px; border-radius: 5px; }
   .pg span { font-size: 12px; font-weight: 800; color: var(--gold2); text-transform: uppercase; letter-spacing: .5px; }
   .pg-note { font-size: 10.8px; color: var(--dim); margin: -4px 0 1px; line-height: 1.35; }
   /* tree grid */
-  .t-tree { position: relative; background: url('assets/icons/bg/164.jpg') center/cover; border-radius: var(--r);
-    border: 1px solid var(--line); overflow: auto; }
-  .t-inner { position: relative; width: 400px; min-width: 100%; margin: 0 auto; padding: 14px 10px;
+  .t-tree { position: relative; background: linear-gradient(#090b10a8,#090b10b8),url('assets/icons/bg/164.jpg') center/cover; border-radius: var(--r);
+    border: 1px solid #766039; overflow: hidden;box-shadow:inset 0 0 42px #0009,0 8px 25px #0005 }
+  .t-inner { position: relative; width: 100%; min-width: 0; margin: 0 auto; padding: 5px;
     background: rgba(10, 12, 18, .82); min-height: 100%; }
-  .t-row { display: grid; grid-template-columns: repeat(4, 74px); justify-content: center; gap: 16px; margin-bottom: 22px; position: relative; z-index: 2; }
-  .tal { position: relative; width: 74px; }
-  .tal .frame { width: 64px; height: 64px; margin: 0 auto; border: 1px solid #3a4258; border-radius: 10px; overflow: hidden;
-    background: #05070c; cursor: pointer; position: relative; }
+  .t-row { display: grid; grid-template-columns: repeat(4, 48px); justify-content: center; gap: 2px; margin-bottom: clamp(2px,.45vh,5px); position: relative; z-index: 2; }
+  .tal { position: relative; width: 48px; height: clamp(25px,5vh,44px); }
+  .tal .frame { width: clamp(24px,5vh,42px); height: clamp(24px,5vh,42px); margin: 0 auto; border: 2px solid #77706a; border-radius: 6px; overflow: hidden;
+    background: #05070c; cursor: pointer; position: relative; touch-action:none; }
   .tal .frame img { width: 100%; height: 100%; display: block; opacity: .45; filter: grayscale(.8); }
   .tal.ok .frame img { opacity: 1; filter: none; }
-  .tal.ok .frame { border-color: var(--green); }
-  .tal.max .frame { border-color: var(--gold); }
-  .tal .rank { position: absolute; right: 0; bottom: 0; background: #05070c; border: 1px solid #3a4258; border-radius: 7px;
-    font-size: 11.5px; font-weight: 800; padding: 1px 5px; color: #fff; z-index: 2; }
+  .tal.ok .frame { border-color: #72bd59;box-shadow:0 0 12px #67b8485e; }
+  .tal.max .frame { border-color: #f2d47b;box-shadow:0 0 15px #edc85b7a; }
+  .tal .rank { position: absolute; right: 0; bottom: 0; background: #05070c; border: 1px solid #3a4258; border-radius: 5px;
+    font-size: 9px; font-weight: 800; padding: 0 3px; color: #fff; z-index: 2; }
   .tal .rank.max { color: var(--gold2); }
-  .arrow { position: absolute; z-index: 1; color: #4d5a78; }
+  .arrow { display:none; }
   /* tooltip card */
   .t-info { position: sticky; top: 0; }
   .tipcard { background: #0b0d14; border: 1px solid var(--gold); border-radius: 12px; padding: 12px 14px; }
@@ -55,10 +52,15 @@
   .tipcard .desc { font-size: 12.5px; line-height: 1.5; color: var(--txt); margin-top: 6px; max-height: 150px; overflow-y: auto; white-space: pre-line; }
   .tipcard .rk { color: var(--dim); font-size: 11.5px; margin-top: 6px; }
   @media (max-width: 900px) {
-    .t-layout { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+    .t-layout { grid-template-columns: minmax(0,1fr); grid-template-rows: auto auto minmax(0,1fr); }
     .t-tabs { grid-column: auto; }
-    .b-panel { flex-direction: row; flex-wrap: wrap; align-items: center; }
-    .b-num { font-size: 22px; }
+    .b-panel { flex-direction: row; flex-wrap: wrap; align-items: center; padding:6px; gap:5px; }
+    .preset { flex:1; flex-direction:row; flex-wrap:wrap; align-items:center; gap:4px; }
+    .preset b { width:100%; }
+    .preset button { flex:1 1 30%; padding:5px; font-size:10px; text-align:center; }
+    #reset { padding:6px 10px; }
+    .t-row { margin-bottom:2px; }
+    .t-inner { padding:3px; }
   }
 </style>
 </head>
@@ -132,6 +134,7 @@
       pts: { 1601: 5, 138: 5, 147: 2, 1654: 2, 141: 2, 153: 1, 144: 3, 149: 2, 142: 2, 140: 5, 146: 3, 702: 5, 152: 1, 2247: 2, 150: 2, 151: 2, 1660: 3, 1653: 2, 148: 1, 1872: 1, 1666: 1, 1871: 3, 1893: 3, 2236: 1, 2246: 2, 1652: 2, 157: 5, 2250: 3 } },
   ];
   const state = { tree: 'fury', pts: {}, tipTalent: null };
+  let longPressTimer=0, suppressClickUntil=0;
   const TREES = TALENTS.trees;
   const byId = {};
   TREES.forEach(t => t.talents.forEach(x => byId[x.id] = { ...x, tree: t.key }));
@@ -144,7 +147,6 @@
   function treePoints(treeKey) {
     return TREES.find(t => t.key === treeKey).talents.reduce((s, x) => s + (state.pts[x.id] || 0), 0);
   }
-  function totalPoints() { return Object.values(state.pts).reduce((a, b) => a + b, 0); }
 
   function canLearn(x) {
     const cur = state.pts[x.id] || 0;
@@ -194,9 +196,32 @@
     document.getElementById('inner').innerHTML = rows.join('') + arrows;
     document.querySelectorAll('.tal[data-id]').forEach(el => {
       const x = byId[el.dataset.id];
-      el.onclick = (e) => {
-        if (canLearn(x)) { state.pts[x.id] = (state.pts[x.id] || 0) + 1; draw(); showTip(x); }
-        else if (e.shiftKey && (state.pts[x.id] || 0) > 0) { state.pts[x.id]--; draw(); showTip(x); }
+      const removePoint=()=>{
+        if(!(state.pts[x.id]||0)){showTip(x);return;}
+        state.pts[x.id]--;
+        // Refund dependent talents if removing this rank invalidates their requirements.
+        let changed=true;
+        while(changed){
+          changed=false;
+          for(const talent of [...t.talents].sort((a,b)=>b.r-a.r)){
+            const ranks=state.pts[talent.id]||0;
+            if(!ranks)continue;
+            const spent=treePoints(t.key)-ranks;
+            const invalid=spent<talent.r*5||!talent.req.every(([id,qty])=>(state.pts[id]||0)>=qty);
+            if(invalid){delete state.pts[talent.id];changed=true;}
+          }
+        }
+        state.tipTalent=x.id;draw();showTip(x);
+      };
+      el.oncontextmenu=e=>{e.preventDefault();e.stopPropagation();if(Date.now()<suppressClickUntil)return;removePoint();};
+      el.onpointerdown=e=>{if(e.pointerType==='touch'){clearTimeout(longPressTimer);longPressTimer=setTimeout(()=>{suppressClickUntil=Date.now()+900;removePoint();},480);}};
+      const cancelLongPress=()=>clearTimeout(longPressTimer);
+      el.onpointerup=cancelLongPress;el.onpointercancel=cancelLongPress;el.onpointerleave=cancelLongPress;
+      el.onclick=e=>{
+        if(Date.now()<suppressClickUntil){e.preventDefault();e.stopPropagation();return;}
+        if(e.button===2)return;
+        if(e.shiftKey){removePoint();return;}
+        if(canLearn(x)){state.pts[x.id]=(state.pts[x.id]||0)+1;state.tipTalent=x.id;draw();showTip(x);}
         else showTip(x);
       };
       el.onmouseenter = () => showTip(x, true);
@@ -204,40 +229,23 @@
 
     // side panel
     const b = document.getElementById('bpanel');
-    const pts = totalPoints();
     const L = {
-      ru: { pts: 'очков', reset: 'Сброс', presets: 'Пресеты прокачки до 80-го',
-            hint: 'Клик — вложить очко · Shift+клик — убрать · Наведи — описание', lvl: 'ур.',
-            src: { guide: 'по гайдам', raid: 'рейд-стандарт', mine: 'мой билд', you: 'как у тебя' },
-            gnote: { fury: 'наш путь: под макросы Q/E/R, на 60-м — Хватка титана и два двуручных',
-                     arms: 'по гайдам: самый быстрый старт соло; для меча замени 132 (топоры) на 123 (мечи)',
-                     prot: 'по гайду Wowhead: качайся танком — мгновенные группы в данжи' } },
-      en: { pts: 'points', reset: 'Reset', presets: 'Leveling presets to 80',
-            hint: 'Click — add a point · Shift+click — remove · Hover — description', lvl: 'lvl',
-            src: { guide: 'per guides', raid: 'raid standard', mine: 'my build', you: 'your current' },
-            gnote: { fury: "our path: fits the Q/E/R macros, Titan's Grip and two 2H at 60",
-                     arms: 'per guides: fastest solo start; for swords swap 132 (axes) for 123 (swords)',
-                     prot: 'per the Wowhead guide: level as a tank — instant dungeon groups' } }
+      ru: { reset: 'Сброс', presets: 'Билды до 80 уровня' },
+      en: { reset: 'Reset', presets: 'Level 80 builds' }
     }[lang];
-    const sum = p => Object.values(p.pts).reduce((a, b) => a + b, 0);
-    const groups = ['fury', 'arms', 'prot'].map(key => ({ key, items: PRESETS.map((p, i) => ({ p, i })).filter(x => x.p.tree === key) }));
+    const groups = ['fury', 'arms', 'prot'].map(key => {
+      const i=PRESETS.findIndex(p=>p.tree===key&&p.lvl===80&&p.src==='raid');
+      return {key,items:i<0?[]:[{p:PRESETS[i],i}]};
+    });
     b.innerHTML = `
-      <div>
-        <div class="b-num">${pts}</div>
-        <div class="b-sub">${L.pts}</div>
-      </div>
-      <div class="b-link"><textarea readonly id="bcode">${buildCode()}</textarea></div>
       <div class="preset">
         <b style="font-size:13px;color:var(--gold2)">${L.presets}</b>
         ${groups.map(g => `
-          <div class="pg"><img src="${I(ICONS[g.key])}" alt=""><span>${TREE_NAMES[g.key][lang === 'ru' ? 0 : 1]}</span></div>
-          <div class="pg-note">${L.gnote[g.key]}</div>
-          ${g.items.map(({ p, i }) => `<button data-p="${i}">${lang === 'ru' ? p.ru : p.en}
-            <small>${L.lvl} ${p.lvl} · ${sum(p)} ${L.pts} · ${L.src[p.src]}</small></button>`).join('')}`).join('')}
+          ${g.items.map(({ p, i }) => `<button data-p="${i}">${TREE_NAMES[g.key][lang === 'ru' ? 0 : 1]} · ${lang === 'ru' ? p.ru : p.en}</button>`).join('')}`).join('')}
       </div>
       <button class="btn ghost" id="reset">${L.reset}</button>
-      <div class="small muted">${L.hint}</div>`;
-    document.getElementById('reset').onclick = () => { state.pts = {}; draw(); };
+      `;
+    document.getElementById('reset').onclick = () => { state.pts = {}; state.tipTalent=null; draw(); };
     b.querySelectorAll('[data-p]').forEach(btn => btn.onclick = () => {
       const p = PRESETS[btn.dataset.p];
       state.pts = { ...p.pts }; state.tree = p.tree; draw();
@@ -281,18 +289,6 @@
       tip.style.left = left + 'px';
       tip.style.top = Math.max(4, sr.top - tr.top) + 'px';
     }
-  }
-
-  function buildCode() {
-    // wowhead-style: 3 trees strings of digits by row-major order (rank per talent, no separators beyond padding)
-    return TREES.map(t => {
-      let s = '';
-      for (let r = 0; r < 11; r++) for (let c = 0; c < 4; c++) {
-        const x = t.talents.find(v => v.r === r && v.c === c);
-        s += x ? (state.pts[x.id] || 0) : '';
-      }
-      return s;
-    }).join('-');
   }
 
   document.title = (lang === 'ru' ? 'Таланты' : 'Talents') + ' — WoW 3.3.5 Fury';
