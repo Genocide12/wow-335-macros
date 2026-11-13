@@ -24,7 +24,9 @@ export default {
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405, headers });
-    if (!ALLOWED_ORIGINS.has(origin)) return new Response('Origin not allowed', { status: 403, headers });
+    // Classic <script src> requests omit Origin. Allow those read-only requests;
+    // the proxy still has a fixed upstream and a strict /modelviewer/ path.
+    if (origin && !ALLOWED_ORIGINS.has(origin)) return new Response('Origin not allowed', { status: 403, headers });
     if (!url.pathname.startsWith('/modelviewer/')) return new Response('Not found', { status: 404, headers });
 
     const upstreamUrl = new URL(url.pathname + url.search, UPSTREAM);
@@ -39,3 +41,4 @@ export default {
     return new Response(upstream.body, { status: upstream.status, statusText: upstream.statusText, headers: responseHeaders });
   },
 };
+
